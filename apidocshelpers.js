@@ -1,5 +1,5 @@
 /**
- * @apiDefine ServerError 5XX Server Error.
+ * @apiDefine ServerError
  * 
  * @apiError  (Error 5XX) SanitationCheckFailed Something went wrong with the server.
  * @apiErrorExample Error-Response:

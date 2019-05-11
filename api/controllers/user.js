@@ -3,6 +3,3 @@ const knex = require('../../db/knex');
 
 
 router.route('/')
-    .get((req, res) => {
-
-    })
