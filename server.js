@@ -1,12 +1,10 @@
-process.env.NODE_ENV !== 'production' && require('dotenv').load(); //  loading env files only in development
+process.env.NODE_ENV !== 'production' && require('dotenv').config(); //  loading env files only in development
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 
-let port = process.env.PORT || 5000;
 const server = express();
-const routes = require('./api/routes/routes');
-
+const userRoutes = require('./api/routes/userRoutes');
 
 // mount middleware
 server.use(cors());
@@ -35,9 +33,7 @@ server.get('/', (req, res) => {
 });
 
 // add routes
-routes(server);
+userRoutes(server)
 
-//port listener
-server.listen(port , () => {
-  console.log(`server listening on port ${port}`);
-})
+
+module.exports = server;

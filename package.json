@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon listener.js",
+    "test": "NODE_ENV=development jest --detectOpenHandles"
   },
   "apidoc": {
     "name": "Comikart",
@@ -30,9 +30,12 @@
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "helmet": "^3.18.0",
-    "jest": "^24.8.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.16.5",
     "pg": "^7.11.0"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "supertest": "^4.0.2"
   }
 }
