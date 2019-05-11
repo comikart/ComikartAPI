@@ -1,11 +1,11 @@
 
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('role', (table) => {
-      table.increments();
+      table.increments('id');
       table.string('description').notNullable();
   })
   .createTable('user', (table) => {
-      table.increments();
+      table.increments('id');
       table.string('first_name');
       table.string('last_name');
       table.string('email');
