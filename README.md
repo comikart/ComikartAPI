@@ -1,3 +1,5 @@
-# Comikart API
+# **Comikart API**
 
-[API Documentation](https://comikart.github.io/ComikartAPI/)
+[**API Documentation**](https://comikart.github.io/ComikartAPI/) | 
+[**Database Schema**](https://app.sqldbm.com/SQLServer/Share/BBOYBlRNSO0Xi1DnX9YB2kGFrngIE8md_DYjF4jNYw0)
+
