@@ -1,0 +1,29 @@
+{
+  "name": "ComikartAPI",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/comikart/ComikartAPI.git"
+  },
+  "keywords": [],
+  "author": "Eric Gomez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/comikart/ComikartAPI/issues"
+  },
+  "homepage": "https://github.com/comikart/ComikartAPI#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "helmet": "^3.18.0",
+    "jest": "^24.8.0",
+    "knex": "^0.16.5",
+    "pg": "^7.11.0"
+  }
+}
