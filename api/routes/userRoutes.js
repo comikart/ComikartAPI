@@ -4,5 +4,5 @@ const { login, register } = require('../controllers/userController');
 
 module.exports = server => {
     server.use('/api/user/login', authenticate, login);
-    server.route('/api/user/register').get(register);
+    server.route('/api/user/register').post(register);
 };

@@ -1,25 +1,7 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 const SECRET = process.env.SECRET;
-const SALT_ROUNDS = process.env.SALT_ROUNDS;
 const { findUserByEmail } = require('../services/userService'); 
-
-
-const encryptPwd = (user) => 
-    new Promise((resolve, reject) => {
-        bcrypt.hash(user.password, SALT_ROUNDS, (err, hash) => {
-            err && reject(err);
-            user.password = hash;
-            resolve(user);
-        })
-    })
-
-const verifyPwd = (password, userPwd) => 
-    bcrypt
-    .compare(password, userPwd)
-    .then(result => result)
-    .catch(err => err);
-
+const { verifyPwd } = require('./encryption');
 
 const verifyToken = (token) => 
     new Promise((resolve, reject) => {
@@ -31,9 +13,22 @@ const verifyToken = (token) =>
 
 const authenticate = (req, res, next) => {
     const { email, password } = req.body;
-    const user = findUserByEmail(email);
-    
-    verifyPwd(password, user.password) && next();
+    findUserByEmail(email)
+    .then(user => {
+        verifyPwd(password, user.password)
+        .then(result => {
+            if (result) {
+                const payload = {id: user.id, role: user.role_id}
+                req.body.token = jwt.sign(payload, SECRET);
+                next();
+            } else {
+                res.status(400).json({error: "incorrect email or password"});
+            }
+
+        })
+        .catch(err => res.status(412).json(err));
+    })
+    .catch(err => res.status(400).json({error: 'no user found by the email. ' + err.message}));
 }
 
 const authorization = (req, res, next) => {
@@ -41,7 +36,10 @@ const authorization = (req, res, next) => {
 
     token 
     ? verifyToken(token)
-        .then(() => next())
+        .then((decoded) => {
+            req.decoded = decoded;
+            next();
+        })
         .catch(err => res.status(403).json({error: 'expired or invalid token.'})) 
     : res
         .status(403)
@@ -49,7 +47,6 @@ const authorization = (req, res, next) => {
 }
 
 module.exports = {
-    authorization,
     authenticate,
-    encryptPwd
+    authorization
 };
