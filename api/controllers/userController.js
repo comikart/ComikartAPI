@@ -1,4 +1,4 @@
-const knex = require('../../db/knex');
+const userService = require('../services/userService');
 
 
 const login = (req, res) => {
@@ -6,7 +6,10 @@ const login = (req, res) => {
 };
 
 const register = (req, res) => {
-    res.json("at register endpoint");
+    const { user } = req.body;
+
+    userService.saveUser(user);
+
 }
 
 module.exports = {

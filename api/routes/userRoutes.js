@@ -1,8 +1,8 @@
-const { authenticate } = require('../utils/authenticate');
+const { authorization, authenticate } = require('../utils/security');
 const { login, register } = require('../controllers/userController');
 
 
 module.exports = server => {
-    server.route('/api/user/login').get(login);
+    server.use('/api/user/login', authenticate, login);
     server.route('/api/user/register').get(register);
 };
