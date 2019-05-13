@@ -26,8 +26,9 @@ const userService = require('../services/userService');
  *     }
  */
 const login = (req, res) => {
-    const { token } = req.body;
-    token && res.json({token});
+    const { token, email } = req.body;
+    return userService.findUserByEmail(email)
+        .then(user => token && res.json({token, user}));
 };
 
 

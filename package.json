@@ -5,12 +5,10 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon listener.js",
-    "test": "NODE_ENV=development jest && codecov"
+    "test": "NODE_ENV=development jest --coverage && codecov",
+    "local-test": "NODE_ENV=development jest --watch --verbose"
   },
-  "jest": {
-    "coverageDirectory": "./coverage/",
-    "collectCoverage": true
-  },
+
   "apidoc": {
     "name": "Comikart",
     "version": "1.0.0",

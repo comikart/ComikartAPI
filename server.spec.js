@@ -2,7 +2,7 @@ const server = require('./server');
 const mockMvc = require('supertest')(server);
 
 describe('Server', () => {
-    it('should return connected', (done) => {
+    it('should return a string on a successful response', (done) => {
         mockMvc
         .get('/')
         .expect(200)
