@@ -17,7 +17,6 @@ server.use(express.json());
  * @apiName GETSanitationCheck
  * @apiGroup Server
  *
- *
  * @apiSuccess {String} Status Connected
  *
  * @apiSuccessExample Success-Response:
@@ -25,8 +24,6 @@ server.use(express.json());
  *     {
  *       "status": "Connected"
  *     }
- *
- * @apiUse ServerError
  */
 server.get('/', (req, res) => {
   res.json({status: 'connected'});
