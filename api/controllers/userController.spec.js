@@ -6,7 +6,6 @@ class Response {
         this.body = body;
     }
     json(json) {
-        this.body = json;
         return json;
     }
 }
@@ -15,7 +14,7 @@ describe('/api/user', () => {
 
     describe('/login {POST}', () => {
     
-        it('should return a user object', () => {
+        it('should return a user object', (done) => {
             // given
             const req = {body: {token: '1321beyv1ve76t1qv276e1v2bdand9ah', email: 'john@email.com'}};
             const res = new Response();
@@ -25,9 +24,11 @@ describe('/api/user', () => {
             .then(response => {
                 //then
                 expect(req.body.email).toBe(response.user.email);
+
+                expect(req.body.token).toBe(response.token);
+                
+                done();
             });
         });
     })
-
-    
 });
