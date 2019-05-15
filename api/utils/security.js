@@ -13,6 +13,7 @@ const verifyToken = (token) =>
 
 const authenticate = (req, res, next) => {
     const { email, password } = req.body;
+    
     findUserByEmail(email)
     .then(user => {
         verifyPwd(password, user.password)

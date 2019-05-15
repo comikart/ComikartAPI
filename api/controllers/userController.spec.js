@@ -1,6 +1,5 @@
 jest.mock('../services/userService.js');
 const controller = require('./userController');
-const { USERID } = require('../services/__mocks__/userService');
 
 class Response {
     constructor(body = {}) {
@@ -70,5 +69,5 @@ describe('/api/user', () => {
                 done();
             });
         });
-    })
+    });
 });
