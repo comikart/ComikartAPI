@@ -1,5 +1,7 @@
+const USERID = 1;
+
 const user = {
-    id: 1,
+    id: USERID,
     first_name: 'John',
     last_name: 'Doe',
     email: 'john@email.com',
@@ -11,6 +13,15 @@ const findUserByEmail = () =>
         resolve(user);
     });
 
+const saveUser = (user) => 
+    new Promise((resolve, reject) => {
+        user.id = USERID;
+
+        resolve(user);
+    });
+
 module.exports = {
-    findUserByEmail
+    findUserByEmail,
+    saveUser,
+    USERID
 };
