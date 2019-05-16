@@ -4,7 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 const server = express();
-const userRoutes = require('./api/routes/userRoutes');
+const routes = require('./api/routes/routes');
 
 // mount middleware
 server.use(cors());
@@ -30,7 +30,7 @@ server.get('/', (req, res) => {
 });
 
 // add routes
-userRoutes(server)
+routes(server);
 
 
 module.exports = server;
