@@ -17,3 +17,13 @@ const updateProduct = (id, product) => knex('product').where({ id }).update(prod
 const deleteProduct = (product) => knex('product').where({ id: product.id }).del();
 
 const deleteProductById = (id) => knex('product').where({id}).del();
+
+module.exports = {
+    findAllProducts,
+    findProductById,
+    findProductByCategory,
+    saveProduct,
+    updateProduct,
+    deleteProduct,
+    deleteProductById
+}
