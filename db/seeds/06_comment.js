@@ -22,7 +22,7 @@ exports.seed = function(knex, Promise) {
           review_product_id: 1, 
           review_user_id: 1, 
           description: 'awesome, review!'
-        }
+        },
       ]);
     });
 };
