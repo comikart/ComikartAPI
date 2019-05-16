@@ -14,7 +14,7 @@ exports.up = function(knex, Promise) {
         table.string('series');
         table.string('paperback');
         table.string('publisher');
-        table.integer('isbn', 13);
+        table.string('isbn', 13);
         table.string('weight');
         table.string('dimensions');
         table.string('product_code');
@@ -23,5 +23,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('category').dropTable('product');
+  return knex.schema.dropTable('product').dropTable('category')
 };

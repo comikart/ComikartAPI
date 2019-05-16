@@ -2,9 +2,8 @@ process.env.NODE_ENV !== 'production' && require('dotenv').config(); //  loading
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-
 const server = express();
-const routes = require('./api/routes/routes');
+const router = require('./api/routes/router');
 
 // mount middleware
 server.use(cors());
@@ -25,12 +24,11 @@ server.use(express.json());
  *       "status": "Connected"
  *     }
  */
-server.get('/', (req, res) => {
+ server.get('/', (req, res) => {
   res.json({status: 'connected'});
 });
 
-// add routes
-routes(server);
-
+// route handler.
+server.use('/api', router);
 
 module.exports = server;

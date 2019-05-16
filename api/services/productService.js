@@ -2,7 +2,7 @@ const knex = require('../../db/knex');
 
 const findAllProducts = () => knex('product').select();
 
-const findProductById = (id) => knex('product').select().where({ id }).first();
+const findProductById = (id) => knex('product').where({ id });
 
 const findProductByCategory = (category) => knex
                                             .from('product')
