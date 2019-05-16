@@ -19,23 +19,15 @@ const service = require('../services/productService');
  *          "role_id": 2
 *         },
  *      ]
- *
- * @apiError ServerError server couldnt process the request
- * 
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 500 Server Error
- *     {
- *          "error": "server was unable to process the request."
- *     }
  */
 const findAllProducts = (req, res) => {
     const { category } = req.query;
     if (!category) {
-        service.findAllProducts()
+        return service.findAllProducts()
         .then(products => res.json(products))
         .catch(err => res.status(500).json(err));
     } else {
-        service.findProductByCategory(category)
+        return service.findProductByCategory(category)
         .then(products => res.json(products))
         .catch(err => res.status(500).json(err));
     }
@@ -48,7 +40,7 @@ const findAllProducts = (req, res) => {
  * @apiGroup Product
  *
  * @apiSuccess {object[]} List product information array.
- * @apiParam {number} ID returns a product by id.
+ * @apiParam {Param Variable} ID returns a product by id.
  * 
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK
@@ -58,14 +50,6 @@ const findAllProducts = (req, res) => {
  *          "last_name": "doe",
  *          "role_id": 2
  *        }
- *
- * @apiError ServerError server couldnt process the request
- * 
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 500 Server Error
- *     {
- *          "error": "server was unable to process the request."
- *     }
  */
 
 const findProductById = (req, res) => {

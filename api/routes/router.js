@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { authorization, authenticate } = require('../utils/security');
 const { login, register } = require('../controllers/userController');
-const { findAllProducts, findProductById, findProductByCategory } = require('../controllers/productController');
+const { findAllProducts, findProductById } = require('../controllers/productController');
 
 
 router.use('/user/login', authenticate, login);
