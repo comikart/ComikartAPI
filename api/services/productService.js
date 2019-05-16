@@ -7,7 +7,7 @@ const findProductById = (id) => knex('product').select().where({ id }).first();
 const findProductByCategory = (category) => knex
                                             .from('product')
                                             .innerJoin('category', 'product.category_id', 'category.id')
-                                            .where({'category.description': category});
+                                            .where({'category.title': category});
 
 const saveProduct = (product) => knex('product').insert(product);
 
