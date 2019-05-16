@@ -8,9 +8,7 @@ const findUserById = (id) => knex.select().from('user').where({id});
 
 const findAllUsers = () => knex.select().from('user');
 
-const findUserByEmail = (email) => knex('user')
-                                    .where({email})
-                                    .first();
+const findUserByEmail = (email) => knex('user').where({email}).first();
 
 module.exports = {
     saveUser,
