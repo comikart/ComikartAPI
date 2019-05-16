@@ -8,8 +8,6 @@ exports.seed = function(knex, Promise) {
         {title: 'lorem'},
         {title: 'ipsum'},
         {title: 'dolor'},
-        {title: 'sit'},
-        {title: 'amet'}
       ]);
     });
 };
