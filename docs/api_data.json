@@ -1,6 +1,130 @@
 [
   {
     "type": "get",
+    "url": "/api/product/:id",
+    "title": "Request Product By Id",
+    "version": "1.0.0",
+    "name": "GETProductById",
+    "group": "Product",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object[]",
+            "optional": false,
+            "field": "List",
+            "description": "<p>product information array.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n   {\n     \"id\": 1,\n     \"first_name\": \"john\",\n     \"last_name\": \"doe\",\n     \"role_id\": 2\n   }",
+          "type": "json"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "number",
+            "optional": false,
+            "field": "ID",
+            "description": "<p>returns a product by id.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ServerError",
+            "description": "<p>server couldnt process the request</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server Error\n{\n     \"error\": \"server was unable to process the request.\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./api/controllers/productController.js",
+    "groupTitle": "Product"
+  },
+  {
+    "type": "get",
+    "url": "/api/product",
+    "title": "Request All Products",
+    "version": "1.0.0",
+    "name": "GETProducts",
+    "group": "Product",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "object[]",
+            "optional": false,
+            "field": "List",
+            "description": "<p>product information array.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n [\n   {\n     \"id\": 1,\n     \"first_name\": \"john\",\n     \"last_name\": \"doe\",\n     \"role_id\": 2\n    },\n ]",
+          "type": "json"
+        }
+      ]
+    },
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "query",
+            "optional": false,
+            "field": "Category",
+            "description": "<p>returns all products in the category</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "ServerError",
+            "description": "<p>server couldnt process the request</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Error-Response:",
+          "content": "HTTP/1.1 500 Server Error\n{\n     \"error\": \"server was unable to process the request.\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "filename": "./api/controllers/productController.js",
+    "groupTitle": "Product"
+  },
+  {
+    "type": "get",
     "url": "/",
     "title": "Request Sanitation Check",
     "version": "1.0.0",
@@ -27,26 +151,7 @@
       ]
     },
     "filename": "./server.js",
-    "groupTitle": "Server",
-    "error": {
-      "fields": {
-        "Error 5XX": [
-          {
-            "group": "Error 5XX",
-            "optional": false,
-            "field": "SanitationCheckFailed",
-            "description": "<p>Something went wrong with the server.</p>"
-          }
-        ]
-      },
-      "examples": [
-        {
-          "title": "Error-Response:",
-          "content": "HTTP/1.1 500 Internal Server Error",
-          "type": "json"
-        }
-      ]
-    }
+    "groupTitle": "Server"
   },
   {
     "type": "post",
