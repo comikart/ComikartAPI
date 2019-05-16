@@ -14,6 +14,7 @@ exports.seed = function(knex, Promise) {
           "title": "quia ut veniam",
           "unit_price": 397,
           "product_code": "8a9197a27983170a2d4faf09f0a6de1683be",
+          category_id: 1,
         },
         {
           "publisher": "Jonas",
@@ -24,6 +25,7 @@ exports.seed = function(knex, Promise) {
           "title": "maiores earum quibusdam",
           "unit_price": 349,
           "product_code": "9ee2d5afe2680f24e8c53dd44b235279784f",
+          category_id: 2,
         },
         {
           "publisher": "Lisette",
@@ -34,6 +36,7 @@ exports.seed = function(knex, Promise) {
           "title": "est deleniti sint",
           "unit_price": 360,
           "product_code": "68b49e1e00463e8c9384ac4fe1fa9879f222",
+          category_id: 1,
         },
         {
           "publisher": "Juliana",
@@ -44,6 +47,7 @@ exports.seed = function(knex, Promise) {
           "title": "ipsum repellendus non",
           "unit_price": 885,
           "product_code": "8abd6874f3363547a7f90be9d0865c60e545",
+          category_id: 3,
         },
         {
           "publisher": "Kay",
@@ -54,6 +58,7 @@ exports.seed = function(knex, Promise) {
           "title": "enim in expedita",
           "unit_price": 832,
           "product_code": "29131cf328d0593ef29da269dfc0e892fad3",
+          category_id: 2,
         },
         {
           "publisher": "Estelle",
@@ -64,6 +69,7 @@ exports.seed = function(knex, Promise) {
           "title": "modi vel nostrum",
           "unit_price": 569,
           "product_code": "fb9ca8fb864da9a231d5f7783fedde2ac825",
+          category_id: 1,
         },
         {
           "publisher": "Sylvester",
@@ -74,6 +80,7 @@ exports.seed = function(knex, Promise) {
           "title": "distinctio quia fugit",
           "unit_price": 928,
           "product_code": "5745129ca82fb7e1e18187678b63a2f32323",
+          category_id: 3,
         },
         {
           "publisher": "Karen",
@@ -84,6 +91,7 @@ exports.seed = function(knex, Promise) {
           "title": "voluptatem ut exercitationem",
           "unit_price": 820,
           "product_code": "ee106be8a93b1970c96a463995118d77d02d",
+          category_id: 2,
         },
         {
           "publisher": "Jaclyn",
@@ -94,6 +102,7 @@ exports.seed = function(knex, Promise) {
           "title": "aspernatur sunt ut",
           "unit_price": 191,
           "product_code": "5b945578611fa6ef7df12fb4413a0b495c1c",
+          category_id: 3,
         },
         {
           "publisher": "Raphael",
@@ -104,6 +113,7 @@ exports.seed = function(knex, Promise) {
           "title": "ea atque asperiores",
           "unit_price": 968,
           "product_code": "18c317dac4e3022f7f531547b3502e505cac",
+          category_id: 1,
         }
       ]);
     });
