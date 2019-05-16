@@ -1,10 +1,10 @@
 
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('table_name').del()
+  return knex('product').del()
     .then(function () {
       // Inserts seed entries
-      return knex('table_name').insert([
+      return knex('product').insert([
         {
           title: 'lorem', 
           unit_price: 19.99, 
