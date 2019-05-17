@@ -8,7 +8,6 @@
     "test": "NODE_ENV=development jest --coverage && codecov",
     "local-test": "NODE_ENV=development jest --watch --verbose"
   },
-
   "apidoc": {
     "name": "Comikart",
     "version": "1.0.0",

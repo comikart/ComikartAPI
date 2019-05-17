@@ -1,24 +1,33 @@
 
 exports.up = function(knex, Promise) {
     return knex.schema.createTable('review', (table) => {
-        table.integer('product_id').references('id').inTable('product').onDelete('CASCADE').primary();
-        table.integer('user_id').references('id').inTable('user').onDelete('CASCADE').primary();
+        table.increments('id');
+        table.integer('product_id').references('id').inTable('product').onDelete('CASCADE');
+        table.integer('user_id').references('id').inTable('user').onDelete('CASCADE');
         table.integer('score');
         table.datetime('date_created').defaultTo(knex.fn.now());
         table.string('title').notNullable();
         table.text('description').notNullable();
     })
+    .alterTable('review', (table) => {
+        table.unique(['product_id', 'user_id']);
+    })
     .createTable('comment', (table) => {
-        table.integer('user_id').references('id').inTable('user').onDelete('CASCADE').primary();
-        table.integer('review_product_id').references('product_id').inTable('review').onDelete('CASCADE').primary();
-        table.integer('review_user_id').references('user_id').inTable('review').onDelete('CASCADE').primary();
+        table.increments('id');
+        table.integer('user_id').references('id').inTable('user').onDelete('CASCADE');
+        table.integer('review_id').references('id').inTable('review').onDelete('CASCADE');
         table.text('description');
     })
+    .alterTable('comment', (table) => {
+        table.unique(['user_id', 'review_id']);
+    })
     .createTable('helpful', (table) => {
-        table.integer('review_product_id').references('product_id').inTable('review').onDelete('CASCADE').primary();
-        table.integer('review_user_id').references('user_id').inTable('review').onDelete('CASCADE').primary();
-        table.integer('user_id').references('id').inTable('user').onDelete('CASCADE').primary();
-    });
+        table.integer('review_id').references('id').inTable('review').onDelete('CASCADE');
+        table.integer('user_id').references('id').inTable('user').onDelete('CASCADE');
+    })
+    .alterTable('helpful', (table) => {
+        table.primary(['review_id', 'user_id']);
+    })
 };
 
 exports.down = function(knex, Promise) {
