@@ -9,7 +9,7 @@ router.use('/user/login', authenticate, login);
 router.route('/user/register').post(register);
 router.route('/product').get(findAllProducts);
 router.route('/product/:id').get(findProductById);
-router.route('/product/:id/review').get(reviewController.findAllReviews);
+router.route('/product/:id/review').get(reviewController.findReviewByProductId);
 router.route('/product/:product_id/review/:id').get(reviewController.findReviewById);
 
 module.exports = router;

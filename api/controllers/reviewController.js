@@ -5,6 +5,14 @@ const findAllReviews = (req, res) =>
         .then(reviews => res.json(reviews))
         .catch(err => res.status(500).json(err));
 
+const findReviewByProductId = (req, res) => {
+    const { id } = req.params;
+
+    return service.findReviewByProductId(id)
+        .then(reviews => res.json(reviews))
+        .catch(err => res.status(400).json(err));
+}
+
 const findReviewById = (req, res) => {
     const { id } = req.params;
 
@@ -35,6 +43,7 @@ const deleteReview = (req, res) => {
 module.exports = {
     findAllReviews,
     findReviewById,
+    findReviewByProductId,
     saveReview,
     deleteReview
 }
