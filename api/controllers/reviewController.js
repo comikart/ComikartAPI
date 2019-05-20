@@ -31,3 +31,10 @@ const deleteReview = (req, res) => {
         .then(() => res.status(204).json({}))
         .catch(err => res.status(400).json(err));
 }
+
+module.exports = {
+    findAllReviews,
+    findReviewById,
+    saveReview,
+    deleteReview
+}

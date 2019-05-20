@@ -4,6 +4,8 @@ const findAllReviews = () => knex('review').select();
 
 const findReviewById = (id) => knex('review').where({id});
 
+const findReviewByProductId = (product_id) => knex('review').where({product_id});
+
 const findAllCommentsByReviewId = (review_id) => knex('comment').where({review_id});
 
 const findCommentById = (id) => knex('comment').where({id});
@@ -25,6 +27,7 @@ const deleteHelpful = (helpful) => knex('helpful').where({helpful}).del();
 module.exports = {
     findAllReviews,
     findReviewById,
+    findReviewByProductId,
     findAllCommentsByReviewId,
     findCommentById,
     findAllHelpfulByReviewId,
