@@ -9,7 +9,11 @@ router.use('/user/login', authenticate, login);
 router.route('/user/register').post(register);
 router.route('/product').get(findAllProducts);
 router.route('/product/:id').get(findProductById);
-router.route('/product/:id/review').get(reviewController.findReviewByProductId);
-router.route('/product/:product_id/review/:id').get(reviewController.findReviewById);
+router.route('/product/:product_id/review').get(reviewController.findReviewByProductId);
+router.route('/product/:product_id/review').post(reviewController.saveReview);
+router.route('/product/:product_id/review/:review_id').get(reviewController.findReviewById);
+router.route('/product/:product_id/review/:review_id').delete(reviewController.deleteReview);
+// router.route('/product/:product_id/review/:review_id/comment').get(reviewController);
+
 
 module.exports = router;

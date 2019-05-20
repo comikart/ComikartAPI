@@ -6,36 +6,39 @@ const findAllReviews = (req, res) =>
         .catch(err => res.status(500).json(err));
 
 const findReviewByProductId = (req, res) => {
-    const { id } = req.params;
+    const { product_id } = req.params;
 
-    return service.findReviewByProductId(id)
+    return service.findReviewByProductId(product_id)
         .then(reviews => res.json(reviews))
         .catch(err => res.status(400).json(err));
 }
 
 const findReviewById = (req, res) => {
-    const { id } = req.params;
+    const { review_id } = req.params;
 
-    return service.findReviewById(id)
+    return service.findReviewById(review_id)
         .then(review => res.json(review))
         .catch(err => res.status(500).json(err));
 }
 
 const saveReview = (req,res) => {
     const { review } = req.body;
+    const { product_id } = req.params;
+
+    if (!review.product_id) {
+        review.product_id = product_id;
+    }
 
     service.saveReview(review)
-        .then(() =>{
-            service.findAllReviews()
-        })
+        .then(() => service.findReviewByProductId(product_id))
         .then(reviews => res.json(reviews))
         .catch(err => res.status(400).json(err));
 }
 
 const deleteReview = (req, res) => {
-    const { id } = req.params;
+    const { review_id } = req.params;
 
-    service.deleteReviewById(id)
+    service.deleteReviewById(review_id)
         .then(() => res.status(204).json({}))
         .catch(err => res.status(400).json(err));
 }
