@@ -40,7 +40,7 @@ const findAllProducts = (req, res) => {
  * @apiGroup Product
  *
  * @apiSuccess {object[]} List product information array.
- * @apiParam {Param Variable} ID returns a product by id.
+ * @apiParam {Param} ID returns a product by id.
  * 
  * @apiSuccessExample Success-Response:
  *     HTTP/1.1 200 OK

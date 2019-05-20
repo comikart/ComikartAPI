@@ -1,3 +1,3 @@
 #!/bin/bash
 
-apidoc -i . -e node_modules/ -o docs/
+npx apidoc -i . -e node_modules/ -o docs/
