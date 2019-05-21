@@ -17,9 +17,7 @@ exports.up = function(knex, Promise) {
         table.integer('user_id').references('id').inTable('user').onDelete('CASCADE');
         table.integer('review_id').references('id').inTable('review').onDelete('CASCADE');
         table.text('description');
-    })
-    .alterTable('comment', (table) => {
-        table.unique(['user_id', 'review_id']);
+        table.datetime('date_created').defaultTo(knex.fn.now());
     })
     .createTable('helpful', (table) => {
         table.integer('review_id').references('id').inTable('review').onDelete('CASCADE');
