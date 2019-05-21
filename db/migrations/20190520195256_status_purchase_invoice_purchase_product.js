@@ -37,7 +37,8 @@ exports.up = function(knex, Promise) {
         .integer('invoice_id')
         .references('id')
         .inTable('invoice')
-        .onDelete('CASCADE');
+        .onDelete('CASCADE')
+        .onUpdate('CASCADE');
     })
     .alterTable('purchase', table => {
       table.unique(['user_id', 'invoice_id']);
@@ -63,8 +64,9 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return knex.schema
-    .dropTable('invoice')
     .dropTable('purchase_product')
-    .dropTable('product')
-    .dropTable('status');
+    .dropTable('purchase')
+    .dropTable('status')
+    .dropTable('invoice');
+    
 };
