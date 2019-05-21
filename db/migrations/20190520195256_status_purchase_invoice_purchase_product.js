@@ -19,7 +19,7 @@ exports.up = function(knex, Promise) {
         .onDelete('CASCADE');
     })
     .alterTable('purchase', table => {
-      table.unique(['user_id', 'invoice_id']);
+      table.unique(['user_id']);
     })
     .createTable('invoice', table => {
       table.increments('id');
