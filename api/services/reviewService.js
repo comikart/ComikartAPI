@@ -12,6 +12,8 @@ const findCommentById = (id) => knex('comment').where({id});
 
 const findAllHelpfulByReviewId = (review_id) => knex('helpful').where({review_id});
 
+const findReviewAndHelpfulById = (review_id) => knex.raw(`SELECT review.*, (SELECT COUNT(*) FROM helpful WHERE helpful.review_id = ${review_id}) as likes FROM review WHERE review.id = ${review_id}`);
+
 const countHelpfulByReviewId = (review_id) => knex('helpful').count().where({review_id}).first();
 
 const saveReview = (review) => knex('review').insert(review);
@@ -33,6 +35,7 @@ module.exports = {
     findAllCommentsByReviewId,
     findCommentById,
     findAllHelpfulByReviewId,
+    findReviewAndHelpfulById,
     countHelpfulByReviewId,
     saveReview,
     saveComment,

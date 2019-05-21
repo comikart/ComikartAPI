@@ -16,11 +16,10 @@ const findReviewByProductId = (req, res) => {
 const findReviewById = (req, res) => {
     const { review_id } = req.params;
 
-    return Promise.all([service.findReviewById(review_id), 
-                        service.findAllCommentsByReviewId(review_id),
-                        service.countHelpfulByReviewId(review_id)])
+    return Promise.all([service.findReviewAndHelpfulById(review_id), 
+                        service.findAllCommentsByReviewId(review_id)])
         .then(arr => {
-            const review = Object.assign({}, arr[0], {comments: arr[1]}, {likes: arr[2].count});
+            const review = Object.assign({}, arr[0].rows[0], {comments: arr[1]});
             res.json(review);
         })
         .catch(err => res.status(500).json(err));
