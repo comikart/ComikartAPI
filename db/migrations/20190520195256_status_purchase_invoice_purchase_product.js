@@ -11,11 +11,11 @@ exports.up = function(knex, Promise) {
       table.timestamp('date_created');
       table.decimal('total');
       table.string('shipping_address');
-      table
-        .integer('payment_id')
-        .references('id')
-        .inTable('payment_id')
-        .onDelete('CASCADE');
+      // table
+      //   .integer('payment_id')
+      //   .references('id')
+      //   .inTable('payment_id')
+      //   .onDelete('CASCADE');
     })
     .alterTable('invoice', table => {
       table.unique(['purchase_id', 'payment_id']);
