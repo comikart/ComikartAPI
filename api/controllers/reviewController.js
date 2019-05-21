@@ -16,8 +16,13 @@ const findReviewByProductId = (req, res) => {
 const findReviewById = (req, res) => {
     const { review_id } = req.params;
 
-    return service.findReviewById(review_id)
-        .then(review => res.json(review))
+    return Promise.all([service.findReviewById(review_id), 
+                        service.findAllCommentsByReviewId(review_id),
+                        service.countHelpfulByReviewId(review_id)])
+        .then(arr => {
+            const review = Object.assign({}, arr[0], {comments: arr[1]}, {likes: arr[2].count});
+            res.json(review);
+        })
         .catch(err => res.status(500).json(err));
 }
 
@@ -43,10 +48,18 @@ const deleteReview = (req, res) => {
         .catch(err => res.status(400).json(err));
 }
 
+const findAllCommentsByReviewId = (req, res) => {
+    const { review_id } = req.params;
+
+    service.findAllCommentsByReviewId(review_id)
+    .then(comments => res.json(comments));
+}
+
 module.exports = {
     findAllReviews,
     findReviewById,
     findReviewByProductId,
     saveReview,
-    deleteReview
+    deleteReview,
+    findAllCommentsByReviewId,
 }

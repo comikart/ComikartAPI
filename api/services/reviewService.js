@@ -2,7 +2,7 @@ const knex = require('../../db/knex');
 
 const findAllReviews = () => knex('review').select();
 
-const findReviewById = (id) => knex('review').where({id});
+const findReviewById = (id) => knex('review').where({id}).first();
 
 const findReviewByProductId = (product_id) => knex('review').where({product_id});
 
@@ -11,6 +11,8 @@ const findAllCommentsByReviewId = (review_id) => knex('comment').where({review_i
 const findCommentById = (id) => knex('comment').where({id});
 
 const findAllHelpfulByReviewId = (review_id) => knex('helpful').where({review_id});
+
+const countHelpfulByReviewId = (review_id) => knex('helpful').count().where({review_id}).first();
 
 const saveReview = (review) => knex('review').insert(review);
 
@@ -31,6 +33,7 @@ module.exports = {
     findAllCommentsByReviewId,
     findCommentById,
     findAllHelpfulByReviewId,
+    countHelpfulByReviewId,
     saveReview,
     saveComment,
     saveHelpful,

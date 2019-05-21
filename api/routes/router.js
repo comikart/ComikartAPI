@@ -13,7 +13,7 @@ router.route('/product/:product_id/review').get(reviewController.findReviewByPro
 router.route('/product/:product_id/review').post(reviewController.saveReview);
 router.route('/product/:product_id/review/:review_id').get(reviewController.findReviewById);
 router.route('/product/:product_id/review/:review_id').delete(reviewController.deleteReview);
-// router.route('/product/:product_id/review/:review_id/comment').get(reviewController);
+router.route('/product/:product_id/review/:review_id/comment').get(reviewController.findAllCommentsByReviewId);
 
 
 module.exports = router;
