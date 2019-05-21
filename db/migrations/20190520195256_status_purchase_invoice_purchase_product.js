@@ -11,15 +11,12 @@ exports.up = function(knex, Promise) {
       table.timestamp('date_created');
       table.decimal('total');
       table.string('shipping_address');
-      // table
-      //   .integer('payment_id')
-      //   .references('id')
-      //   .inTable('payment_id')
-      //   .onDelete('CASCADE');
+      table
+        .integer('payment_id')
+        .references('id')
+        .inTable('payment_option')
+        .onDelete('CASCADE');
     })
-    // .alterTable('invoice', table => {
-    //   table.unique(['purchase_id', 'payment_id']);
-    // })
     .createTable('purchase', table => {
       table.increments('id');
       table.datetime('date_created').defaultTo(knex.fn.now());
@@ -42,6 +39,14 @@ exports.up = function(knex, Promise) {
     })
     .alterTable('purchase', table => {
       table.unique(['user_id', 'invoice_id']);
+    })
+    .alterTable('invoice', table => {
+      table.unique(['purchase_id', 'payment_id']);
+      table
+        .integer('purchase_id')
+        .references('id')
+        .inTable('purchase')
+        .onDelete('CASCADE');
     })
 
     .createTable('purchase_product', table => {
@@ -68,5 +73,4 @@ exports.down = function(knex, Promise) {
     .dropTable('purchase')
     .dropTable('status')
     .dropTable('invoice');
-    
 };
