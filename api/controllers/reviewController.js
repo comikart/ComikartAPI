@@ -73,8 +73,8 @@ const saveHelpful = (req, res) => {
     helpful.review_id = review_id;
 
     service.saveHelpful(helpful)
-        .then(() => findReviewById(review_id))
-        .then(review => res.status(201).json(review))
+        .then(() => service.findReviewAndHelpfulById(review_id))
+        .then(({rows}) => res.status(201).json(rows[0]))
         .catch(err => res.status(400).json(err));
 }
 
