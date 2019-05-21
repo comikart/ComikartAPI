@@ -66,6 +66,14 @@ const saveComment = (req, res) => {
         .catch(err => res.status(400).json(err));
 }
 
+const deleteComment = (req, res) => {
+    const { comment_id } = req.params;
+
+    service.deleteCommentById(comment_id)
+        .then(() => res.status(204).json({}))
+        .catch(err => res.status(400).json(err));
+}
+
 const saveHelpful = (req, res) => {
     const { helpful } = req.body;
     const { review_id } = req.params;
@@ -86,5 +94,6 @@ module.exports = {
     deleteReview,
     findAllCommentsByReviewId,
     saveComment,
+    deleteComment,
     saveHelpful,
 }
