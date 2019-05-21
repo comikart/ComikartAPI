@@ -45,12 +45,12 @@ exports.up = function(knex, Promise) {
 
     .createTable('purchase_product', table => {
       table
-        .increments('purchase_id')
+        .integer('purchase_id')
         .references('id')
         .inTable('purchase')
         .onDelete('CASCADE');
       table
-        .increments('product_id')
+        .integer('product_id')
         .references('id')
         .inTable('product')
         .onDelete('CASCADE');
