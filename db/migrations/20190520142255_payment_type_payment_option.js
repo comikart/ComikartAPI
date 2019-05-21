@@ -1,10 +1,11 @@
 exports.up = function(knex, Promise) {
   return knex.schema
     .createTable('payment_type', table => {
-      table.increment('id');
-      table.string('title').nonNullable();
+      table.increments('id');
+      table.string('title').notNullable();
     })
     .createTable('payment_option', table => {
+      table.increments('id');
       table.integer('credit_card');
       table.string('billing_address');
       table.date('exp');
@@ -24,5 +25,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('payment_type').dropTable('payment_option');
+  return knex.schema.dropTable('payment_option').dropTable('payment_type');
 };
