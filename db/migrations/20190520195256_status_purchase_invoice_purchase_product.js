@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
     })
     .createTable('purchase', table => {
       table.increments('id');
-      table.datetime().defaultTo(knex.fn.now());
+      table.datetime('date_created').defaultTo(knex.fn.now());
       table
         .integer('status_id')
         .references('id')
