@@ -14,6 +14,7 @@ router.route('/product/:product_id/review').post(reviewController.saveReview);
 router.route('/product/:product_id/review/:review_id').get(reviewController.findReviewById);
 router.route('/product/:product_id/review/:review_id').delete(reviewController.deleteReview);
 router.route('/product/:product_id/review/:review_id/comment').get(reviewController.findAllCommentsByReviewId);
-
+router.route('/product/:product_id/review/:review_id/comment').post(reviewController.saveComment);
+router.route('/product/:product_id/review/:review_id/helpful').post(reviewController.saveHelpful);
 
 module.exports = router;

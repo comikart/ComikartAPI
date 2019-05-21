@@ -51,7 +51,31 @@ const findAllCommentsByReviewId = (req, res) => {
     const { review_id } = req.params;
 
     service.findAllCommentsByReviewId(review_id)
-    .then(comments => res.json(comments));
+        .then(comments => res.json(comments));
+}
+
+const saveComment = (req, res) => {
+    const { comment } = req.body;
+    const { review_id } = req.params;
+
+    comment.review_id = review_id;
+
+    service.saveComment(comment)
+        .then(() => service.findAllCommentsByReviewId(review_id))
+        .then(comments => res.json(comments))
+        .catch(err => res.status(400).json(err));
+}
+
+const saveHelpful = (req, res) => {
+    const { helpful } = req.body;
+    const { review_id } = req.params;
+
+    helpful.review_id = review_id;
+
+    service.saveHelpful(helpful)
+        .then(() => findReviewById(review_id))
+        .then(review => res.status(201).json(review))
+        .catch(err => res.status(400).json(err));
 }
 
 module.exports = {
@@ -61,4 +85,6 @@ module.exports = {
     saveReview,
     deleteReview,
     findAllCommentsByReviewId,
+    saveComment,
+    saveHelpful,
 }
