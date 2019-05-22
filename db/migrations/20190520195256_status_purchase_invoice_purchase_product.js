@@ -6,9 +6,9 @@ exports.up = function(knex, Promise) {
     })
     .createTable('invoice', table => {
       table.increments('id');
+      table.datetime('date_created').defaultTo(knex.fn.now());
       table.decimal('sub_total');
       table.decimal('tax');
-      table.timestamp('date_created');
       table.decimal('total');
       table.string('shipping_address');
       table
