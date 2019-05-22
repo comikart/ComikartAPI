@@ -71,9 +71,28 @@ const findUserById = (req, res) => {
 
 const findCartByUserId = (req, res) => {
   const { id } = req.params;
-  return userService
+  userService
     .findCartByUserId(id)
-    .then(cart => res.json(cart))
+    .then(cart =>
+      Promise.all(
+        cart.map(item =>
+          productService
+            .findProductById(item.product_id)
+            .then(product => Object.assign({}, item, { product: product[0] }))
+        )
+      )
+    )
+    .then(items => {
+      const cart = {
+        cartItems: items,
+        subTotal: items.reduce(
+          (sum, curr) =>
+            sum + curr.quantity * parseFloat(curr.product.unit_price),
+          0
+        )
+      };
+      res.json(cart);
+    })
     .catch(err => res.status(400).json(err));
 };
 
@@ -81,7 +100,16 @@ findWishListByUserId = (req, res) => {
   const { id } = req.params;
   return userService
     .findWishListByUserId(id)
-    .then(list => res.json(list))
+    .then(list =>
+      Promise.all(
+        list.map(item =>
+          productService
+            .findProductById(item.product_id)
+            .then(product => Object.assign({}, item, { product: product[0] }))
+        )
+      )
+    )
+    .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
 };
 
