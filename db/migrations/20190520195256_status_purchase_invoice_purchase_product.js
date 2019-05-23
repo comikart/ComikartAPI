@@ -4,19 +4,6 @@ exports.up = function(knex, Promise) {
       table.increments('id');
       table.string('title').notNullable();
     })
-    .createTable('invoice', table => {
-      table.increments('id');
-      table.datetime('date_created').defaultTo(knex.fn.now());
-      table.decimal('sub_total');
-      table.decimal('tax');
-      table.decimal('total');
-      table.string('shipping_address');
-      table
-        .integer('payment_id')
-        .references('id')
-        .inTable('payment')
-        .onDelete('CASCADE');
-    })
     .createTable('purchase', table => {
       table.increments('id');
       table.datetime('date_created').defaultTo(knex.fn.now());
@@ -30,15 +17,27 @@ exports.up = function(knex, Promise) {
         .references('id')
         .inTable('user')
         .onDelete('CASCADE');
-      table
-        .integer('invoice_id')
-        .references('id')
-        .inTable('invoice')
-        .onDelete('CASCADE')
-        .onUpdate('CASCADE');
     })
-    .alterTable('purchase', table => {
-      table.unique(['user_id', 'invoice_id']);
+    .createTable('invoice', table => {
+      table.increments('id');
+      table.datetime('date_created').defaultTo(knex.fn.now());
+      table.decimal('sub_total');
+      table.decimal('tax');
+      table.decimal('total');
+      table.string('shipping_address');
+      table
+        .integer('payment_id')
+        .references('id')
+        .inTable('payment')
+        .onDelete('CASCADE');
+      table
+        .integer('purchase_id')
+        .references('id')
+        .inTable('purchase')
+        .onDelete('CASCADE');
+    })
+    .alterTable('invoice', table => {
+      table.unique(['payment_id', 'purchase_id']);
     })
     .createTable('purchase_product', table => {
       table
