@@ -7,7 +7,6 @@ exports.seed = function(knex, Promise) {
       return knex('payment_type').insert([
         { title: 'debit' },
         { title: 'credit' },
-        { title: 'paypal' },
       ]);
     });
 };
