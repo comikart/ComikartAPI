@@ -21,10 +21,31 @@ const findCartByUserId = id =>
     .select()
     .where({ user_id: id });
 
+const findCartItemByUserIdAndProductId = (user_id, product_id) =>
+  knex('cart')
+    .select()
+    .where({ user_id, product_id })
+    .first();
+
+const saveCartItem = cartItem => knex('cart').insert(cartItem);
+
+const deleteCartItemByUserIdAndProductId = (user_id, product_id) =>
+  knex('cart')
+    .where({ user_id, product_id })
+    .del();
+
 const findWishListByUserId = id =>
   knex('wish_list')
     .select()
     .where({ user_id: id });
+
+const findWishListItemByUserIdAndProductId = (user_id, product_id) =>
+  knex('wish_list')
+    .select()
+    .where({ user_id, product_id })
+    .first();
+
+const saveWishListItem = wishItem => knex('wish_list').insert(wishItem);
 
 module.exports = {
   saveUser,
@@ -32,5 +53,10 @@ module.exports = {
   findUserByEmail,
   findAllUsers,
   findCartByUserId,
-  findWishListByUserId
+  findCartItemByUserIdAndProductId,
+  saveCartItem,
+  deleteCartItemByUserIdAndProductId,
+  findWishListByUserId,
+  findWishListItemByUserIdAndProductId,
+  saveWishListItem
 };

@@ -1,5 +1,5 @@
-const userService = require("../services/userService");
-const productService = require("../services/productService");
+const userService = require('../services/userService');
+const productService = require('../services/productService');
 
 /**
  * @api {post} /api/user/login Request Login
@@ -96,7 +96,18 @@ const findCartByUserId = (req, res) => {
     .catch(err => res.status(400).json(err));
 };
 
-findWishListByUserId = (req, res) => {
+const moveCartItemToWishList = (req, res) => {
+  const { id, product_id } = req.params;
+  userService
+    .findCartItemByUserIdAndProductId(id, product_id)
+    .then(cartItem => userService.saveWishListItem(cartItem))
+    .then(() => userService.deleteCartItemByUserIdAndProductId(id, product_id))
+    .then(() => userService.findCartByUserId(id))
+    .then(cart => res.json(cart))
+    .catch(err => res.status(400).json(err));
+};
+
+const findWishListByUserId = (req, res) => {
   const { id } = req.params;
   return userService
     .findWishListByUserId(id)
@@ -118,5 +129,6 @@ module.exports = {
   register,
   findUserById,
   findCartByUserId,
-  findWishListByUserId
+  findWishListByUserId,
+  moveCartItemToWishList
 };

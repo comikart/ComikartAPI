@@ -11,6 +11,9 @@ router.use('/user/login', authenticate, userController.login);
 router.route('/user/register').post(userController.register);
 router.route('/user/:id').get(userController.findUserById);
 router.route('/user/:id/cart').get(userController.findCartByUserId);
+router
+  .route('/user/:id/cart/:product_id')
+  .get(userController.moveCartItemToWishList);
 router.route('/user/:id/wishlist').get(userController.findWishListByUserId);
 router.route('/product').get(findAllProducts);
 router.route('/product/:id').get(findProductById);
