@@ -6,9 +6,9 @@ exports.up = function(knex, Promise) {
     })
     .createTable('payment_option', table => {
       table.increments('id');
-      table.integer('credit_card');
+      table.bigInteger('credit_card');
       table.string('billing_address');
-      table.date('exp');
+      table.string('exp');
       table.integer('security_number');
       table.boolean('active');
       table

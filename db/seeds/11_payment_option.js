@@ -12,7 +12,7 @@ exports.seed = function(knex, Promise) {
           security_number: 444,
           active: false,
           user_id: 1,
-          type_id: 1,
+          type_id: 1
         },
         {
           credit_card: 4242424242423,
@@ -21,7 +21,7 @@ exports.seed = function(knex, Promise) {
           security_number: 444,
           active: false,
           user_id: 2,
-          type_id: 2,
+          type_id: 2
         },
         {
           credit_card: 324242424242,
@@ -30,8 +30,8 @@ exports.seed = function(knex, Promise) {
           security_number: 444,
           active: false,
           user_id: 3,
-          type_id: 2,
-        },
+          type_id: 2
+        }
       ]);
     });
 };

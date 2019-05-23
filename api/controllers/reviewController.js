@@ -1,4 +1,4 @@
-const service = require("../services/reviewService");
+const service = require('../services/reviewService');
 
 const findAllReviews = (req, res) =>
   service
