@@ -47,6 +47,11 @@ const findWishListItemByUserIdAndProductId = (user_id, product_id) =>
 
 const saveWishListItem = wishItem => knex('wish_list').insert(wishItem);
 
+const deleteWishListItemByUserIdAndProductId = (user_id, product_id) =>
+  knex('wish_list')
+    .where({ user_id, product_id })
+    .del();
+
 module.exports = {
   saveUser,
   findUserById,
@@ -58,5 +63,6 @@ module.exports = {
   deleteCartItemByUserIdAndProductId,
   findWishListByUserId,
   findWishListItemByUserIdAndProductId,
-  saveWishListItem
+  saveWishListItem,
+  deleteWishListItemByUserIdAndProductId
 };

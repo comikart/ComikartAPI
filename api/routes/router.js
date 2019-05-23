@@ -15,6 +15,9 @@ router
   .route('/user/:id/cart/:product_id')
   .get(userController.moveCartItemToWishList);
 router.route('/user/:id/wishlist').get(userController.findWishListByUserId);
+router
+  .route('/user/:id/wishlist/:product_id')
+  .get(userController.moveWishListItemToCart);
 router.route('/product').get(findAllProducts);
 router.route('/product/:id').get(findProductById);
 router
