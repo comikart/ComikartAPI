@@ -8,6 +8,7 @@ const {
 const reviewController = require('../controllers/reviewController');
 
 router.use('/user/login', authenticate, userController.login);
+router.use('/user/logout', authenticate, userController.logout);
 router.route('/user/register').post(userController.register);
 router.route('/user/:id').get(userController.findUserById);
 router.route('/user/:id/cart').get(userController.findCartByUserId);

@@ -33,18 +33,18 @@ const findCartAndProductByUserId = id =>
         cart.map(item =>
           productService
             .findProductById(item.product_id)
-            .then(product => Object.assign({}, item, { product: product[0] }))
-        )
-      )
+            .then(product => Object.assign({}, item, { product: product[0] })),
+        ),
+      ),
     )
     .then(items => {
       return {
         subTotal: items.reduce(
           (sum, curr) =>
             sum + curr.quantity * parseFloat(curr.product.unit_price),
-          0
+          0,
         ),
-        cartItems: items
+        cartItems: items,
       };
     });
 
@@ -72,9 +72,9 @@ const findWishListAndProductByUserId = id =>
       list.map(item =>
         productService
           .findProductById(item.product_id)
-          .then(product => Object.assign({}, item, { product: product[0] }))
-      )
-    )
+          .then(product => Object.assign({}, item, { product: product[0] })),
+      ),
+    ),
   );
 
 const findWishListItemByUserIdAndProductId = (user_id, product_id) =>
@@ -123,5 +123,5 @@ module.exports = {
   findWishListItemByUserIdAndProductId,
   saveWishListItem,
   deleteWishListItemByUserIdAndProductId,
-  moveItem
+  moveItem,
 };

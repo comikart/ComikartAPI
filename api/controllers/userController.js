@@ -34,6 +34,36 @@ const login = (req, res) => {
 };
 
 /**
+ * @api {post} /api/user/logout Request Logout
+ * @apiVersion 1.0.0
+ * @apiName POSTLogout
+ * @apiGroup User
+ *
+ * @apiSuccess {object} User User profile information
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "Token stored"
+ *     }
+ *
+ * @apiError IncorrectCredentials email or password is incorrect
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Client Error
+ *     {
+ *          "error"; "unable to logout"
+ *     }
+ */
+const logout = (req, res) => {
+  const token = req.get('Authorization');
+  return;
+  // redis.stores(token)
+  // .then(res => res.status(200).json({message: "Token Stored"}))
+  // .catch(err => res.status(400).json({err: err}))
+};
+
+/**
  * @api {post} /api/user/register Request Register
  * @apiVersion 1.0.0
  * @apiName POSTRegister
@@ -108,5 +138,5 @@ module.exports = {
   findCartByUserId,
   findWishListByUserId,
   moveCartItemToWishList,
-  moveWishListItemToCart
+  moveWishListItemToCart,
 };
