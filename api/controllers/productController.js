@@ -22,7 +22,7 @@ const service = require('../services/productService');
  */
 const findAllProducts = (req, res) => {
   const { category, page = 1, count = 10 } = req.query;
-  (!category
+  return (!category
     ? service.findAllProducts(page, count)
     : service.findProductByCategory(category, page, count)
   )
