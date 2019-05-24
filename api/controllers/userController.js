@@ -1,5 +1,5 @@
 const userService = require('../services/userService');
-const productService = require('../services/productService');
+const { MOVETOWISHLIST, MOVETOCART } = userService;
 
 /**
  * @api {post} /api/user/login Request Login
@@ -72,37 +72,15 @@ const findUserById = (req, res) => {
 const findCartByUserId = (req, res) => {
   const { id } = req.params;
   userService
-    .findCartByUserId(id)
-    .then(cart =>
-      Promise.all(
-        cart.map(item =>
-          productService
-            .findProductById(item.product_id)
-            .then(product => Object.assign({}, item, { product: product[0] }))
-        )
-      )
-    )
-    .then(items => {
-      const cart = {
-        cartItems: items,
-        subTotal: items.reduce(
-          (sum, curr) =>
-            sum + curr.quantity * parseFloat(curr.product.unit_price),
-          0
-        )
-      };
-      res.json(cart);
-    })
+    .findCartAndProductByUserId(id)
+    .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
 };
 
 const moveCartItemToWishList = (req, res) => {
   const { id, product_id } = req.params;
   userService
-    .findCartItemByUserIdAndProductId(id, product_id)
-    .then(cartItem => userService.saveWishListItem(cartItem))
-    .then(() => userService.deleteCartItemByUserIdAndProductId(id, product_id))
-    .then(() => userService.findCartByUserId(id))
+    .moveItem(MOVETOWISHLIST, id, product_id)
     .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
 };
@@ -110,30 +88,15 @@ const moveCartItemToWishList = (req, res) => {
 const findWishListByUserId = (req, res) => {
   const { id } = req.params;
   return userService
-    .findWishListByUserId(id)
-    .then(list =>
-      Promise.all(
-        list.map(item =>
-          productService
-            .findProductById(item.product_id)
-            .then(product => Object.assign({}, item, { product: product[0] }))
-        )
-      )
-    )
+    .findWishListAndProductByUserId(id)
     .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
 };
 
 const moveWishListItemToCart = (req, res) => {
   const { id, product_id } = req.params;
-
-  return userService
-    .findWishListItemByUserIdAndProductId(id, product_id)
-    .then(listItem => userService.saveCartItem(listItem))
-    .then(() =>
-      userService.deleteWishListItemByUserIdAndProductId(id, product_id)
-    )
-    .then(() => userService.findWishListByUserId(id))
+  userService
+    .moveItem(MOVETOCART, id, product_id)
     .then(list => res.json(list))
     .catch(err => res.status(400).json(err));
 };
