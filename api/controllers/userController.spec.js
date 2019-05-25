@@ -106,4 +106,25 @@ describe('/api/user', () => {
       });
     });
   });
+
+  describe('/user/{id}/cart/{product_id}', () => {
+    it('should move a product item from cart to wish list', done => {
+      req.params.id = 1;
+      req.params.product_id = 3;
+
+      controller.moveCartItemToWishList(req, res).then(response => {
+        expect(response.body.length).toBe(2);
+
+        done();
+      });
+    });
+
+    it('should return an error', done => {
+      controller.moveCartItemToWishList(req, res).then(response => {
+        expect(response.body).toBe('incorrect user id or product id');
+
+        done();
+      });
+    });
+  });
 });

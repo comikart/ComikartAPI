@@ -1,4 +1,6 @@
 const USERID = 1;
+const MOVETOWISHLIST = 'MOVETOWISHLIST';
+const MOVETOCART = 'MOVETOCART';
 
 const user = {
   id: USERID,
@@ -35,9 +37,24 @@ const findCartAndProductByUserId = id =>
       : reject('no id was passed');
   });
 
+const moveItem = (enumerator, id, product_id) =>
+  new Promise((resolve, reject) => {
+    (enumerator === MOVETOWISHLIST || enumerator === MOVETOCART) &&
+    id &&
+    product_id
+      ? resolve([
+          { user_id: 1, product_id: 1, quantity: 1 },
+          { user_id: 1, product_id: 2, quantity: 2 }
+        ])
+      : reject('incorrect user id or product id');
+  });
+
 module.exports = {
   findUserByEmail,
   saveUser,
   findCartAndProductByUserId,
-  USERID
+  moveItem,
+  USERID,
+  MOVETOWISHLIST,
+  MOVETOCART
 };
