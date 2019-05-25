@@ -127,4 +127,53 @@ describe('/api/user', () => {
       });
     });
   });
+
+  describe('/user/{id}/wishlist', () => {
+    it('should return the list of wish list items for a user', done => {
+      req.params.id = 1;
+      controller.findWishListByUserId(req, res).then(response => {
+        expect(response.body.length).toBe(3);
+
+        done();
+      });
+    });
+
+    it('should return an empty list', done => {
+      req.params.id = 2;
+      controller.findWishListByUserId(req, res).then(response => {
+        expect(response.body.length).toBe(0);
+
+        done();
+      });
+    });
+
+    it('should return an error message', done => {
+      controller.findWishListByUserId(req, res).then(response => {
+        expect(response.body).toBe('missing param id is required');
+
+        done();
+      });
+    });
+  });
+
+  describe('/user/{id}/wishlist/{product_id}', () => {
+    it('should move one item from wish list to cart ', done => {
+      req.params.id = 1;
+      req.params.product_id = 3;
+
+      controller.moveWishListItemToCart(req, res).then(response => {
+        expect(response.body.length).toBe(2);
+
+        done();
+      });
+    });
+
+    it('should return an error message', done => {
+      controller.moveWishListItemToCart(req, res).then(response => {
+        expect(response.body).toBe('incorrect user id or product id');
+
+        done();
+      });
+    });
+  });
 });

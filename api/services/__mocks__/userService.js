@@ -10,6 +10,12 @@ const user = {
   role_id: 2
 };
 
+const wish_list = [
+  { user_id: 1, product_id: 1, quantity: 1 },
+  { user_id: 1, product_id: 2, quantity: 2 },
+  { user_id: 1, product_id: 3, quantity: 1 }
+];
+
 const findUserByEmail = () =>
   new Promise((resolve, reject) => {
     resolve(user);
@@ -49,11 +55,21 @@ const moveItem = (enumerator, id, product_id) =>
       : reject('incorrect user id or product id');
   });
 
+const findWishListAndProductByUserId = id =>
+  new Promise((resolve, reject) => {
+    id === 1
+      ? resolve(wish_list)
+      : id !== 1 && typeof id === 'number'
+      ? resolve([])
+      : reject('missing param id is required');
+  });
+
 module.exports = {
   findUserByEmail,
   saveUser,
   findCartAndProductByUserId,
   moveItem,
+  findWishListAndProductByUserId,
   USERID,
   MOVETOWISHLIST,
   MOVETOCART
