@@ -2,72 +2,108 @@ jest.mock('../services/userService.js');
 const controller = require('./userController');
 
 class Response {
-    constructor(body = {}) {
-        this.body = body;
-    }
-    json(body) {
-        this.body = body;
-        return this;
-    }
+  constructor(body = {}) {
+    this.body = body;
+  }
+  json(body) {
+    this.body = body;
+    return this;
+  }
 
-    status(code) {
-        this.status = code;
-        return this;
-    }
+  status(code) {
+    this.status = code;
+    return this;
+  }
 }
 
 class User {
-    constructor(first_name = 'John', 
-                last_name = 'Doe', 
-                email = 'john@email.com', 
-                password = 'password') {
-        this.first_name = first_name;
-        this.last_name = last_name;
-        this.email = email;
-        this.password = password;
-    }
+  constructor(
+    first_name = 'John',
+    last_name = 'Doe',
+    email = 'john@email.com',
+    password = 'password'
+  ) {
+    this.first_name = first_name;
+    this.last_name = last_name;
+    this.email = email;
+    this.password = password;
+  }
 }
 
 class Request {
-    constructor(header = {}, body = {}) {
-        this.header = header;
-        this.body = body;
-    }
+  constructor(header = {}, body = {}, params = {}) {
+    this.header = header;
+    this.body = body;
+    this.params = params;
+  }
 }
 
+let req;
+let res;
+
+beforeEach(() => {
+  req = new Request();
+  res = new Response();
+});
+
 describe('/api/user', () => {
+  describe('/login {POST}', () => {
+    it('should return a user object', done => {
+      // given
+      req.body.token = '1321beyv1ve76t1qv276e1v2bdand9ah';
+      req.body.email = 'john@email.com';
 
-    describe('/login {POST}', () => {
-    
-        it('should return a user object', (done) => {
-            // given
-            const req = {body: {token: '1321beyv1ve76t1qv276e1v2bdand9ah', email: 'john@email.com'}};
-            const res = new Response();
+      //when
+      controller.login(req, res).then(response => {
+        //then
+        expect(req.body.email).toBe(response.body.user.email);
 
-            //when
-            controller.login(req, res)
-            .then(response => {
-                //then
-                expect(req.body.email).toBe(response.body.user.email);
+        expect(req.body.token).toBe(response.body.token);
 
-                expect(req.body.token).toBe(response.body.token);
-                
-                done();
-            });
-        });
+        done();
+      });
+    });
+  });
+
+  describe('/register {POST}', () => {
+    it('should accept a user object, and return a saved user', done => {
+      req.body.user = new User();
+
+      controller.register(req, res).then(response => {
+        expect(response.status).toBe(201);
+
+        done();
+      });
+    });
+  });
+
+  describe('/user/{id}/cart', () => {
+    it('should return a list of products in a users cart', done => {
+      req.params.id = 1;
+
+      controller.findCartByUserId(req, res).then(response => {
+        expect(response.body.length).toBe(3);
+
+        done();
+      });
     });
 
-    describe('/register {POST}', () => {
-        it('should accept a user object, and return a saved user', (done) => {
-            const req = new Request({}, {user: new User()});
-            const res = new Response();
+    it('should return an empty list', done => {
+      req.params.id = 2;
 
-            controller.register(req, res)
-            .then(response => {
-                expect(response.status).toBe(201);
+      controller.findCartByUserId(req, res).then(response => {
+        expect(response.body.length).toBe(0);
 
-                done();
-            });
-        });
+        done();
+      });
     });
+
+    it('should return an error message', done => {
+      controller.findCartByUserId(req, res).then(response => {
+        expect(response.body).toBe('no id was passed');
+
+        done();
+      });
+    });
+  });
 });

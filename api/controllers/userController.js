@@ -71,7 +71,7 @@ const findUserById = (req, res) => {
 
 const findCartByUserId = (req, res) => {
   const { id } = req.params;
-  userService
+  return userService
     .findCartAndProductByUserId(id)
     .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
