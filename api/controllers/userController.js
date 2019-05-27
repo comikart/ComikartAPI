@@ -71,7 +71,7 @@ const findUserById = (req, res) => {
 
 const findCartByUserId = (req, res) => {
   const { id } = req.params;
-  userService
+  return userService
     .findCartAndProductByUserId(id)
     .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
@@ -79,7 +79,7 @@ const findCartByUserId = (req, res) => {
 
 const moveCartItemToWishList = (req, res) => {
   const { id, product_id } = req.params;
-  userService
+  return userService
     .moveItem(MOVETOWISHLIST, id, product_id)
     .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
@@ -95,7 +95,7 @@ const findWishListByUserId = (req, res) => {
 
 const moveWishListItemToCart = (req, res) => {
   const { id, product_id } = req.params;
-  userService
+  return userService
     .moveItem(MOVETOCART, id, product_id)
     .then(list => res.json(list))
     .catch(err => res.status(400).json(err));
