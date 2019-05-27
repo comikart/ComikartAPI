@@ -9,8 +9,4 @@ const findPaymentTypeById = id => knex('payment_type').where({ id });
 module.exports = {
   findAllPaymentType,
   findPaymentTypeById,
-  savePaymentType,
-  updatePaymentType,
-  deletePaymentType,
-  deletePaymentTypeById,
 };
