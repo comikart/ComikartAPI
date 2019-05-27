@@ -20,7 +20,12 @@ const findPaymentTypeById = id =>
       ? resolve(paymentType[0])
       : id === 2
       ? resolve(paymentType[1])
-      : typeof id === "number"
+      : typeof id === 'number'
       ? resolve([])
       : reject('Invalid ID was passed');
   });
+
+module.exports = {
+  findAllPaymentTypes,
+  findPaymentTypeById,
+};
