@@ -1,14 +1,20 @@
 const knex = require('../../db/knex');
 
-const findAllProducts = () => knex('product').select();
+const findAllProducts = (page, count) =>
+  knex('product')
+    .select()
+    .limit(count)
+    .offset(page * count - count);
 
 const findProductById = id => knex('product').where({ id });
 
-const findProductByCategory = category =>
+const findProductByCategory = (category, page, count) =>
   knex
     .from('product')
     .innerJoin('category', 'product.category_id', 'category.id')
-    .where('category.title', '=', category);
+    .where('category.title', '=', category)
+    .limit(count)
+    .offset(page * count - count);
 
 const saveProduct = product => knex('product').insert(product);
 
