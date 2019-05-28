@@ -1,7 +1,12 @@
 const knex = require('../../db/knex');
 
 // GET
-const findAllPaymentOption = () => knex('payment_option').select();
+const findAllPaymentOptionByUser = id =>
+  knex
+  .from('payment_option')
+  .innerJoin('payment_type', 'payment_option.type_id', 'payment_type.id')
+  .where({ user_id: id });
+
 
 // GET by Id
 const findAllPaymentOptionById = id => knex('payment_option').where({ id });
@@ -29,7 +34,7 @@ const deletePaymentOptionById = id =>
     .del();
 
 module.exports = {
-  findAllPaymentOption,
+  findAllPaymentOptionByUser,
   findAllPaymentOptionById,
   savePaymentOption,
   updatePaymentOption,
