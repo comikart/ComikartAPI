@@ -12,7 +12,7 @@ const service = require('../services/paymentOptionService');
  *  HTTP/1.1 200 OK
  *  [
  *    {
- *        "credit_card": 424242424242,
+ *      "credit_card": 424242424242,
  *      "billing_address": "123 whambam st",
  *      "exp": "05/20",
  *      "security_number": 444,

@@ -37,18 +37,17 @@ const paymentOptions = [
   },
 ];
 
-const findAllPaymentOptionByUser = id => {
+const findAllPaymentOptionByUser = id =>
   new Promise((resolve, reject) => {
     id === 1
-      ? resolve(paymentOptions.filter(option => (option.user_id = 1)))
+      ? resolve(paymentOptions.filter(option => option.user_id === 1))
       : id === 2
-      ? resolve(paymentOptions.filter(option => (option.user_id = 2)))
+      ? resolve(paymentOptions.filter(option => option.user_id === 2))
       : id === 3
-      ? resolve(paymentOptions.filter(option => (option.user_id = 3)))
+      ? resolve(paymentOptions.filter(option => option.user_id === 3))
       : reject('ID passed is invalid');
   });
-};
-
+  
 module.exports = {
   findAllPaymentOptionByUser,
 };

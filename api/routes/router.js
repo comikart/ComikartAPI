@@ -3,9 +3,10 @@ const { authorization, authenticate } = require('../utils/security');
 const userController = require('../controllers/userController');
 const {
   findAllProducts,
-  findProductById
+  findProductById,
 } = require('../controllers/productController');
 const reviewController = require('../controllers/reviewController');
+const paymentOptionController = require('../controllers/paymentOptionController');
 
 router.use('/user/login', authenticate, userController.login);
 router.route('/user/register').post(userController.register);
@@ -42,5 +43,8 @@ router
 router
   .route('/product/:product_id/review/:review_id/helpful')
   .post(reviewController.saveHelpful);
+router
+  .route('/paymentoption/:id')
+  .get(paymentOptionController.findAllPaymentOptionByUser);
 
 module.exports = router;
