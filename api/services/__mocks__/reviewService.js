@@ -39,6 +39,11 @@ const comments = [
   { id: 3, user_id: 1, review_id: 1, description: 'third comment' }
 ];
 
+const findAllReviews = () =>
+  new Promise((resolve, reject) => {
+    resolve(reviews);
+  });
+
 const findReviewByProductId = product_id =>
   new Promise((resolve, reject) => {
     product_id === 1
@@ -56,7 +61,7 @@ const findReviewAndHelpfulById = review_id =>
       ? resolve({ rows: [review] })
       : typeof review === 'number'
       ? resolve({ rows: [] })
-      : reject('required param id is missing.');
+      : reject('required param id is missing');
   });
 
 const findAllCommentsByReviewId = review_id =>
@@ -69,8 +74,45 @@ const findAllCommentsByReviewId = review_id =>
 
     resolve(filteredComments);
   });
+
+const saveReview = review =>
+  new Promise((resolve, reject) => {
+    review.id = 5;
+
+    resolve(review);
+  });
+
+const deleteReview = review_id =>
+  new Promise((resolve, reject) => {
+    resolve({});
+  });
+
+const saveComment = comment =>
+  new Promise((resolve, reject) => {
+    comment.id = 4;
+
+    resolve(comment);
+  });
+
+const deleteCommentById = id =>
+  new Promise((resolve, reject) => {
+    resolve();
+  });
+
+const saveHelpful = helpful =>
+  new Promise((resolve, reject) => {
+    helpful.id = 1;
+    resolve(helpful);
+  });
+
 module.exports = {
+  findAllReviews,
   findReviewByProductId,
   findReviewAndHelpfulById,
-  findAllCommentsByReviewId
+  findAllCommentsByReviewId,
+  saveReview,
+  deleteReview,
+  saveComment,
+  deleteCommentById,
+  saveHelpful
 };

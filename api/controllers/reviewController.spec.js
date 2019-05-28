@@ -33,7 +33,17 @@ beforeEach(() => {
 });
 
 describe('/api/review', () => {
-  describe('/', () => {
+  describe('', () => {
+    it('should return all reviews in the database', done => {
+      controller.findAllReviews(req, res).then(response => {
+        expect(response.body.length).toBe(4);
+
+        done();
+      });
+    });
+  });
+
+  describe('/{product_id}', () => {
     it('should return a collection of reviews that belong to a product', done => {
       req.params.product_id = 1;
       controller.findReviewByProductId(req, res).then(response => {
@@ -68,6 +78,14 @@ describe('/api/review', () => {
       req.params.review_id = id;
       controller.findReviewById(req, res).then(response => {
         expect(response.body.id).toBe(id);
+
+        done();
+      });
+    });
+
+    it('should return an error message', done => {
+      controller.findReviewById(req, res).then(response => {
+        expect(response.body).toBe('required param id is missing');
 
         done();
       });
