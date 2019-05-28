@@ -48,3 +48,7 @@ const findAllPaymentOptionByUser = id => {
       : reject('ID passed is invalid');
   });
 };
+
+module.exports = {
+  findAllPaymentOptionByUser,
+};

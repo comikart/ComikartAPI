@@ -32,15 +32,15 @@ const service = require('../services/paymentOptionService');
  *  ]
  */
 
-const findAllPaymentOptionsByUser = (req, res) => {
+const findAllPaymentOptionByUser = (req, res) => {
   const { id } = req.params;
 
   return service
-    .findAllPaymentOptionsByUser(id)
+    .findAllPaymentOptionByUser(id)
     .then(paymentOptions => res.json(paymentOptions))
     .catch(err => res.status(400).json(err));
 };
 
 module.exports = {
-  findAllPaymentOptionsByUser,
+  findAllPaymentOptionByUser,
 };

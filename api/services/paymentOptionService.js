@@ -3,10 +3,9 @@ const knex = require('../../db/knex');
 // GET
 const findAllPaymentOptionByUser = id =>
   knex
-  .from('payment_option')
-  .innerJoin('payment_type', 'payment_option.type_id', 'payment_type.id')
-  .where({ user_id: id });
-
+    .from('payment_option')
+    .innerJoin('payment_type', 'payment_option.type_id', 'payment_type.id')
+    .where({ user_id: id });
 
 // GET by Id
 const findAllPaymentOptionById = id => knex('payment_option').where({ id });
