@@ -24,7 +24,7 @@ const findReviewById = (req, res) => {
   ])
     .then(arr => {
       const review = Object.assign({}, arr[0].rows[0], { comments: arr[1] });
-      res.json(review);
+      return res.json(review);
     })
     .catch(err => res.status(500).json(err));
 };

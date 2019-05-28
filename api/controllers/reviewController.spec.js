@@ -61,4 +61,16 @@ describe('/api/review', () => {
       });
     });
   });
+
+  describe('/{review_id}', () => {
+    it('should find and return a review by id', done => {
+      const id = 1;
+      req.params.review_id = id;
+      controller.findReviewById(req, res).then(response => {
+        expect(response.body.id).toBe(id);
+
+        done();
+      });
+    });
+  });
 });
