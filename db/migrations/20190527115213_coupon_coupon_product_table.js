@@ -26,5 +26,5 @@ exports.up = function(knex, Promise) {
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('coupon').dropTable('coupon_product');
+  return knex.schema.dropTable('coupon_product').dropTable('coupon');
 };
