@@ -77,12 +77,13 @@ const findAllCommentsByReviewId = review_id =>
 
 const saveReview = review =>
   new Promise((resolve, reject) => {
+    if (!review) reject('review object is missing');
     review.id = 5;
-
+    reviews.push(review);
     resolve(review);
   });
 
-const deleteReview = review_id =>
+const deleteReviewById = review_id =>
   new Promise((resolve, reject) => {
     resolve({});
   });
@@ -90,7 +91,7 @@ const deleteReview = review_id =>
 const saveComment = comment =>
   new Promise((resolve, reject) => {
     comment.id = 4;
-
+    comments.push(comment);
     resolve(comment);
   });
 
@@ -111,7 +112,7 @@ module.exports = {
   findReviewAndHelpfulById,
   findAllCommentsByReviewId,
   saveReview,
-  deleteReview,
+  deleteReviewById,
   saveComment,
   deleteCommentById,
   saveHelpful

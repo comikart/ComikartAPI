@@ -91,4 +91,55 @@ describe('/api/review', () => {
       });
     });
   });
+
+  describe('/', () => {
+    it('should save and return the review', done => {
+      req.body.review = {
+        user_id: 1,
+        score: 4,
+        title: 'Hello',
+        description: 'World!'
+      };
+      req.params.product_id = 1;
+
+      controller.saveReview(req, res).then(response => {
+        expect(response.body.length).toBe(5);
+
+        done();
+      });
+    });
+
+    it('should return an error message', done => {
+      req.params.product_id = 1;
+
+      const response = controller.saveReview(req, res);
+      expect(response.body.message).toBe('review object is missing');
+
+      done();
+    });
+  });
+
+  describe('/{review_id}', () => {
+    it('should delete the review by id', done => {
+      req.params.review_id = 1;
+      controller.deleteReview(req, res).then(response => {
+        expect(response.body).toBeTruthy();
+
+        done();
+      });
+    });
+  });
+
+  describe('/{review_id}/comment', () => {
+    it('should save a comment and return the updated collection of comments', done => {
+      req.body.comment = { user_id: 1, description: 'this is a comment' };
+      req.params.review_id = 1;
+
+      controller.saveComment(req, res).then(response => {
+        expect(response.body.length).toBe(4);
+
+        done();
+      });
+    });
+  });
 });
