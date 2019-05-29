@@ -72,7 +72,7 @@ const saveComment = (req, res) => {
   return service
     .saveComment(comment)
     .then(() => service.findAllCommentsByReviewId(review_id))
-    .then(comments => res.json(comments))
+    .then(comments => res.status(201).json(comments))
     .catch(err => res.status(400).json(err));
 };
 

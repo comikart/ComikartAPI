@@ -137,6 +137,32 @@ describe('/api/review', () => {
 
       controller.saveComment(req, res).then(response => {
         expect(response.body.length).toBe(4);
+        expect(response.status).toBe(201);
+
+        done();
+      });
+    });
+  });
+
+  describe('/{review_id}/comment/{comment_id}', () => {
+    it('should delete a comment', done => {
+      req.params.comment_id = 1;
+      req.params.review_id = 1;
+
+      controller.deleteComment(req, res).then(response => {
+        expect(response.body).toBeTruthy();
+        expect(response.status).toBe(204);
+        done();
+      });
+    });
+  });
+
+  describe('/{review_id}/helpful', () => {
+    it('should save and return an updated review with its helpful count', done => {
+      req.body.helpful = { user_id: 1 };
+      req.params.review_id = 1;
+      controller.saveHelpful(req, res).then(response => {
+        expect(response.status).toBe(201);
 
         done();
       });
