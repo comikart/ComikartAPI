@@ -8,7 +8,7 @@ const findAllPaymentOptionByUser = id =>
     .where({ user_id: id });
 
 // GET by Id
-const findAllPaymentOptionById = id => knex('payment_option').where({ id });
+const findPaymentOptionById = id => knex('payment_option').where({ id });
 
 // POST
 const savePaymentOption = paymentOption =>
@@ -34,7 +34,7 @@ const deletePaymentOptionById = id =>
 
 module.exports = {
   findAllPaymentOptionByUser,
-  findAllPaymentOptionById,
+  findPaymentOptionById,
   savePaymentOption,
   updatePaymentOption,
   deletePaymentOption,

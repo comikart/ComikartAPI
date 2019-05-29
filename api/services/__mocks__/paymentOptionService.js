@@ -48,7 +48,7 @@ const findAllPaymentOptionByUser = id =>
       : reject('ID passed is invalid');
   });
 
-const findAllPaymentOptionById = id =>
+const findPaymentOptionById = id =>
   new Promise((resolve, reject) => {
     id === 1
       ? resolve(paymentOptions[0])
@@ -61,7 +61,9 @@ const findAllPaymentOptionById = id =>
       : reject('ID passed is invalid');
   });
 
+  const 
+
 module.exports = {
   findAllPaymentOptionByUser,
-  findAllPaymentOptionById,
+  findPaymentOptionById,
 };

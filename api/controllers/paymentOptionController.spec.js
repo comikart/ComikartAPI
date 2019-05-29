@@ -80,3 +80,94 @@ describe('/api/paymentoption/:userid', () => {
     });
   });
 });
+
+describe('/api/paymentoption/:id', () => {
+  describe('/?(id = 1)', () => {
+    it('Should return the payment option with an ID of 1', done => {
+      const id = 1;
+      const req = new Request();
+      const res = new Response();
+      req.params.id = id;
+      const obj = {
+        credit_card: 424242424242,
+        billing_address: '123 whambam st',
+        exp: '05/20',
+        security_number: 444,
+        active: false,
+        user_id: 1,
+        type_id: 1,
+      };
+
+      controller.findPaymentOptionById(req, res).then(response => {
+        expect(response.body).toEqual(obj);
+        done();
+      });
+    });
+  });
+  describe('/?(id = 2)', () => {
+    it('Should return the payment option with an ID of 2', done => {
+      const id = 2;
+      const req = new Request();
+      const res = new Response();
+      req.params.id = id;
+      const obj = {
+        credit_card: 4242424242423,
+        billing_address: '424 whambam st',
+        exp: '05/20',
+        security_number: 444,
+        active: false,
+        user_id: 2,
+        type_id: 2,
+      };
+
+      controller.findPaymentOptionById(req, res).then(response => {
+        expect(response.body).toEqual(obj);
+        done();
+      });
+    });
+  });
+  describe('/?(id = 3)', () => {
+    it('Should return the payment option with an ID of 3', done => {
+      const id = 3;
+      const req = new Request();
+      const res = new Response();
+      req.params.id = id;
+      const obj = {
+        credit_card: 324242424242,
+        billing_address: '324 whambam st',
+        exp: '05/20',
+        security_number: 444,
+        active: false,
+        user_id: 3,
+        type_id: 2,
+      };
+
+      controller.findPaymentOptionById(req, res).then(response => {
+        expect(response.body).toEqual(obj);
+        done();
+      });
+    });
+  });
+  describe('/?(id = 4)', () => {
+    it('Should return the payment option with an ID of 4', done => {
+      const id = 4;
+      const req = new Request();
+      const res = new Response();
+      req.params.id = id;
+      const obj = {
+        credit_card: 324242424242,
+        billing_address: '324 whambam st',
+        exp: '05/20',
+        security_number: 444,
+        active: false,
+        user_id: 1,
+        type_id: 2,
+      };
+
+      controller.findPaymentOptionById(req, res).then(response => {
+        expect(response.body).toEqual(obj);
+        done();
+      });
+    });
+  });
+});
