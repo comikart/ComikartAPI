@@ -24,7 +24,7 @@ const findReviewById = (req, res) => {
   ])
     .then(arr => {
       const review = Object.assign({}, arr[0].rows[0], { comments: arr[1] });
-      res.json(review);
+      return res.json(review);
     })
     .catch(err => res.status(500).json(err));
 };
@@ -33,11 +33,13 @@ const saveReview = (req, res) => {
   const { review } = req.body;
   const { product_id } = req.params;
 
-  if (!review.product_id) {
-    review.product_id = product_id;
+  if (!review) {
+    return res.status(400).json({ message: 'review object is missing' });
   }
 
-  service
+  review.product_id = product_id;
+
+  return service
     .saveReview(review)
     .then(() => service.findReviewByProductId(product_id))
     .then(reviews => res.json(reviews))
@@ -47,7 +49,7 @@ const saveReview = (req, res) => {
 const deleteReview = (req, res) => {
   const { review_id } = req.params;
 
-  service
+  return service
     .deleteReviewById(review_id)
     .then(() => res.status(204).json({}))
     .catch(err => res.status(400).json(err));
@@ -56,7 +58,7 @@ const deleteReview = (req, res) => {
 const findAllCommentsByReviewId = (req, res) => {
   const { review_id } = req.params;
 
-  service
+  return service
     .findAllCommentsByReviewId(review_id)
     .then(comments => res.json(comments));
 };
@@ -67,17 +69,17 @@ const saveComment = (req, res) => {
 
   comment.review_id = review_id;
 
-  service
+  return service
     .saveComment(comment)
     .then(() => service.findAllCommentsByReviewId(review_id))
-    .then(comments => res.json(comments))
+    .then(comments => res.status(201).json(comments))
     .catch(err => res.status(400).json(err));
 };
 
 const deleteComment = (req, res) => {
   const { comment_id } = req.params;
 
-  service
+  return service
     .deleteCommentById(comment_id)
     .then(() => res.status(204).json({}))
     .catch(err => res.status(400).json(err));
@@ -89,7 +91,7 @@ const saveHelpful = (req, res) => {
 
   helpful.review_id = review_id;
 
-  service
+  return service
     .saveHelpful(helpful)
     .then(() => service.findReviewAndHelpfulById(review_id))
     .then(({ rows }) => res.status(201).json(rows[0]))
