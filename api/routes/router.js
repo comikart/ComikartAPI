@@ -43,8 +43,12 @@ router
 router
   .route('/product/:product_id/review/:review_id/helpful')
   .post(reviewController.saveHelpful);
+// Route for Payment Option
+router
+  .route('/paymentoption/:userid')
+  .get(paymentOptionController.findAllPaymentOptionByUser);
 router
   .route('/paymentoption/:id')
-  .get(paymentOptionController.findAllPaymentOptionByUser);
+  .get(paymentOptionController.findAllPaymentOptionById);
 
 module.exports = router;

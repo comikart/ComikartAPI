@@ -53,16 +53,15 @@ const findAllPaymentOptionById = id =>
     id === 1
       ? resolve(paymentOptions[0])
       : id === 2
-      ? resolve(paymentOption[1])
+      ? resolve(paymentOptions[1])
       : id === 3
-      ? resolve(paymentOption[2])
+      ? resolve(paymentOptions[2])
       : id === 4
-      ? resolve(paymentOption[3])
+      ? resolve(paymentOptions[3])
       : reject('ID passed is invalid');
   });
 
 module.exports = {
   findAllPaymentOptionByUser,
   findAllPaymentOptionById,
-  
 };
