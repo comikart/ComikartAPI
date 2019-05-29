@@ -8,6 +8,7 @@ const {
 const reviewController = require('../controllers/reviewController');
 const paymentOptionController = require('../controllers/paymentOptionController');
 
+// <============= User ===========>
 router.use('/user/login', authenticate, userController.login);
 router.route('/user/register').post(userController.register);
 router.route('/user/:id').get(userController.findUserById);
@@ -19,6 +20,17 @@ router.route('/user/:id/wishlist').get(userController.findWishListByUserId);
 router
   .route('/user/:id/wishlist/:product_id')
   .get(userController.moveWishListItemToCart);
+router
+  .route('/user/:id/paymentoption/')
+  .get(paymentOptionController.findAllPaymentOptionByUser);
+router
+  .route('/user/paymentoption/:id')
+  .get(paymentOptionController.findPaymentOptionById);
+router
+  .route('/user/paymentoption')
+  .post(paymentOptionController.savePaymentOption);
+
+// <============= Product ===========>
 router.route('/product').get(findAllProducts);
 router.route('/product/:id').get(findProductById);
 router
@@ -43,12 +55,5 @@ router
 router
   .route('/product/:product_id/review/:review_id/helpful')
   .post(reviewController.saveHelpful);
-// Route for Payment Option
-router
-  .route('/paymentoption/:userid')
-  .get(paymentOptionController.findAllPaymentOptionByUser);
-router
-  .route('/paymentoption/:id')
-  .get(paymentOptionController.findAllPaymentOptionById);
 
 module.exports = router;
