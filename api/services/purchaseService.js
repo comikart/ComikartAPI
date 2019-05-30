@@ -1,11 +1,15 @@
 const knex = require('../../db/knex');
+const statusService = require('./statusService');
 
-const findPurchaseByUserId = user_id => knex('purchase').where({ user_id });
+const findPurchaseById = id => knex('purchase').where({ id });
 
-const findPurchaseByStatusId = status_id =>
-  knex('purchase')
-    .where({ status_id })
-    .orderBy('date_created', 'desc');
+const findPurchaseByUserId = (user_id, status) => {
+  !status ? (status = 'open') : null;
+
+  return statusService
+    .findStatusByTitle(status)
+    .then(status => knex('purchase').where({ user_id, status_id: status.id }));
+};
 
 const savePurchase = (id, purchase) => {
   purchase.user_id = id;
@@ -20,8 +24,8 @@ const deletePurchaseById = id =>
     .del();
 
 module.exports = {
+  findPurchaseById,
   findPurchaseByUserId,
-  findPurchaseByStatusId,
   savePurchase,
   updatePurchase,
   deletePurchaseById
