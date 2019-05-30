@@ -12,7 +12,7 @@ const findPurchaseById = id => {
     .then(purchase =>
       Promise.all([
         invoiceService.findInvoiceById(purchase.invoice_id),
-        findProductByPurchaseId(purchase.id)
+        findPurchaseProductByPurchaseId(purchase.id)
       ]).then(arr =>
         Object.assign({}, purchase, {
           invoice: arr[0],
@@ -22,7 +22,7 @@ const findPurchaseById = id => {
     );
 };
 
-const findProductByPurchaseId = purchase_id =>
+const findPurchaseProductByPurchaseId = purchase_id =>
   knex('purchase_product').where({ purchase_id });
 
 const findPurchaseByUserId = (user_id, status) => {
