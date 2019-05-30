@@ -29,6 +29,9 @@ router
 router
   .route('/user/:id/paymentoption')
   .post(paymentOptionController.savePaymentOption);
+router
+  .route('/user/:id/paymentoption/:paymentoption_id')
+  .put(paymentOptionController.updatePaymentOption);
 
 // <============= Product ===========>
 router.route('/product').get(findAllProducts);
