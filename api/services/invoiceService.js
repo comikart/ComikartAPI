@@ -4,7 +4,10 @@ const knex = require('../../db/knex');
 const findAllInvoices = () => knex('invoice').select();
 
 // GET invoice by Id
-const findInvoiceById = id => knex('invoice').where({ id });
+const findInvoiceById = id =>
+  knex('invoice')
+    .where({ id })
+    .first();
 
 // POST invoice
 const saveInvoice = invoice => knex('invoice').insert(invoice);
@@ -30,5 +33,5 @@ module.exports = {
   saveInvoice,
   updateInvoice,
   deleteInvoice,
-  deleteInvoiceById,
+  deleteInvoiceById
 };

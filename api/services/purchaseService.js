@@ -1,7 +1,23 @@
 const knex = require('../../db/knex');
 const statusService = require('./statusService');
+const invoiceService = require('./invoiceService');
 
-const findPurchaseById = id => knex('purchase').where({ id });
+const findPurchaseById = id => {
+  return knex('purchase')
+    .where({ id })
+    .first()
+    .then(purchase => {
+      return Promise.all([
+        invoiceService.findInvoiceById(purchase.invoice_id),
+        findProductByPurchaseId(purchase.id)
+      ]).then(arr =>
+        Object.assign({}, purchase, { invoice: arr[0], products: arr[1] })
+      );
+    });
+};
+
+const findProductByPurchaseId = purchase_id =>
+  knex('purchase_product').where({ purchase_id });
 
 const findPurchaseByUserId = (user_id, status) => {
   !status && (status = 'open');
