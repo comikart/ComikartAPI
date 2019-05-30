@@ -15,9 +15,10 @@ const savePurchase = (req, res) => {
 
 const findPurchaseByUserId = (req, res) => {
   const { id } = req.params;
+  const { status } = req.query;
 
   return service
-    .findPurchaseByUserId(id)
+    .findPurchaseByUserId(id, status)
     .then(purchases => res.json(purchases))
     .catch(err => res.status(400).json(err));
 };

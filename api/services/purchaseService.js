@@ -4,7 +4,7 @@ const statusService = require('./statusService');
 const findPurchaseById = id => knex('purchase').where({ id });
 
 const findPurchaseByUserId = (user_id, status) => {
-  !status ? (status = 'open') : null;
+  !status && (status = 'open');
 
   return statusService
     .findStatusByTitle(status)
