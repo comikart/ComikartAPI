@@ -75,14 +75,16 @@ const savePaymentOption = (paymentOption, id) =>
 
 const updatePaymentOption = (paymentOption, id) =>
   new Promise((resolve, reject) => {
-    const index = paymentOptions.map((i, paymentObject) =>
-      paymentObject.id === id ? i : false,
-    );
-    if (index) {
-      paymentOptions.splice(index, 1, paymentOption);
-      resolve(paymentOptions);
+    if (paymentOption) {
+      const index = paymentOptions.map((i, paymentObject) =>
+        paymentObject.id === id ? i : false,
+      );
+      if (index) {
+        paymentOptions.splice(index, 1, paymentOption);
+        resolve(paymentOptions);
+      } else reject('No payment option found');
     }
-    else reject("No payment option found")
+    else reject('No payment option found');
   });
 
 module.exports = {

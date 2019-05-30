@@ -230,3 +230,46 @@ describe('/user/:id/paymentoption', () => {
     });
   });
 });
+
+describe('/user/:id/paymentoption/:paymentoption_id', () => {
+  describe('Update a payment option by id', () => {
+    it('Should return the updated payment options', done => {
+      const req = new Request();
+      const res = new Response();
+
+      const obj = {
+        credit_card: 324242424242,
+        billing_address: '123 whambam st',
+        exp: '05/20',
+        security_number: 444,
+        active: false,
+        type_id: 1,
+        user_id: 1,
+      };
+
+      req.body.paymentOption = obj;
+      req.params.id = 1;
+      req.params.paymentoption_id = 1;
+
+      controller.updatePaymentOption(req, res).then(response => {
+        expect(response.body[0]).toEqual(obj);
+        done();
+      })
+    })
+  });
+
+  describe('No payment object sent', () => {
+    it('Error "No payment option found"', done => {
+      const req = new Request();
+      const res = new Response();
+
+      req.params.id = 1;
+      req.params.paymentoption_id = 1;
+
+      controller.updatePaymentOption(req, res).then(response => {
+        expect(response.body).toEqual("No payment option found");
+        done();
+      })
+    })
+  });
+})

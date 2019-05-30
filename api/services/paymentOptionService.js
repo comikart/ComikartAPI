@@ -18,10 +18,12 @@ const savePaymentOption = (paymentOption, id) => {
 };
 
 // PUT
-const updatePaymentOption = (paymentOption, id) =>
+const updatePaymentOption = (paymentOption, id) => {
+  if (!paymentOption) return;
   knex('payment_option')
     .where({ id })
     .update(paymentOption);
+};
 
 // DELETE
 const deletePaymentOption = paymentOption =>
