@@ -1,7 +1,7 @@
 const service = require('../services/paymentOptionService');
 
 /**
- * @api {get} /api/paymentoption/:userid Retrieve All Payment Options By ID
+ * @api {get} /api//user/:id/paymentoption Retrieve All Payment Options By ID
  * @apiVersion 1.0.0
  * @apiName GETPaymentOptions
  * @apiGroup PaymentOptions
@@ -42,7 +42,7 @@ const findAllPaymentOptionByUser = (req, res) => {
 };
 
 /**
- * @api {get} /api/paymentoption/:id Retrieve All Payment Options By ID
+ * @api {get} /api/user/paymentoption/:id Retrieve All Payment Options By ID
  * @apiVersion 1.0.0
  * @apiName GETPaymentOptions
  * @apiGroup PaymentOptions
@@ -67,17 +67,17 @@ const findPaymentOptionById = (req, res) => {
 
   return service
     .findPaymentOptionById(id)
-    .then(paymentOptions => res.json(paymentOptions))
+    .then(paymentOptions => res.status(200).json(paymentOptions))
     .catch(err => res.status(400).json(err));
 };
 
 /**
- * @api {get} /api/paymentoption/:id Retrieve All Payment Options By ID
+ * @api {get} /api/user/:id/paymentoption Retrieve All Payment Options By ID
  * @apiVersion 1.0.0
- * @apiName GETPaymentOptions
+ * @apiName POSTPaymentOption
  * @apiGroup PaymentOptions
  *
- * @apiSuccess {object[]} List all payment options
+ * @apiSuccess {object[]} Payment Option object, success
  * @apiParam {Param} ID is user ID, used to find all payment options
  * @apiSuccessExample Success-Response:
  *  HTTP/1.1 200 OK
@@ -92,16 +92,21 @@ const findPaymentOptionById = (req, res) => {
  *    },
  */
 
-const findPaymentOptionById = (req, res) => {
+const savePaymentOption = (req, res) => {
+  const { paymentOption, paymentType } = req.body;
   const { id } = req.params;
 
+  paymentOption.user_id = id;
+  paymentOption.type_id = paymentType.id;
+
   return service
-    .findPaymentOptionById(id)
-    .then(paymentOptions => res.json(paymentOptions))
+    .savePaymentOption(paymentOption)
+    .then(paymentOption => res.status(201).json(paymentOption))
     .catch(err => res.status(400).json(err));
 };
 
 module.exports = {
   findAllPaymentOptionByUser,
   findPaymentOptionById,
+  savePaymentOption,
 };
