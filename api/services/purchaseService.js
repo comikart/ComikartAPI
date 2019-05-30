@@ -7,7 +7,10 @@ const findPurchaseByStatusId = status_id =>
     .where({ status_id })
     .orderBy('date_created', 'desc');
 
-const savePurchase = purchase => knex('purchase').insert(purchase);
+const savePurchase = (id, purchase) => {
+  purchase.user_id = id;
+  return knex('purchase').insert(purchase);
+};
 
 const updatePurchase = purchase => knex('purchase').update(purchase);
 

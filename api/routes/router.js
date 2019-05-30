@@ -6,6 +6,7 @@ const {
   findProductById
 } = require('../controllers/productController');
 const reviewController = require('../controllers/reviewController');
+const purchaseController = require('../controllers/purchaseController');
 
 router.use('/user/login', authenticate, userController.login);
 router.route('/user/register').post(userController.register);
@@ -18,6 +19,7 @@ router.route('/user/:id/wishlist').get(userController.findWishListByUserId);
 router
   .route('/user/:id/wishlist/:product_id')
   .get(userController.moveWishListItemToCart);
+router.route('/user/:id/purchase').post(purchaseController);
 router.route('/product').get(findAllProducts);
 router.route('/product/:id').get(findProductById);
 router
