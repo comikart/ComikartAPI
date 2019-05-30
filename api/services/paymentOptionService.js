@@ -13,6 +13,7 @@ const findPaymentOptionById = id => knex('payment_option').where({ id });
 // POST
 const savePaymentOption = (paymentOption, id) => {
   paymentOption.user_id = id;
+  if (paymentOption.type_id > 2) return;
   return knex('payment_option').insert(paymentOption);
 };
 

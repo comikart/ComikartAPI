@@ -63,7 +63,7 @@ const findPaymentOptionById = id =>
 
 const savePaymentOption = (paymentOption, id) => 
   new Promise((resolve, reject) => {
-    if (!paymentOption) reject("No payment option found");
+    if (!paymentOption || paymentOption.type_id > 2) reject("No payment option found");
     else {
       paymentOption.id = 5;
       paymentOption.user_id = id;
