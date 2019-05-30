@@ -18,7 +18,7 @@ const savePaymentOption = (paymentOption, id) => {
 };
 
 // PUT
-const updatePaymentOption = (id, paymentOption) =>
+const updatePaymentOption = (paymentOption, id) =>
   knex('payment_option')
     .where({ id })
     .update(paymentOption);
