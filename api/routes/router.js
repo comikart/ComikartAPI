@@ -24,7 +24,7 @@ router
   .route('/user/:id/paymentoption/')
   .get(paymentOptionController.findAllPaymentOptionByUser);
 router
-  .route('/user/:id/paymentoption/:payment_id')
+  .route('/user/:id/paymentoption/:paymentoption_id')
   .get(paymentOptionController.findPaymentOptionById);
 router
   .route('/user/:id/paymentoption')
