@@ -24,10 +24,10 @@ router
   .route('/user/:id/paymentoption/')
   .get(paymentOptionController.findAllPaymentOptionByUser);
 router
-  .route('/user/paymentoption/:id')
+  .route('/user/:id/paymentoption/:payment_id')
   .get(paymentOptionController.findPaymentOptionById);
 router
-  .route('/user/paymentoption')
+  .route('/user/:id/paymentoption')
   .post(paymentOptionController.savePaymentOption);
 
 // <============= Product ===========>
