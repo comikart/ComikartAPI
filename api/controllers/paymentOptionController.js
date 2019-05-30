@@ -98,7 +98,8 @@ const savePaymentOption = (req, res) => {
 
   return service
     .savePaymentOption(paymentOption, id)
-    .then(paymentOption => res.status(201).json(paymentOption))
+    .then(() => service.findAllPaymentOptionByUser(id))
+    .then(paymentOptions => res.status(201).json(paymentOptions))
     .catch(err => res.status(400).json(err));
 };
 
