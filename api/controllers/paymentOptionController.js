@@ -103,8 +103,41 @@ const savePaymentOption = (req, res) => {
     .catch(err => res.status(400).json(err));
 };
 
+/**
+ * @api {get} /api/user/:id/paymentoption/:paymentoption_id Update the payment option by ID
+ * @apiVersion 1.0.0
+ * @apiName PUTPaymentOption
+ * @apiGroup PaymentOptions
+ *
+ * @apiSuccess {object[]} Payment Option object, success
+ * @apiParam {Param} ID is user ID, used to find all payment options
+ * @apiSuccessExample Success-Response:
+ *  HTTP/1.1 200 OK
+ *    {
+ *      "credit_card": 424242424242,
+ *      "billing_address": "123 whambam st",
+ *      "exp": "05/20",
+ *      "security_number": 444,
+ *      "active": false,
+ *      "user_id": 1,
+ *      "type_id": 1,
+ *    },
+ */
+
+const updatePaymentOption = (req, res) => {
+  const { paymentOption } = req.body;
+  const { id, paymentoption_id } = req.params;
+
+  return service
+    .updatePaymentOption(paymentOption, paymentoption_id)
+    .then(() => service.findAllPaymentOptionByUser(id))
+    .then(paymentOptions => res.status(201).json(paymentOptions))
+    .catch(err => res.status(400).json(err));
+};
+
 module.exports = {
   findAllPaymentOptionByUser,
   findPaymentOptionById,
   savePaymentOption,
+  updatePaymentOption,
 };
