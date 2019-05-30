@@ -37,7 +37,7 @@ const findAllPaymentOptionByUser = (req, res) => {
 
   return service
     .findAllPaymentOptionByUser(id)
-    .then(paymentOptions => res.json(paymentOptions))
+    .then(paymentOptions => res.status(200).json(paymentOptions))
     .catch(err => res.status(400).json(err));
 };
 
@@ -80,7 +80,7 @@ const findPaymentOptionById = (req, res) => {
  * @apiSuccess {object[]} Payment Option object, success
  * @apiParam {Param} ID is user ID, used to find all payment options
  * @apiSuccessExample Success-Response:
- *  HTTP/1.1 200 OK
+ *  HTTP/1.1 201 OK
  *    {
  *      "credit_card": 424242424242,
  *      "billing_address": "123 whambam st",

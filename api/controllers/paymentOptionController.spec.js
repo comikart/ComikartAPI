@@ -23,7 +23,7 @@ class Response {
   }
 }
 
-describe('/api/paymentoption/:userid', () => {
+describe('/user/:id/paymentoption', () => {
   describe('/?(user_id = 1)', () => {
     it('Should return all payment options for user ID = 1', done => {
       const user_id = 1;
@@ -81,7 +81,7 @@ describe('/api/paymentoption/:userid', () => {
   });
 });
 
-describe('/api/paymentoption/:id', () => {
+describe('/user/paymentoption/:id', () => {
   describe('/?(id = 1)', () => {
     it('Should return the payment option with an ID of 1', done => {
       const id = 1;
@@ -171,3 +171,5 @@ describe('/api/paymentoption/:id', () => {
     });
   });
 });
+
+
