@@ -61,9 +61,10 @@ const findPaymentOptionById = id =>
       : reject('ID passed is invalid');
   });
 
-const savePaymentOption = (paymentOption, id) => 
+const savePaymentOption = (paymentOption, id) =>
   new Promise((resolve, reject) => {
-    if (!paymentOption || paymentOption.type_id > 2) reject("No payment option found");
+    if (!paymentOption || paymentOption.type_id > 2)
+      reject('No payment option found');
     else {
       paymentOption.id = 5;
       paymentOption.user_id = id;
@@ -72,8 +73,21 @@ const savePaymentOption = (paymentOption, id) =>
     }
   });
 
+const updatePaymentOption = (paymentOption, id) =>
+  new Promise((resolve, reject) => {
+    const index = paymentOptions.map((i, paymentObject) =>
+      paymentObject.id === id ? i : false,
+    );
+    if (index) {
+      paymentOptions.splice(index, 1, paymentOption);
+      resolve(paymentOptions);
+    }
+    else reject("No payment option found")
+  });
+
 module.exports = {
   findAllPaymentOptionByUser,
   findPaymentOptionById,
   savePaymentOption,
+  updatePaymentOption,
 };
