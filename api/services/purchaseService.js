@@ -24,12 +24,7 @@ const findPurchaseById = id => {
 
 const findPurchaseProductByPurchaseId = purchase_id =>
   knex
-    .select(
-      'purchase_product.*',
-      knex.raw(
-        "json_build_object('id', product.id, 'title', product.title, 'unit_price', product.unit_price, 'is_discontinued', product.is_discontinued, 'author', product.author, 'description', product.description, 'series', product.series, 'paperback', product.paperback, 'publisher', product.publisher, 'isbn', product.isbn, 'weight', product.weight, 'dimensions', product.dimensions, 'product_code', product.product_code, 'category_id', product.category_id) as product"
-      )
-    )
+    .select('purchase_product.*', 'product.title as product_title')
     .innerJoin('product', 'purchase_product.product_id', 'product.id')
     .from('purchase_product')
     .where({ purchase_id });
