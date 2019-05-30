@@ -3,17 +3,23 @@ const statusService = require('./statusService');
 const invoiceService = require('./invoiceService');
 
 const findPurchaseById = id => {
-  return knex('purchase')
-    .where({ id })
+  return knex
+    .select('purchase.*', 'status.title as status')
+    .from('purchase')
+    .innerJoin('status', 'purchase.status_id', 'status.id')
+    .where('purchase.id', id)
     .first()
-    .then(purchase => {
-      return Promise.all([
+    .then(purchase =>
+      Promise.all([
         invoiceService.findInvoiceById(purchase.invoice_id),
         findProductByPurchaseId(purchase.id)
       ]).then(arr =>
-        Object.assign({}, purchase, { invoice: arr[0], products: arr[1] })
-      );
-    });
+        Object.assign({}, purchase, {
+          invoice: arr[0],
+          products: arr[1]
+        })
+      )
+    );
 };
 
 const findProductByPurchaseId = purchase_id =>
