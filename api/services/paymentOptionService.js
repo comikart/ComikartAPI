@@ -11,8 +11,10 @@ const findAllPaymentOptionByUser = id =>
 const findPaymentOptionById = id => knex('payment_option').where({ id });
 
 // POST
-const savePaymentOption = paymentOption =>
-  knex('payment_option').insert(paymentOption);
+const savePaymentOption = (paymentOption, id) => {
+  paymentOption.user_id = id;
+  return knex('payment_option').insert(paymentOption);
+};
 
 // PUT
 const updatePaymentOption = (id, paymentOption) =>
