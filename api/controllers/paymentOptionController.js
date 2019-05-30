@@ -67,7 +67,7 @@ const findPaymentOptionById = (req, res) => {
 
   return service
     .findPaymentOptionById(id)
-    .then(paymentOptions => res.status(200).json(paymentOptions))
+    .then(paymentOption => res.status(200).json(paymentOption))
     .catch(err => res.status(400).json(err));
 };
 
@@ -93,14 +93,11 @@ const findPaymentOptionById = (req, res) => {
  */
 
 const savePaymentOption = (req, res) => {
-  const { paymentOption, paymentType } = req.body;
+  const { paymentOption } = req.body;
   const { id } = req.params;
 
-  paymentOption.user_id = id;
-  paymentOption.type_id = paymentType.id;
-
   return service
-    .savePaymentOption(paymentOption)
+    .savePaymentOption(paymentOption, id)
     .then(paymentOption => res.status(201).json(paymentOption))
     .catch(err => res.status(400).json(err));
 };
