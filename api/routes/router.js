@@ -7,6 +7,7 @@ const {
 } = require('../controllers/productController');
 const reviewController = require('../controllers/reviewController');
 const paymentOptionController = require('../controllers/paymentOptionController');
+const purchaseController = require('../controllers/purchaseController');
 
 // <============= User ===========>
 router.use('/user/login', authenticate, userController.login);
@@ -32,7 +33,12 @@ router
 router
   .route('/user/:id/paymentoption/:paymentoption_id')
   .put(paymentOptionController.updatePaymentOption);
-
+router.route('/user/:id/purchase').get(purchaseController.findPurchaseByUserId);
+router.route('/user/:id/purchase').post(purchaseController.savePurchase);
+router
+  .route('/user/:id/purchase/:purchase_id')
+  .get(purchaseController.findPurchaseById);
+  
 // <============= Product ===========>
 router.route('/product').get(findAllProducts);
 router.route('/product/:id').get(findProductById);

@@ -6,6 +6,11 @@ const findAllStatus = () => knex('status').select();
 // GET by ID
 const findStatusById = id => knex('status').where({ id });
 
+const findStatusByTitle = title =>
+  knex('status')
+    .where({ title })
+    .first();
+
 // POST
 const saveStatus = status => knex('status').insert(status);
 
@@ -30,8 +35,9 @@ const deleteStatusById = id =>
 module.exports = {
   findAllStatus,
   findStatusById,
+  findStatusByTitle,
   saveStatus,
   updateStatus,
   deleteStatus,
-  deleteStatusById,
+  deleteStatusById
 };
