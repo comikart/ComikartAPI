@@ -100,7 +100,7 @@ describe('/api/user', () => {
 
     it('should return an error message', done => {
       controller.findCartByUserId(req, res).then(response => {
-        expect(response.body).toBe('no id was passed');
+        expect(response.body).toBe('Invalid ID was passed');
 
         done();
       });
