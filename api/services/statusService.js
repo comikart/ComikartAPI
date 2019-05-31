@@ -4,7 +4,10 @@ const knex = require('../../db/knex');
 const findAllStatus = () => knex('status').select();
 
 // GET by ID
-const findStatusById = id => knex('status').where({ id });
+const findStatusById = id =>
+  knex('status')
+    .where({ id })
+    .first();
 
 const findStatusByTitle = title =>
   knex('status')
