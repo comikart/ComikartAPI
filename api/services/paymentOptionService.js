@@ -34,7 +34,7 @@ const deletePaymentOption = paymentOption =>
 // DELETE by id
 const deletePaymentOptionById = id =>
   knex('payment_option')
-    .where(id)
+    .where({id})
     .del();
 
 module.exports = {

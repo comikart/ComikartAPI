@@ -102,6 +102,17 @@ const deletePaymentOption = paymentOption =>
       } else reject('No payment option found');
     } else reject('No payment option found');
   });
+  
+  const deletePaymentOptionById = id =>
+  new Promise((resolve, reject) => {
+    if (id) {
+      const index = findIndex(id);
+      if (index !== -1) {
+        paymentOptions.splice(index, 1);
+        resolve(paymentOptions);
+      } else reject('No payment option found');
+    } else reject('Invalid ID');
+  });
 
 module.exports = {
   findAllPaymentOptionByUser,
@@ -109,4 +120,5 @@ module.exports = {
   savePaymentOption,
   updatePaymentOption,
   deletePaymentOption,
+  deletePaymentOptionById,
 };

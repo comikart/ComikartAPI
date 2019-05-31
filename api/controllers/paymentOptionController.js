@@ -185,10 +185,51 @@ const deletePaymentOption = (req, res) => {
     .catch(err => res.status(400).json(err));
 };
 
+/**
+ * @api {delete} /api/user/:id/paymentoption Delete the paymentoption by paymentoption id
+ * @apiVersion 1.0.0
+ * @apiName DELETEPaymentOption
+ * @apiGroup PaymentOptions
+ *
+ * @apiSuccess {object[]} Payment Option object, success
+ * @apiParam {Param} ID is user ID, used to find all payment options
+ * @apiSuccessExample Success-Response:
+ *  HTTP/1.1 200 OK
+ *    {
+ *      "credit_card": 424242424242,
+ *      "billing_address": "123 whambam st",
+ *      "exp": "05/20",
+ *      "security_number": 444,
+ *      "active": false,
+ *      "user_id": 1,
+ *      "type_id": 1,
+ *    },
+ * {
+ *      "credit_card": 424242424242,
+ *      "billing_address": "123 whambam st",
+ *      "exp": "05/20",
+ *      "security_number": 444,
+ *      "active": false,
+ *      "user_id": 1,
+ *      "type_id": 1,
+ *    },
+ */
+
+const deletePaymentOptionById = (req, res) => {
+  const { id, paymentoption_id } = req.params;
+
+  return service
+    .deletePaymentOptionById(paymentoption_id)
+    .then(() => service.findAllPaymentOptionByUser(id))
+    .then(paymentOptions => res.status(200).json(paymentOptions))
+    .catch(err => res.status(400).json(err));
+};
+
 module.exports = {
   findAllPaymentOptionByUser,
   findPaymentOptionById,
   savePaymentOption,
   updatePaymentOption,
   deletePaymentOption,
+  deletePaymentOptionById,
 };

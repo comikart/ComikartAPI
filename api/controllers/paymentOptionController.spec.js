@@ -338,39 +338,44 @@ describe('DELETE /user/:id/paymentoption', () => {
 });
 
 describe('DELETE /user/:id/paymentoption/paymentoption_id', () => {
-  describe('Delete a payment option by passing in payment option', () => {
-    it('Should return an updated list without the payment option', done => {
-      const obj = {
-        id: 1,
-        credit_card: 324242424242,
-        billing_address: '123 whambam st',
-        exp: '05/20',
-        security_number: 444,
-        active: false,
-        type_id: 1,
-        user_id: 1,
-      };
+  describe('Delete a payment option by id', () => {
+    it('Should return updated list without payment option with id', done => {
       const req = new Request();
       const res = new Response();
 
-      req.body.paymentOption = obj;
-      req.params.id = 1;
+      req.params.paymentoption_id = 2;
+      req.params.id = 2;
 
-      controller.deletePaymentOption(req, res).then(response => {
+      controller.deletePaymentOptionById(req, res).then(response => {
         expect(response.body.length).toBe(1);
         expect(response.status).toBe(200);
         done();
       });
     });
   });
-  describe('No paymentOption sent in', () => {
-    it('Return error "No payment option found"', done => {
+  describe('No ID is passed in', () => {
+    it('Should return error "Invalid ID', done => {
       const req = new Request();
       const res = new Response();
 
-      req.params.id = 1;
+      req.params.id = 2;
 
-      controller.deletePaymentOption(req, res).then(response => {
+      controller.deletePaymentOptionById(req, res).then(response => {
+        expect(response.body).toBe('Invalid ID');
+        expect(response.status).toBe(400);
+        done();
+      });
+    });
+  });
+  describe('Invalid ID is passed in', () => {
+    it('Should return error "No payment option found', done => {
+      const req = new Request();
+      const res = new Response();
+
+      req.params.id = 2;
+      req.params.paymentoption_id = 19;
+
+      controller.deletePaymentOptionById(req, res).then(response => {
         expect(response.body).toBe('No payment option found');
         expect(response.status).toBe(400);
         done();
