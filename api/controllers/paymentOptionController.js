@@ -140,7 +140,7 @@ const updatePaymentOption = (req, res) => {
   return service
     .updatePaymentOption(paymentOption, paymentoption_id)
     .then(() => service.findAllPaymentOptionByUser(id))
-    .then(paymentOptions => res.status(201).json(paymentOptions))
+    .then(paymentOptions => res.status(200).json(paymentOptions))
     .catch(err => res.status(400).json(err));
 };
 
@@ -176,11 +176,12 @@ const updatePaymentOption = (req, res) => {
 
 const deletePaymentOption = (req, res) => {
   const { paymentOption } = req.body;
+  const { id } = req.params;
 
   return service
     .deletePaymentOption(paymentOption)
     .then(() => service.findAllPaymentOptionByUser(id))
-    .then(paymentOptions => res.status(201).json(paymentOptions))
+    .then(paymentOptions => res.status(200).json(paymentOptions))
     .catch(err => res.status(400).json(err));
 };
 
