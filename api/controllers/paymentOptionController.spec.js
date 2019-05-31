@@ -23,7 +23,7 @@ class Response {
   }
 }
 
-describe('/user/:id/paymentoption', () => {
+describe('GET /user/:id/paymentoption', () => {
   describe('/?(user_id = 1)', () => {
     it('Should return all payment options for user ID = 1', done => {
       const user_id = 1;
@@ -81,7 +81,7 @@ describe('/user/:id/paymentoption', () => {
   });
 });
 
-describe('/user/:id/paymentoption/:paymentoption_id', () => {
+describe('GET /user/:id/paymentoption/:paymentoption_id', () => {
   describe('/?(id = 1)', () => {
     it('Should return the payment option with an ID of 1', done => {
       const id = 1;
@@ -89,6 +89,7 @@ describe('/user/:id/paymentoption/:paymentoption_id', () => {
       const res = new Response();
       req.params.id = id;
       const obj = {
+        id: 1,
         credit_card: 424242424242,
         billing_address: '123 whambam st',
         exp: '05/20',
@@ -111,6 +112,7 @@ describe('/user/:id/paymentoption/:paymentoption_id', () => {
       const res = new Response();
       req.params.id = id;
       const obj = {
+        id: 2,
         credit_card: 4242424242423,
         billing_address: '424 whambam st',
         exp: '05/20',
@@ -133,6 +135,7 @@ describe('/user/:id/paymentoption/:paymentoption_id', () => {
       const res = new Response();
       req.params.id = id;
       const obj = {
+        id: 3,
         credit_card: 324242424242,
         billing_address: '324 whambam st',
         exp: '05/20',
@@ -155,6 +158,7 @@ describe('/user/:id/paymentoption/:paymentoption_id', () => {
       const res = new Response();
       req.params.id = id;
       const obj = {
+        id: 4,
         credit_card: 324242424242,
         billing_address: '324 whambam st',
         exp: '05/20',
@@ -172,7 +176,7 @@ describe('/user/:id/paymentoption/:paymentoption_id', () => {
   });
 });
 
-describe('/user/:id/paymentoption', () => {
+describe('POST /user/:id/paymentoption', () => {
   describe('Save an object', () => {
     it('Should return a length of 2', done => {
       const req = new Request();
@@ -231,21 +235,21 @@ describe('/user/:id/paymentoption', () => {
   });
 });
 
-describe('/user/:id/paymentoption/:paymentoption_id', () => {
+describe('PUT /user/:id/paymentoption/:paymentoption_id', () => {
+  const obj = {
+    id: 1,
+    credit_card: 324242424242,
+    billing_address: '123 whambam st',
+    exp: '05/20',
+    security_number: 444,
+    active: false,
+    type_id: 1,
+    user_id: 1,
+  };
   describe('Update a payment option by id', () => {
     it('Should return the updated payment options', done => {
       const req = new Request();
       const res = new Response();
-
-      const obj = {
-        credit_card: 324242424242,
-        billing_address: '123 whambam st',
-        exp: '05/20',
-        security_number: 444,
-        active: false,
-        type_id: 1,
-        user_id: 1,
-      };
 
       req.body.paymentOption = obj;
       req.params.id = 1;
@@ -254,22 +258,37 @@ describe('/user/:id/paymentoption/:paymentoption_id', () => {
       controller.updatePaymentOption(req, res).then(response => {
         expect(response.body[0]).toEqual(obj);
         done();
-      })
-    })
+      });
+    });
   });
 
+  describe('Invalid ID sent', () => {
+    it('Return error "Invalid ID"', done => {
+      const req = new Request();
+      const res = new Response();
+
+      req.body.paymentOption = obj;
+      req.params.id = 1;
+      req.params.paymentoption_id = 8;
+
+      controller.updatePaymentOption(req, res).then(response => {
+        expect(response.body).toEqual('Invalid ID');
+        done();
+      });
+    });
+  });
   describe('No payment object sent', () => {
-    it('Error "No payment option found"', done => {
+    it('Return error "No payment option found"', done => {
       const req = new Request();
       const res = new Response();
 
       req.params.id = 1;
-      req.params.paymentoption_id = 1;
+      req.params.paymentoption_id = 8;
 
       controller.updatePaymentOption(req, res).then(response => {
-        expect(response.body).toEqual("No payment option found");
+        expect(response.body).toEqual('No payment option found');
         done();
-      })
-    })
+      });
+    });
   });
-})
+});

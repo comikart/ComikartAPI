@@ -1,5 +1,6 @@
 const paymentOptions = [
   {
+    id: 1,
     credit_card: 424242424242,
     billing_address: '123 whambam st',
     exp: '05/20',
@@ -9,6 +10,7 @@ const paymentOptions = [
     type_id: 1,
   },
   {
+    id: 2,
     credit_card: 4242424242423,
     billing_address: '424 whambam st',
     exp: '05/20',
@@ -18,6 +20,7 @@ const paymentOptions = [
     type_id: 2,
   },
   {
+    id: 3,
     credit_card: 324242424242,
     billing_address: '324 whambam st',
     exp: '05/20',
@@ -27,6 +30,7 @@ const paymentOptions = [
     type_id: 2,
   },
   {
+    id: 4,
     credit_card: 324242424242,
     billing_address: '324 whambam st',
     exp: '05/20',
@@ -76,17 +80,24 @@ const savePaymentOption = (paymentOption, id) =>
 const updatePaymentOption = (paymentOption, id) =>
   new Promise((resolve, reject) => {
     if (paymentOption) {
-      const index = paymentOptions.map((i, paymentObject) =>
-        paymentObject.id === id ? i : false,
-      );
-      if (index) {
+      const index = paymentOptions.findIndex((paymentObject, i) => {
+        return paymentObject.id === id
+      });
+      if (index !== -1) {
         paymentOptions.splice(index, 1, paymentOption);
         resolve(paymentOptions);
-      } else reject('No payment option found');
+      } else reject('Invalid ID');
     }
     else reject('No payment option found');
   });
 
+const deletePaymentOption = paymentOption => 
+  new Promise((resolve, reject) => {
+    if (paymentOption) {
+      
+    }
+    else reject('No payment option found');
+  })
 module.exports = {
   findAllPaymentOptionByUser,
   findPaymentOptionById,
