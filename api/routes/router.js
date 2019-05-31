@@ -36,6 +36,9 @@ router
 router
   .route('/user/:id/paymentoption')
   .delete(paymentOptionController.deletePaymentOption);
+router
+  .route('/user/:id/paymentoption/:paymentoption_id')
+  .delete(paymentOptionController.deletePaymentOptionById);
 router.route('/user/:id/purchase').get(purchaseController.findPurchaseByUserId);
 router.route('/user/:id/purchase').post(purchaseController.savePurchase);
 router
