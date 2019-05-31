@@ -77,30 +77,36 @@ const savePaymentOption = (paymentOption, id) =>
     }
   });
 
+const findIndex = id => {
+  return paymentOptions.findIndex(paymentOption => paymentOption.id === id);
+};
+
 const updatePaymentOption = (paymentOption, id) =>
   new Promise((resolve, reject) => {
     if (paymentOption) {
-      const index = paymentOptions.findIndex((paymentObject, i) => {
-        return paymentObject.id === id
-      });
+      const index = findIndex(id);
       if (index !== -1) {
         paymentOptions.splice(index, 1, paymentOption);
         resolve(paymentOptions);
       } else reject('Invalid ID');
-    }
-    else reject('No payment option found');
+    } else reject('No payment option found');
   });
 
-const deletePaymentOption = paymentOption => 
+const deletePaymentOption = paymentOption =>
   new Promise((resolve, reject) => {
     if (paymentOption) {
-      
-    }
-    else reject('No payment option found');
-  })
+      const index = findIndex(paymentOption.id);
+      if (index !== -1) {
+        paymentOptions.splice(index, 1);
+        resolve(paymentOptions);
+      } else reject('No payment option found');
+    } else reject('No payment option found');
+  });
+
 module.exports = {
   findAllPaymentOptionByUser,
   findPaymentOptionById,
   savePaymentOption,
   updatePaymentOption,
+  deletePaymentOption,
 };
