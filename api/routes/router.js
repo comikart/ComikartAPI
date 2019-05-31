@@ -3,11 +3,13 @@ const { authorization, authenticate } = require('../utils/security');
 const userController = require('../controllers/userController');
 const {
   findAllProducts,
-  findProductById
+  findProductById,
 } = require('../controllers/productController');
 const reviewController = require('../controllers/reviewController');
+const paymentOptionController = require('../controllers/paymentOptionController');
 const purchaseController = require('../controllers/purchaseController');
 
+// <============= User ===========>
 router.use('/user/login', authenticate, userController.login);
 router.route('/user/register').post(userController.register);
 router.route('/user/:id').get(userController.findUserById);
@@ -19,11 +21,31 @@ router.route('/user/:id/wishlist').get(userController.findWishListByUserId);
 router
   .route('/user/:id/wishlist/:product_id')
   .get(userController.moveWishListItemToCart);
+router
+  .route('/user/:id/paymentoption/')
+  .get(paymentOptionController.findAllPaymentOptionByUser);
+router
+  .route('/user/:id/paymentoption/:paymentoption_id')
+  .get(paymentOptionController.findPaymentOptionById);
+router
+  .route('/user/:id/paymentoption')
+  .post(paymentOptionController.savePaymentOption);
+router
+  .route('/user/:id/paymentoption/:paymentoption_id')
+  .put(paymentOptionController.updatePaymentOption);
+router
+  .route('/user/:id/paymentoption')
+  .delete(paymentOptionController.deletePaymentOption);
+router
+  .route('/user/:id/paymentoption/:paymentoption_id')
+  .delete(paymentOptionController.deletePaymentOptionById);
 router.route('/user/:id/purchase').get(purchaseController.findPurchaseByUserId);
 router.route('/user/:id/purchase').post(purchaseController.savePurchase);
 router
   .route('/user/:id/purchase/:purchase_id')
   .get(purchaseController.findPurchaseById);
+
+// <============= Product ===========>
 router.route('/product').get(findAllProducts);
 router.route('/product/:id').get(findProductById);
 router

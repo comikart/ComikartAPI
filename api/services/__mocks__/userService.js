@@ -40,7 +40,7 @@ const findCartAndProductByUserId = id =>
       ? resolve(cart)
       : typeof id === 'number'
       ? resolve([])
-      : reject('no id was passed');
+      : reject('Invalid ID was passed');
   });
 
 const moveItem = (enumerator, id, product_id) =>
