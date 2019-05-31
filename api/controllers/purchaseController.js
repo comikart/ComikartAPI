@@ -6,9 +6,8 @@ const savePurchase = (req, res) => {
 
   return service
     .savePurchase(id, purchase)
-    .then(ret => {
-      console.log(ret);
-      res.status(201);
+    .then(result => {
+      res.status(201).json({ result });
     })
     .catch(err => res.status(400).json(err));
 };

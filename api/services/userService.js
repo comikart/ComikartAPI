@@ -27,26 +27,27 @@ const findCartByUserId = id =>
     .where({ user_id: id });
 
 const findCartAndProductByUserId = id =>
-  findCartByUserId(id)
-    .then(cart =>
-      Promise.all(
-        cart.map(item =>
-          productService
-            .findProductById(item.product_id)
-            .then(product => Object.assign({}, item, { product: product[0] }))
-        )
+  findCartByUserId(id).then(cart =>
+    Promise.all(
+      cart.map(item =>
+        productService
+          .findProductById(item.product_id)
+          .then(product => Object.assign({}, item, { product: product[0] }))
       )
     )
-    .then(items => {
-      return {
-        subTotal: items.reduce(
-          (sum, curr) =>
-            sum + curr.quantity * parseFloat(curr.product.unit_price),
-          0
-        ),
-        cartItems: items
-      };
-    });
+  );
+
+const findCartSubTotalByUserId = user_id =>
+  knex('cart')
+    .select('cart.quantity', 'product.unit_price')
+    .innerJoin('product', 'cart.product_id', 'product.id')
+    .where({ user_id })
+    .then(cart =>
+      cart.reduce(
+        (accu, curr) => accu + curr.quantity * parseFloat(curr.unit_price),
+        0
+      )
+    );
 
 const findCartItemByUserIdAndProductId = (user_id, product_id) =>
   knex('cart')
@@ -59,6 +60,11 @@ const saveCartItem = cartItem => knex('cart').insert(cartItem);
 const deleteCartItemByUserIdAndProductId = (user_id, product_id) =>
   knex('cart')
     .where({ user_id, product_id })
+    .del();
+
+const deleteCartByUserId = user_id =>
+  knex('cart')
+    .where({ user_id })
     .del();
 
 const findWishListByUserId = id =>
@@ -115,9 +121,11 @@ module.exports = {
   findAllUsers,
   findCartByUserId,
   findCartAndProductByUserId,
+  findCartSubTotalByUserId,
   findCartItemByUserIdAndProductId,
   saveCartItem,
   deleteCartItemByUserIdAndProductId,
+  deleteCartByUserId,
   findWishListByUserId,
   findWishListAndProductByUserId,
   findWishListItemByUserIdAndProductId,

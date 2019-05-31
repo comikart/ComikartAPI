@@ -10,7 +10,7 @@ const findInvoiceById = id =>
     .first();
 
 // POST invoice
-const saveInvoice = invoice => knex('invoice').insert(invoice);
+const saveInvoice = invoice => knex('invoice').insert(invoice, 'id');
 
 // PUT invoice
 const updateInvoice = (id, invoice) =>
