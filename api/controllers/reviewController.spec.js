@@ -3,8 +3,7 @@ const controller = require('../controllers/reviewController');
 const Request = require('../helpers/Request');
 const Response = require('../helpers/Response');
 
-let req;
-let res;
+let req, res;
 
 beforeEach(() => {
   req = new Request();

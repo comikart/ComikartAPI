@@ -8,7 +8,7 @@ class User {
     first_name = 'John',
     last_name = 'Doe',
     email = 'john@email.com',
-    password = 'password'
+    password = 'password',
   ) {
     this.first_name = first_name;
     this.last_name = last_name;
@@ -17,8 +17,7 @@ class User {
   }
 }
 
-let req;
-let res;
+let req, res;
 
 beforeEach(() => {
   req = new Request();
