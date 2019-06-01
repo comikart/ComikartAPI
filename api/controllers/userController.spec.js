@@ -1,20 +1,7 @@
 jest.mock('../services/userService.js');
 const controller = require('./userController');
-
-class Response {
-  constructor(body = {}) {
-    this.body = body;
-  }
-  json(body) {
-    this.body = body;
-    return this;
-  }
-
-  status(code) {
-    this.status = code;
-    return this;
-  }
-}
+const Request = require('../helpers/Request');
+const Response = require('../helpers/Response');
 
 class User {
   constructor(
@@ -27,14 +14,6 @@ class User {
     this.last_name = last_name;
     this.email = email;
     this.password = password;
-  }
-}
-
-class Request {
-  constructor(header = {}, body = {}, params = {}) {
-    this.header = header;
-    this.body = body;
-    this.params = params;
   }
 }
 
