@@ -1,27 +1,7 @@
 jest.mock('../services/paymentOptionService.js');
 const controller = require('../controllers/paymentOptionController');
-
-class Request {
-  constructor(query = {}, params = {}, body = {}) {
-    this.query = query;
-    this.body = body;
-    this.params = params;
-  }
-}
-
-class Response {
-  constructor(body = {}) {
-    this.body = body;
-  }
-  status(code) {
-    this.status = code;
-    return this;
-  }
-  json(body) {
-    this.body = body;
-    return this;
-  }
-}
+const Request = require('../helpers/Request');
+const Response = require('../helpers/Response');
 
 describe('GET /user/:id/paymentoption', () => {
   describe('/?(user_id = 1)', () => {
