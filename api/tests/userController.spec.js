@@ -1,5 +1,5 @@
 jest.mock('../services/userService.js');
-const controller = require('./userController');
+const controller = require('../controllers/userController');
 const Request = require('../helpers/Request');
 const Response = require('../helpers/Response');
 
