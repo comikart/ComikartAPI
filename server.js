@@ -29,6 +29,6 @@ server.use(express.json());
 });
 
 // route handler.
-server.use('/api', router);
+server.use('/api/user', userController);
 
 module.exports = server;
