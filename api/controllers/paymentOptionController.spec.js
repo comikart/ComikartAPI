@@ -3,12 +3,17 @@ const controller = require('../controllers/paymentOptionController');
 const Request = require('../helpers/Request');
 const Response = require('../helpers/Response');
 
+let req, res;
+
+beforeEach(() => {
+  req = new Request();
+  res = new Response();
+});
+
 describe('GET /user/:id/paymentoption', () => {
   describe('/?(user_id = 1)', () => {
     it('Should return all payment options for user ID = 1', done => {
       const user_id = 1;
-      const req = new Request();
-      const res = new Response();
       req.params.id = user_id;
 
       controller.findAllPaymentOptionByUser(req, res).then(response => {
@@ -21,8 +26,6 @@ describe('GET /user/:id/paymentoption', () => {
   describe('/?(user_id = 2)', () => {
     it('Should return all payment options for user ID = 2', done => {
       const user_id = 2;
-      const req = new Request();
-      const res = new Response();
       req.params.id = user_id;
 
       controller.findAllPaymentOptionByUser(req, res).then(response => {
@@ -35,8 +38,6 @@ describe('GET /user/:id/paymentoption', () => {
   describe('/?(user_id = 3)', () => {
     it('Should return all payment options for user ID = 3', done => {
       const user_id = 3;
-      const req = new Request();
-      const res = new Response();
       req.params.id = user_id;
 
       controller.findAllPaymentOptionByUser(req, res).then(response => {
@@ -49,8 +50,6 @@ describe('GET /user/:id/paymentoption', () => {
   describe('/?(user_id = 4)', () => {
     it('Should return error message', done => {
       const user_id = 4;
-      const req = new Request();
-      const res = new Response();
       req.params.id = user_id;
 
       controller.findAllPaymentOptionByUser(req, res).then(response => {
@@ -65,8 +64,6 @@ describe('GET /user/:id/paymentoption/:paymentoption_id', () => {
   describe('/?(id = 1)', () => {
     it('Should return the payment option with an ID of 1', done => {
       const id = 1;
-      const req = new Request();
-      const res = new Response();
       req.params.id = id;
       const obj = {
         id: 1,
@@ -88,8 +85,6 @@ describe('GET /user/:id/paymentoption/:paymentoption_id', () => {
   describe('/?(id = 2)', () => {
     it('Should return the payment option with an ID of 2', done => {
       const id = 2;
-      const req = new Request();
-      const res = new Response();
       req.params.id = id;
       const obj = {
         id: 2,
@@ -111,8 +106,6 @@ describe('GET /user/:id/paymentoption/:paymentoption_id', () => {
   describe('/?(id = 3)', () => {
     it('Should return the payment option with an ID of 3', done => {
       const id = 3;
-      const req = new Request();
-      const res = new Response();
       req.params.id = id;
       const obj = {
         id: 3,
@@ -134,8 +127,6 @@ describe('GET /user/:id/paymentoption/:paymentoption_id', () => {
   describe('/?(id = 4)', () => {
     it('Should return the payment option with an ID of 4', done => {
       const id = 4;
-      const req = new Request();
-      const res = new Response();
       req.params.id = id;
       const obj = {
         id: 4,
@@ -159,8 +150,6 @@ describe('GET /user/:id/paymentoption/:paymentoption_id', () => {
 describe('POST /user/:id/paymentoption', () => {
   describe('Save an object', () => {
     it('Should return a length of 2', done => {
-      const req = new Request();
-      const res = new Response();
 
       req.body.paymentOption = {
         credit_card: 324242424242,
@@ -182,8 +171,6 @@ describe('POST /user/:id/paymentoption', () => {
 
   describe('Type ID of 3', () => {
     it('Should return error message', done => {
-      const req = new Request();
-      const res = new Response();
 
       req.body.paymentOption = {
         credit_card: 324242424242,
@@ -203,8 +190,6 @@ describe('POST /user/:id/paymentoption', () => {
   });
   describe('No object', () => {
     it('Should return error message', done => {
-      const req = new Request();
-      const res = new Response();
 
       req.params.id = 3;
 
@@ -229,9 +214,6 @@ describe('PUT /user/:id/paymentoption/:paymentoption_id', () => {
   };
   describe('Update a payment option by id', () => {
     it('Should return the updated payment options', done => {
-      const req = new Request();
-      const res = new Response();
-
       req.body.paymentOption = obj;
       req.params.id = 1;
       req.params.paymentoption_id = 1;
@@ -246,9 +228,6 @@ describe('PUT /user/:id/paymentoption/:paymentoption_id', () => {
 
   describe('Invalid ID sent', () => {
     it('Return error "Invalid ID"', done => {
-      const req = new Request();
-      const res = new Response();
-
       req.body.paymentOption = obj;
       req.params.id = 1;
       req.params.paymentoption_id = 8;
@@ -261,9 +240,6 @@ describe('PUT /user/:id/paymentoption/:paymentoption_id', () => {
   });
   describe('No payment object sent', () => {
     it('Return error "No payment option found"', done => {
-      const req = new Request();
-      const res = new Response();
-
       req.params.id = 1;
       req.params.paymentoption_id = 8;
 
@@ -288,8 +264,6 @@ describe('DELETE /user/:id/paymentoption', () => {
         type_id: 1,
         user_id: 1,
       };
-      const req = new Request();
-      const res = new Response();
 
       req.body.paymentOption = obj;
       req.params.id = 1;
@@ -303,8 +277,6 @@ describe('DELETE /user/:id/paymentoption', () => {
   });
   describe('No paymentOption sent in', () => {
     it('Return error "No payment option found"', done => {
-      const req = new Request();
-      const res = new Response();
 
       req.params.id = 1;
 
@@ -320,8 +292,6 @@ describe('DELETE /user/:id/paymentoption', () => {
 describe('DELETE /user/:id/paymentoption/paymentoption_id', () => {
   describe('Delete a payment option by id', () => {
     it('Should return updated list without payment option with id', done => {
-      const req = new Request();
-      const res = new Response();
 
       req.params.paymentoption_id = 2;
       req.params.id = 2;
@@ -335,8 +305,6 @@ describe('DELETE /user/:id/paymentoption/paymentoption_id', () => {
   });
   describe('No ID is passed in', () => {
     it('Should return error "Invalid ID', done => {
-      const req = new Request();
-      const res = new Response();
 
       req.params.id = 2;
 
@@ -349,8 +317,6 @@ describe('DELETE /user/:id/paymentoption/paymentoption_id', () => {
   });
   describe('Invalid ID is passed in', () => {
     it('Should return error "No payment option found', done => {
-      const req = new Request();
-      const res = new Response();
 
       req.params.id = 2;
       req.params.paymentoption_id = 19;
