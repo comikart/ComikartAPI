@@ -1,7 +1,7 @@
 jest.mock('../services/productService.js');
 const controller = require('../controllers/productController');
-const Request = require('../helpers/Request');
-const Response = require('../helpers/Response');
+const Request = require('./helpers/Request');
+const Response = require('./helpers/Response');
 
 let req, res;
 

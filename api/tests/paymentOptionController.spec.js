@@ -1,7 +1,7 @@
 jest.mock('../services/paymentOptionService.js');
 const controller = require('../controllers/paymentOptionController');
-const Request = require('../helpers/Request');
-const Response = require('../helpers/Response');
+const Request = require('./helpers/Request');
+const Response = require('./helpers/Response');
 
 let req, res;
 

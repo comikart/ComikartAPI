@@ -1,7 +1,7 @@
 jest.mock('../services/reviewService.js');
 const controller = require('../controllers/reviewController');
-const Request = require('../helpers/Request');
-const Response = require('../helpers/Response');
+const Request = require('./helpers/Request');
+const Response = require('./helpers/Response');
 
 let req, res;
 
