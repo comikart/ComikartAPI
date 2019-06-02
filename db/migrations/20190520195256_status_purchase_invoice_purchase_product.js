@@ -8,9 +8,7 @@ exports.up = function(knex, Promise) {
       table.increments('id');
       table.decimal('sub_total');
       table.decimal('tax');
-      table.timestamp('date_created');
       table.decimal('total');
-      table.string('shipping_address');
       table
         .integer('payment_id')
         .references('id')
@@ -20,6 +18,15 @@ exports.up = function(knex, Promise) {
     .createTable('purchase', table => {
       table.increments('id');
       table.datetime('date_created').defaultTo(knex.fn.now());
+      table.string('address_one', 100);
+      table.string('address_two', 100);
+      table.string('full_name', 20);
+      table.string('city', 20);
+      table.string('state', 2);
+      table.string('zip', 5);
+      table.string('country', 2);
+      table.string('phone', 15);
+      table.string('email', 50);
       table
         .integer('status_id')
         .references('id')
