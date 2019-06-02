@@ -7,8 +7,12 @@ exports.up = function(knex, Promise) {
     .createTable('payment_option', table => {
       table.increments('id');
       table.bigInteger('credit_card');
-      table.string('billing_address');
-      table.string('exp');
+      table.string('address');
+      table.string('full_name');
+      table.string('country');
+      table.string('postal_code');
+      table.string('exp_month');
+      table.string('exp_year');
       table.integer('security_number');
       table.boolean('active');
       table
