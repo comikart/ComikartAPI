@@ -55,7 +55,10 @@ const findCartItemByUserIdAndProductId = (user_id, product_id) =>
     .where({ user_id, product_id })
     .first();
 
-const saveCartItem = cartItem => knex('cart').insert(cartItem);
+const saveCartItem = (user_id, product) => {
+  const cartItem = Object.assign({}, product, { user_id });
+  return knex('cart').insert(cartItem);
+};
 
 const deleteCartItemByUserIdAndProductId = (user_id, product_id) =>
   knex('cart')
@@ -89,7 +92,10 @@ const findWishListItemByUserIdAndProductId = (user_id, product_id) =>
     .where({ user_id, product_id })
     .first();
 
-const saveWishListItem = wishItem => knex('wish_list').insert(wishItem);
+const saveWishListItem = (user_id, product) => {
+  const wishList = Object.assign({}, product, { user_id });
+  return knex('wish_list').insert(wishList);
+};
 
 const deleteWishListItemByUserIdAndProductId = (user_id, product_id) =>
   knex('wish_list')

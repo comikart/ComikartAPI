@@ -77,6 +77,16 @@ const findCartByUserId = (req, res) => {
     .catch(err => res.status(400).json(err));
 };
 
+const saveProductToCart = (req, res) => {
+  const { id } = req.params;
+  const { product } = req.body;
+
+  return userService
+    .saveCartItem(id, product)
+    .then(() => res.status(201).json())
+    .catch(err => res.status(400).json(err));
+};
+
 const moveCartItemToWishList = (req, res) => {
   const { id, product_id } = req.params;
   return userService
@@ -93,6 +103,16 @@ const findWishListByUserId = (req, res) => {
     .catch(err => res.status(400).json(err));
 };
 
+const saveProductToWishList = (req, res) => {
+  const { id } = req.params;
+  const { product } = req.body;
+
+  return userService
+    .saveWishListItem(id, product)
+    .then(() => res.status(201).json())
+    .catch(err => res.status(400).json(err));
+};
+
 const moveWishListItemToCart = (req, res) => {
   const { id, product_id } = req.params;
   return userService
@@ -106,7 +126,9 @@ module.exports = {
   register,
   findUserById,
   findCartByUserId,
+  saveProductToCart,
   findWishListByUserId,
+  saveProductToWishList,
   moveCartItemToWishList,
   moveWishListItemToCart
 };
