@@ -3,7 +3,7 @@ const { authorization, authenticate } = require('../utils/security');
 const userController = require('../controllers/userController');
 const {
   findAllProducts,
-  findProductById,
+  findProductById
 } = require('../controllers/productController');
 const reviewController = require('../controllers/reviewController');
 const paymentOptionController = require('../controllers/paymentOptionController');
@@ -14,6 +14,7 @@ router.use('/user/login', authenticate, userController.login);
 router.route('/user/register').post(userController.register);
 router.route('/user/:id').get(userController.findUserById);
 router.route('/user/:id/cart').get(userController.findCartByUserId);
+router.route('/user/:id/cart').post(userController.saveProductToCart);
 router
   .route('/user/:id/cart/:product_id')
   .get(userController.moveCartItemToWishList);
