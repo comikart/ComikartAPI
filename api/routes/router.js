@@ -19,6 +19,7 @@ router
   .route('/user/:id/cart/:product_id')
   .get(userController.moveCartItemToWishList);
 router.route('/user/:id/wishlist').get(userController.findWishListByUserId);
+router.route('/user/:id/cart').post(userController.saveProductToWishList);
 router
   .route('/user/:id/wishlist/:product_id')
   .get(userController.moveWishListItemToCart);

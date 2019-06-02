@@ -103,6 +103,16 @@ const findWishListByUserId = (req, res) => {
     .catch(err => res.status(400).json(err));
 };
 
+const saveProductToWishList = (req, res) => {
+  const { id } = req.params;
+  const { product } = req.body;
+
+  return userService
+    .saveWishListItem(id, product)
+    .then(() => res.status(201).json())
+    .catch(err => res.status(400).json(err));
+};
+
 const moveWishListItemToCart = (req, res) => {
   const { id, product_id } = req.params;
   return userService
@@ -118,6 +128,7 @@ module.exports = {
   findCartByUserId,
   saveProductToCart,
   findWishListByUserId,
+  saveProductToWishList,
   moveCartItemToWishList,
   moveWishListItemToCart
 };

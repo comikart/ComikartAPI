@@ -92,7 +92,10 @@ const findWishListItemByUserIdAndProductId = (user_id, product_id) =>
     .where({ user_id, product_id })
     .first();
 
-const saveWishListItem = wishItem => knex('wish_list').insert(wishItem);
+const saveWishListItem = (user_id, product) => {
+  const wishList = Object.assign({}, product, { user_id });
+  return knex('wish_list').insert(wishList);
+};
 
 const deleteWishListItemByUserIdAndProductId = (user_id, product_id) =>
   knex('wish_list')
