@@ -8,7 +8,7 @@ exports.seed = function(knex, Promise) {
         {
           credit_card: 424242424242,
           security_number: 444,
-          address: '123 whambam st',
+          address_one: '123 whambam st',
           full_name: 'lorem ipsum',
           country: 'US', //iso2 country code
           postal_code: '55555',
