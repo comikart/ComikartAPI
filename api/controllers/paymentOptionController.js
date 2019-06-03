@@ -1,7 +1,8 @@
+const router = require('express').router();
 const service = require('../services/paymentOptionService');
 
 /**
- * @api {get} /api//user/:id/paymentoption Retrieve All Payment Options By ID
+ * @api {get} /api/user/:id/paymentoption Retrieve All Payment Options By ID
  * @apiVersion 1.0.0
  * @apiName GETPaymentOptions
  * @apiGroup PaymentOptions
@@ -32,6 +33,7 @@ const service = require('../services/paymentOptionService');
  *  ]
  */
 
+router.route('/')
 const findAllPaymentOptionByUser = (req, res) => {
   const { id } = req.params;
 
@@ -42,7 +44,7 @@ const findAllPaymentOptionByUser = (req, res) => {
 };
 
 /**
- * @api {get} /api/user/paymentoption/:id Retrieve All Payment Options By ID
+ * @api {get} /api/user/:id/paymentoption/:paymentoption_id Retrieve All Payment Options By ID
  * @apiVersion 1.0.0
  * @apiName GETPaymentOptions
  * @apiGroup PaymentOptions
@@ -63,16 +65,16 @@ const findAllPaymentOptionByUser = (req, res) => {
  */
 
 const findPaymentOptionById = (req, res) => {
-  const { id } = req.params;
+  const { paymentoption_id } = req.params;
 
   return service
-    .findPaymentOptionById(id)
+    .findPaymentOptionById(paymentoption_id)
     .then(paymentOption => res.status(200).json(paymentOption))
     .catch(err => res.status(400).json(err));
 };
 
 /**
- * @api {post} /api/user/:id/paymentoption Retrieve All Payment Options By ID
+ * @api {post} /api/user/:id/paymentoption_id Retrieve All Payment Options By ID
  * @apiVersion 1.0.0
  * @apiName POSTPaymentOption
  * @apiGroup PaymentOptions
@@ -94,7 +96,7 @@ const findPaymentOptionById = (req, res) => {
 
 const savePaymentOption = (req, res) => {
   const { paymentOption } = req.body;
-  const { id } = req.params;
+  const { paymentoption_id } = req.params;
 
   return service
     .savePaymentOption(paymentOption, id)
@@ -145,7 +147,7 @@ const updatePaymentOption = (req, res) => {
 };
 
 /**
- * @api {delete} /api/user/:id/paymentoption Delete the paymentoption by paymentoption id
+ * @api {delete} /api/user/:id/paymentoption/paymentoption_id Delete the paymentoption by paymentoption id
  * @apiVersion 1.0.0
  * @apiName DELETEPaymentOption
  * @apiGroup PaymentOptions
