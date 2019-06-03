@@ -1,31 +1,9 @@
 jest.mock('../services/reviewService.js');
 const controller = require('../controllers/reviewController');
+const Request = require('./helpers/Request');
+const Response = require('./helpers/Response');
 
-class Response {
-  constructor(body = {}) {
-    this.body = body;
-  }
-  json(body) {
-    this.body = body;
-    return this;
-  }
-
-  status(code) {
-    this.status = code;
-    return this;
-  }
-}
-
-class Request {
-  constructor(header = {}, body = {}, params = {}) {
-    this.header = header;
-    this.body = body;
-    this.params = params;
-  }
-}
-
-let req;
-let res;
+let req, res;
 
 beforeEach(() => {
   req = new Request();

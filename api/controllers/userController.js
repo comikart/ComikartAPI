@@ -1,5 +1,9 @@
+const router = require('express').router();
+
+const { authenticate } = require('../utils/security'); 
 const userService = require('../services/userService');
 const { MOVETOWISHLIST, MOVETOCART } = userService;
+
 
 /**
  * @api {post} /api/user/login Request Login
@@ -26,12 +30,13 @@ const { MOVETOWISHLIST, MOVETOCART } = userService;
  *          "error"; "incorrect email or password"
  *     }
  */
-const login = (req, res) => {
+router.route('/login')
+  .post(authenticate, (res,res) => {
   const { token, email } = req.body;
   return userService
     .findUserByEmail(email)
     .then(user => token && res.json({ token, user }));
-};
+  });
 
 /**
  * @api {post} /api/user/register Request Register
@@ -51,33 +56,41 @@ const login = (req, res) => {
  *          "error"; "email already exists"
  *     }
  */
-const register = (req, res) => {
-  const { user } = req.body;
-  user.role_id = 2;
-  return userService
-    .saveUser(user)
-    .then(() => res.status(201).json({}))
-    .catch(err => res.status(400).json({ error: err.message }));
-};
+router
+  .route('/register')
+  .post((req, res) => {
+    const { user } = req.body;
+    user.role_id = 2;
+    return userService
+      .saveUser(user)
+      .then(() => res.status(201).json({}))
+      .catch(err => res.status(400).json({ error: err.message }));
+  });
 
-const findUserById = (req, res) => {
-  const { id } = req.params;
-
-  return userService
+router
+  .route('/:id')
+  .get((req, res) => {
+    const { id } = req.params;
+    
+    return userService
     .findUserById(id)
     .then(user => res.json(user))
     .catch(err => res.status(400).json(err));
-};
+});
 
-const findCartByUserId = (req, res) => {
+router
+  .use('/:id/cart', authenticate)
+  .get((req, res) => {
   const { id } = req.params;
   return userService
     .findCartAndProductByUserId(id)
     .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
-};
+})
 
-const saveProductToCart = (req, res) => {
+router
+  .use('/:id/cart/:product_id', authenticate)
+  .get((req, res) => {
   const { id } = req.params;
   const { product } = req.body;
 
@@ -85,25 +98,21 @@ const saveProductToCart = (req, res) => {
     .saveCartItem(id, product)
     .then(() => res.status(201).json())
     .catch(err => res.status(400).json(err));
-};
+});
 
-const moveCartItemToWishList = (req, res) => {
-  const { id, product_id } = req.params;
-  return userService
-    .moveItem(MOVETOWISHLIST, id, product_id)
-    .then(cart => res.json(cart))
-    .catch(err => res.status(400).json(err));
-};
-
-const findWishListByUserId = (req, res) => {
+router
+  .use('/:id/wishlist', authenticate)
+  .get((req, res) => {
   const { id } = req.params;
   return userService
     .findWishListAndProductByUserId(id)
     .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
-};
+});
 
-const saveProductToWishList = (req, res) => {
+router
+  .use('/:id/wishlist/:product_id', authenticate)
+  .get((req, res) => {
   const { id } = req.params;
   const { product } = req.body;
 
@@ -111,24 +120,16 @@ const saveProductToWishList = (req, res) => {
     .saveWishListItem(id, product)
     .then(() => res.status(201).json())
     .catch(err => res.status(400).json(err));
-};
+});
 
-const moveWishListItemToCart = (req, res) => {
+router
+  .use('/:id/cart/:product_id', authenticate)
+  .get((req, res) => {
   const { id, product_id } = req.params;
   return userService
     .moveItem(MOVETOCART, id, product_id)
     .then(list => res.json(list))
     .catch(err => res.status(400).json(err));
-};
+});
 
-module.exports = {
-  login,
-  register,
-  findUserById,
-  findCartByUserId,
-  saveProductToCart,
-  findWishListByUserId,
-  saveProductToWishList,
-  moveCartItemToWishList,
-  moveWishListItemToCart
-};
+module.exports = router;
