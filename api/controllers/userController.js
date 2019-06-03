@@ -56,7 +56,8 @@ router.route('/login')
  *          "error"; "email already exists"
  *     }
  */
-router.route('/register')
+router
+  .route('/register')
   .post((req, res) => {
     const { user } = req.body;
     user.role_id = 2;
@@ -66,7 +67,8 @@ router.route('/register')
       .catch(err => res.status(400).json({ error: err.message }));
   });
 
-router.route('/:id')
+router
+  .route('/:id')
   .get((req, res) => {
     const { id } = req.params;
     
@@ -76,8 +78,9 @@ router.route('/:id')
     .catch(err => res.status(400).json(err));
 });
 
-router.use('/:id/cart', authenticate)
-.get((req, res) => {
+router
+  .use('/:id/cart', authenticate)
+  .get((req, res) => {
   const { id } = req.params;
   return userService
     .findCartAndProductByUserId(id)
@@ -85,38 +88,31 @@ router.use('/:id/cart', authenticate)
     .catch(err => res.status(400).json(err));
 })
 
-// router.use('/:id/cart/:product_id', authenticate)
-// .get((req, res) => {
-// const saveProductToCart = (req, res) => {
-//   const { id } = req.params;
-//   const { product } = req.body;
+router
+  .use('/:id/cart/:product_id', authenticate)
+  .get((req, res) => {
+  const { id } = req.params;
+  const { product } = req.body;
 
-//   return userService
-//     .saveCartItem(id, product)
-//     .then(() => res.status(201).json())
-//     .catch(err => res.status(400).json(err));
-// };
+  return userService
+    .saveCartItem(id, product)
+    .then(() => res.status(201).json())
+    .catch(err => res.status(400).json(err));
+});
 
-// const moveCartItemToWishList = (req, res) => {
-//   const { id, product_id } = req.params;
-//   return userService
-//     .moveItem(MOVETOWISHLIST, id, product_id)
-//     .then(cart => res.json(cart))
-//     .catch(err => res.status(400).json(err));
-// })
-
-router.use('/:id/wishlist', authenticate)
-.get((req, res) => {
+router
+  .use('/:id/wishlist', authenticate)
+  .get((req, res) => {
   const { id } = req.params;
   return userService
     .findWishListAndProductByUserId(id)
     .then(cart => res.json(cart))
     .catch(err => res.status(400).json(err));
-})
+});
 
-router.use('/:id/wishlist/:product_id', authenticate)
-.get((req, res) => {
-const saveProductToWishList = (req, res) => {
+router
+  .use('/:id/wishlist/:product_id', authenticate)
+  .get((req, res) => {
   const { id } = req.params;
   const { product } = req.body;
 
@@ -124,25 +120,16 @@ const saveProductToWishList = (req, res) => {
     .saveWishListItem(id, product)
     .then(() => res.status(201).json())
     .catch(err => res.status(400).json(err));
-};
+});
 
-const moveWishListItemToCart = (req, res) => {
+router
+  .use('/:id/cart/:product_id', authenticate)
+  .get((req, res) => {
   const { id, product_id } = req.params;
   return userService
     .moveItem(MOVETOCART, id, product_id)
     .then(list => res.json(list))
     .catch(err => res.status(400).json(err));
-})
+});
 
-// module.exports = router
-module.exports = {
-  login,
-  register,
-  findUserById,
-  findCartByUserId,
-  saveProductToCart,
-  findWishListByUserId,
-  saveProductToWishList,
-  moveCartItemToWishList,
-  moveWishListItemToCart
-};
+module.exports = router;
