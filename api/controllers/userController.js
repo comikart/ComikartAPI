@@ -85,14 +85,25 @@ router.use('/:id/cart', authenticate)
     .catch(err => res.status(400).json(err));
 })
 
-router.use('/:id/cart/:product_id', authenticate)
-.get((req, res) => {
-  const { id, product_id } = req.params;
-  return userService
-    .moveItem(MOVETOWISHLIST, id, product_id)
-    .then(cart => res.json(cart))
-    .catch(err => res.status(400).json(err));
-})
+// router.use('/:id/cart/:product_id', authenticate)
+// .get((req, res) => {
+// const saveProductToCart = (req, res) => {
+//   const { id } = req.params;
+//   const { product } = req.body;
+
+//   return userService
+//     .saveCartItem(id, product)
+//     .then(() => res.status(201).json())
+//     .catch(err => res.status(400).json(err));
+// };
+
+// const moveCartItemToWishList = (req, res) => {
+//   const { id, product_id } = req.params;
+//   return userService
+//     .moveItem(MOVETOWISHLIST, id, product_id)
+//     .then(cart => res.json(cart))
+//     .catch(err => res.status(400).json(err));
+// })
 
 router.use('/:id/wishlist', authenticate)
 .get((req, res) => {
@@ -105,6 +116,17 @@ router.use('/:id/wishlist', authenticate)
 
 router.use('/:id/wishlist/:product_id', authenticate)
 .get((req, res) => {
+const saveProductToWishList = (req, res) => {
+  const { id } = req.params;
+  const { product } = req.body;
+
+  return userService
+    .saveWishListItem(id, product)
+    .then(() => res.status(201).json())
+    .catch(err => res.status(400).json(err));
+};
+
+const moveWishListItemToCart = (req, res) => {
   const { id, product_id } = req.params;
   return userService
     .moveItem(MOVETOCART, id, product_id)
@@ -112,4 +134,15 @@ router.use('/:id/wishlist/:product_id', authenticate)
     .catch(err => res.status(400).json(err));
 })
 
-module.exports = router
+// module.exports = router
+module.exports = {
+  login,
+  register,
+  findUserById,
+  findCartByUserId,
+  saveProductToCart,
+  findWishListByUserId,
+  saveProductToWishList,
+  moveCartItemToWishList,
+  moveWishListItemToCart
+};
