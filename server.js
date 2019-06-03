@@ -3,7 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const server = express();
-const router = require('./api/routes/router');
+
+const userController = require('./api/controllers/userController');
+const paymentOptionController = require('./api/controllers/paymentOptionController');
 
 // mount middleware
 server.use(cors());
@@ -30,5 +32,6 @@ server.use(express.json());
 
 // route handler.
 server.use('/api/user', userController);
+server.use('/api/user/:id/paymentoption', paymentOptionController);
 
 module.exports = server;
