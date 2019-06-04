@@ -6,6 +6,7 @@ const server = express();
 
 const userController = require('./api/controllers/userController');
 const paymentOptionController = require('./api/controllers/paymentOptionController');
+const purchaseController = require('./api/controllers/purchaseController');
 
 // mount middleware
 server.use(cors());
@@ -33,5 +34,6 @@ server.use(express.json());
 // route handler.
 server.use('/api/user', userController);
 server.use('/api/user/:id/paymentoption', paymentOptionController);
+server.uses('/api/user/:id/purchase', purchaseController);
 
 module.exports = server;
