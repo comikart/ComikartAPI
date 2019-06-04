@@ -20,7 +20,7 @@ const service = require('../services/productService');
  *         },
  *      ]
  */
-const findAllProducts = (req, res) => {
+router.route('/', (req, res) => {
   const { category, page = 1, count = 10 } = req.query;
   return (!category
     ? service.findAllProducts(page, count)
@@ -28,7 +28,7 @@ const findAllProducts = (req, res) => {
   )
     .then(products => res.json(products))
     .catch(err => res.status(500).json(err));
-};
+});
 
 /**
  * @api {get} /api/product/:id Request Product By Id
@@ -49,16 +49,13 @@ const findAllProducts = (req, res) => {
  *        }
  */
 
-const findProductById = (req, res) => {
+router.route('/:id', (req, res) => {
   const { id } = req.params;
 
   return service
     .findProductById(id)
     .then(product => res.json(product))
     .catch(err => res.status(400).json(err));
-};
+});
 
-module.exports = {
-  findAllProducts,
-  findProductById
-};
+module.exports = router;

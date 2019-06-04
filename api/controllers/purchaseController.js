@@ -1,6 +1,8 @@
 const service = require('../services/purchaseService');
 
-const savePurchase = (req, res) => {
+router
+  .route('/')
+  .post((req, res) => {
   const { id } = req.params;
   const { purchase } = req.body;
 
@@ -10,29 +12,27 @@ const savePurchase = (req, res) => {
       res.status(201).json({ result });
     })
     .catch(err => res.status(400).json(err));
-};
+})
 
-const findPurchaseByUserId = (req, res) => {
-  const { id } = req.params;
-  const { status } = req.query;
+  .get((req, res) => {
+    const { id } = req.params;
+    const { status } = req.query;
 
-  return service
-    .findPurchaseByUserId(id, status)
-    .then(purchases => res.json(purchases))
-    .catch(err => res.status(400).json(err));
-};
+    return service
+      .findPurchaseByUserId(id, status)
+      .then(purchases => res.json(purchases))
+      .catch(err => res.status(400).json(err));
+  });
 
-const findPurchaseById = (req, res) => {
+router
+  .route('/:purchase_id')
+  .get((req, res) => {
   const { purchase_id } = req.params;
 
   return service
     .findPurchaseById(purchase_id)
     .then(purchase => res.json(purchase))
     .catch(err => res.status(400).json(err));
-};
+});
 
-module.exports = {
-  savePurchase,
-  findPurchaseByUserId,
-  findPurchaseById
-};
+module.exports = router;
