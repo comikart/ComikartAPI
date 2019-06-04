@@ -20,7 +20,7 @@ exports.seed = function(knex, Promise) {
         },
         {
           credit_card: 4242424242423,
-          address: '424 whambam st',
+          address_one: '424 whambam st',
           exp_month: '05',
           exp_year: '2020',
           postal_code: '55555',
@@ -33,7 +33,7 @@ exports.seed = function(knex, Promise) {
         },
         {
           credit_card: 324242424242,
-          address: '324 whambam st',
+          address_one: '324 whambam st',
           exp_month: '05',
           exp_year: '2020',
           country: 'US',

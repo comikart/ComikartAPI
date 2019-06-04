@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const server = express();
-const router = require('./api/routes/router');
+const userController = require('./api/controllers/userController');
 
 // mount middleware
 server.use(cors());
@@ -24,8 +24,8 @@ server.use(express.json());
  *       "status": "Connected"
  *     }
  */
- server.get('/', (req, res) => {
-  res.json({status: 'connected'});
+server.get('/', (req, res) => {
+  res.json({ status: 'connected' });
 });
 
 // route handler.
