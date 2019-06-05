@@ -20,6 +20,10 @@ const findUserByEmail = () =>
   new Promise((resolve, reject) => {
     resolve(user);
   });
+const findUserById = id =>
+  new Promise((resolve, reject) => {
+    resolve(user);
+  });
 
 const saveUser = user =>
   new Promise((resolve, reject) => {
@@ -66,6 +70,7 @@ const findWishListAndProductByUserId = id =>
 
 module.exports = {
   findUserByEmail,
+  findUserById,
   saveUser,
   findCartAndProductByUserId,
   moveItem,
