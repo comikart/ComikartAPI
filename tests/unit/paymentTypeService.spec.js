@@ -46,7 +46,7 @@ describe('Testing the paymentTypeService', () => {
     it('Should return a payment type by id', () => {
       const debit = { debit: 1 };
       tracker.on('query', query => {
-        const regex = /from\s"payment_type"\swhere/;
+        const regex = /from\s"payment_type"\swhere\s"id"\s\=\s\$1/;
         expect(regex.test(query.sql)).toEqual(true);
         expect(query.method).toEqual('select');
         query.response(debit);
