@@ -1,0 +1,41 @@
+jest.mock('../../api/services/userService.js');
+jest.mock('../../api/utils/security.js');
+const server = require('../../server');
+const mockMvc = require('supertest')(server);
+
+describe('Server', () => {
+  it('should return a string on a successful response', done => {
+    mockMvc
+      .get('/')
+      .expect(200)
+      .expect('{"status":"connected"}', done);
+  });
+});
+
+describe('/api/user', () => {
+  it('/login {POST} should return user data', done => {
+    mockMvc
+      .post('/api/user/login')
+      .send({
+        email: 'john@email.com',
+        password: 'Hello'
+      })
+      .expect(200, done);
+  });
+
+  it('/register {POST} should return en empty json and 201 status', done => {
+    mockMvc
+      .post('/api/user/register')
+      .send({
+        user: {
+          email: 'doe@email.com',
+          password: 'password'
+        }
+      })
+      .expect(201, {}, done);
+  });
+
+  it('/:id {GET} should return a user by id', done => {
+    mockMvc.get('/api/user/1').expect(200, done);
+  });
+});

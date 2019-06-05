@@ -1,4 +1,4 @@
-const router = require('express').router();
+const router = require('express').Router();
 const service = require('../services/paymentOptionService');
 
 /**
@@ -34,7 +34,7 @@ const service = require('../services/paymentOptionService');
  */
 
 router
-  .route('/')
+  .route('/:id/paymentoption/')
   .get((req, res) => {
     const { id } = req.params;
 
@@ -98,7 +98,7 @@ router
  */
 
 router
-  .route('/:paymentoption_id')
+  .route('/:id/paymentoption/:paymentoption_id')
   .get((req, res) => {
     const { paymentoption_id } = req.params;
 

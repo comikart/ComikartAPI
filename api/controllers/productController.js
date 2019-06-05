@@ -1,4 +1,5 @@
 const service = require('../services/productService');
+const router = require('express').Router();
 
 /**
  * @api {get} /api/product Request All Products
@@ -20,7 +21,7 @@ const service = require('../services/productService');
  *         },
  *      ]
  */
-router.route('/', (req, res) => {
+router.route('/').get((req, res) => {
   const { category, page = 1, count = 10 } = req.query;
   return (!category
     ? service.findAllProducts(page, count)
@@ -49,7 +50,7 @@ router.route('/', (req, res) => {
  *        }
  */
 
-router.route('/:id', (req, res) => {
+router.route('/:id').get((req, res) => {
   const { id } = req.params;
 
   return service

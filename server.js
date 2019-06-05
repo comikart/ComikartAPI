@@ -30,16 +30,16 @@ server.use(express.json());
  *       "status": "Connected"
  *     }
  */
- server.get('/', (req, res) => {
-  res.json({status: 'connected'});
+server.get('/', (req, res) => {
+  res.json({ status: 'connected' });
 });
 
 // route handler.
 server.use('/api/user', userController);
-server.use('/api/user/:id/paymentoption', paymentOptionController);
-server.use('/api/user/:id/purchase', purchaseController);
+server.use('/api/user', paymentOptionController);
+server.use('/api/user', purchaseController);
 server.use('/api/product', productController);
 server.use('/api/product', couponController);
-server.use('/api/product/:product_id/review', reviewController);
+server.use('/api/product', reviewController);
 
 module.exports = server;

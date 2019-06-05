@@ -8,6 +8,7 @@ exports.up = function(knex, Promise) {
       table.increments('id');
       table.decimal('sub_total');
       table.decimal('tax');
+      table.decimal('shipping');
       table.decimal('total');
       table
         .integer('payment_id')

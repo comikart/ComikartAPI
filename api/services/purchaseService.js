@@ -2,6 +2,8 @@ const knex = require('../../db/knex');
 const statusService = require('./statusService');
 const invoiceService = require('./invoiceService');
 const userService = require('./userService');
+const Taxjar = require('taxjar');
+const client = new Taxjar({ apiKey: process.env.TAXJAR_API_KEY });
 
 const findPurchaseById = id => {
   return knex
@@ -45,14 +47,29 @@ const savePurchase = (id, purchase) => {
   return userService
     .findCartSubTotalByUserId(id)
     .then(subTotal => {
+      // creating the tax info and submitting to taxjar
+      const payload = {
+        from_country: 'US', // TODO convert hardcoded data to variable data.
+        from_city: 'Las Vegas',
+        from_state: 'NV',
+        from_street: 'Lake Mead Blvd',
+        to_country: purchase.country,
+        to_city: purchase.city,
+        to_zip: purchase.zip,
+        to_state: purchase.state,
+        to_street: purchase.street_one,
+        amount: subTotal,
+        shipping: 5.0
+      };
+      return client.taxForOrder(payload);
+    })
+    .then(res => {
       // creating the invoice.
-      const tax = 1.0; //TODO get the proper tax by state
-
       const invoice = {
-        sub_total: subTotal,
-        tax: tax,
-        total: subTotal * tax,
-        shipping_address: purchase.shipping_address,
+        sub_total: res.tax.taxable_amount,
+        tax: res.tax.amount_to_collect,
+        shipping: res.tax.shipping,
+        total: res.tax.order_total_amount,
         payment_id: purchase.payment_id
       };
 
