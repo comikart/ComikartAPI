@@ -1,4 +1,5 @@
 const service = require('../services/reviewService');
+const router = require('express').Router();
 
 const findAllReviews = (req, res) =>
   service
@@ -7,7 +8,7 @@ const findAllReviews = (req, res) =>
     .catch(err => res.status(500).json(err));
 
 router
-  .route('/')
+  .route('/:product_id/review/')
   .get((req, res) => {
     const { product_id } = req.params;
 
@@ -34,13 +35,13 @@ router
   });
 
 router
-  .route('/:review_id')
+  .route('/:product_id/review/:review_id')
   .get((req, res) => {
     const { review_id } = req.params;
 
     return Promise.all([
       service.findReviewAndHelpfulById(review_id),
-      service.findAllCommentsByReviewId(review_id),
+      service.findAllCommentsByReviewId(review_id)
     ])
       .then(arr => {
         const review = Object.assign({}, arr[0].rows[0], { comments: arr[1] });
@@ -58,7 +59,7 @@ router
   });
 
 router
-  .route('/:review_id/comment')
+  .route('/:product_id/review/:review_id/comment')
   .get((req, res) => {
     const { review_id } = req.params;
 
@@ -79,16 +80,18 @@ router
       .catch(err => res.status(400).json(err));
   });
 
-router.route('/:review_id/comment/:comment_id').delete((req, res) => {
-  const { comment_id } = req.params;
+router
+  .route('/:product_id/review/:review_id/comment/:comment_id')
+  .delete((req, res) => {
+    const { comment_id } = req.params;
 
-  return service
-    .deleteCommentById(comment_id)
-    .then(() => res.status(204).json({}))
-    .catch(err => res.status(400).json(err));
-});
+    return service
+      .deleteCommentById(comment_id)
+      .then(() => res.status(204).json({}))
+      .catch(err => res.status(400).json(err));
+  });
 
-router.route('/:review_id/helpful').post((req, res) => {
+router.route('/:product_id/review/:review_id/helpful').post((req, res) => {
   const { helpful } = req.body;
   const { review_id } = req.params;
 

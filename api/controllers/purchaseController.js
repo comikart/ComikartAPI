@@ -1,22 +1,25 @@
 const service = require('../services/purchaseService');
+const router = require('express').Router();
 
 router
-  .route('/')
+  .route('/:id/purchase/')
   .post((req, res) => {
-  const { id } = req.params;
-  const { purchase } = req.body;
+    const { id } = req.params;
+    const { purchase } = req.body;
 
-  return service
-    .savePurchase(id, purchase)
-    .then(result => {
-      res.status(201).json({ result });
-    })
-    .catch(err => res.status(400).json(err));
-})
+    return service
+      .savePurchase(id, purchase)
+      .then(result => {
+        res.status(201).json({ result });
+      })
+      .catch(err => res.status(400).json(err));
+  })
 
   .get((req, res) => {
     const { id } = req.params;
     const { status } = req.query;
+
+    console.log(id);
 
     return service
       .findPurchaseByUserId(id, status)
@@ -24,9 +27,7 @@ router
       .catch(err => res.status(400).json(err));
   });
 
-router
-  .route('/:purchase_id')
-  .get((req, res) => {
+router.route('/:id/purchase/:purchase_id').get((req, res) => {
   const { purchase_id } = req.params;
 
   return service

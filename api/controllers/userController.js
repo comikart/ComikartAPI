@@ -28,7 +28,7 @@ const { MOVETOWISHLIST, MOVETOCART } = userService;
  *          "error"; "incorrect email or password"
  *     }
  */
-router.route('/login').post(authenticate, (req, res) => {
+router.use('/login', authenticate, (req, res) => {
   const { token, email } = req.body;
   return userService
     .findUserByEmail(email)
@@ -71,7 +71,7 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.use('/:id/cart', authenticate).get((req, res) => {
+router.route('/:id/cart').get((req, res) => {
   const { id } = req.params;
   return userService
     .findCartAndProductByUserId(id)
@@ -79,7 +79,7 @@ router.use('/:id/cart', authenticate).get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.use('/:id/cart/:product_id', authenticate).get((req, res) => {
+router.route('/:id/cart/:product_id').get((req, res) => {
   const { id } = req.params;
   const { product } = req.body;
 
@@ -89,7 +89,15 @@ router.use('/:id/cart/:product_id', authenticate).get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.use('/:id/wishlist', authenticate).get((req, res) => {
+router.route('/:id/cart/:product_id').get((req, res) => {
+  const { id, product_id } = req.params;
+  return userService
+    .moveItem(MOVETOWISHLIST, id, product_id)
+    .then(list => res.json(list))
+    .catch(err => res.status(400).json(err));
+});
+
+router.route('/:id/wishlist').get((req, res) => {
   const { id } = req.params;
   return userService
     .findWishListAndProductByUserId(id)
@@ -97,7 +105,7 @@ router.use('/:id/wishlist', authenticate).get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.use('/:id/wishlist/:product_id', authenticate).get((req, res) => {
+router.route('/:id/wishlist/:product_id').get((req, res) => {
   const { id } = req.params;
   const { product } = req.body;
 
@@ -107,7 +115,7 @@ router.use('/:id/wishlist/:product_id', authenticate).get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.use('/:id/cart/:product_id', authenticate).get((req, res) => {
+router.route('/:id/wishlist/:product_id').get((req, res) => {
   const { id, product_id } = req.params;
   return userService
     .moveItem(MOVETOCART, id, product_id)

@@ -1,4 +1,5 @@
 const service = require('../services/couponService');
+const router = require('express').Router();
 
 // api/product/coupon
 router
