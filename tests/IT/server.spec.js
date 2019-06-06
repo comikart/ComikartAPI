@@ -38,4 +38,25 @@ describe('/api/user', () => {
   it('/:id {GET} should return a user by id', done => {
     mockMvc.get('/api/user/1').expect(200, done);
   });
+
+  it("/:id/cart {GET} should return the client's cart", done => {
+    mockMvc
+      .get('/api/user/1/cart')
+      .expect(200)
+      .then(res => {
+        expect(res.body.length).toBe(3);
+        done();
+      });
+  });
+
+  it('/:id/cart/:product_id {POST} should save a product to cart', done => {
+    mockMvc
+      .post('/api/user/1/cart/1')
+      .send({})
+      .expect(201, done);
+  });
+
+  it('/:id/cart/:product_id {GET} should move item from cart to wish list', done => {
+    mockMvc.get('/api/user/1/cart/1').expect(200, done);
+  });
 });
