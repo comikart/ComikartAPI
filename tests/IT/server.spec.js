@@ -28,8 +28,9 @@ describe('/api/user', () => {
       .post('/api/user/register')
       .send({
         user: {
-          email: 'doe@email.com',
-          password: 'password',
+          email: 'johndoe@email.com',
+          password: 'Password1',
+          passwordTwo: 'Password1',
         },
       })
       .expect(201, {}, done);
@@ -50,10 +51,10 @@ describe('/api/user', () => {
       });
   });
 
-  it('/:id/cart/:product_id {POST} should save a product to cart', done => {
+  it('/:id/cart {POST} should save a product to cart', done => {
     mockMvc
-      .post('/api/user/1/cart/1')
-      .send({})
+      .post('/api/user/1/cart')
+      .send({ product: 1 })
       .expect(201, done);
   });
 
