@@ -83,7 +83,7 @@ describe('Testing the paymentOptionService', () => {
   });
 
   describe('Test findPaymentOptionById', () => {
-    it('Should return payment option by an id', done => {
+    it('Should return payment option by an id of 1', done => {
       const seed = {
         id: 1,
         credit_card: 424242424242,
@@ -108,5 +108,61 @@ describe('Testing the paymentOptionService', () => {
         done();
       });
     });
+
+    it('Should return payment option by an id of 4', done => {
+      const seed = {
+        id: 4,
+        credit_card: 324242424242,
+        billing_address: '324 whambam st',
+        exp: '05/20',
+        security_number: 444,
+        active: false,
+        user_id: 1,
+        type_id: 2,
+      };
+
+      tracker.on('query', query => {
+        const regex = /['select\s\*\sfrom\s"payment_option"\swhere\s"id"\s=\s\$1']/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.bindings[0]).toBe(4);
+        expect(query.method).toBe('select');
+        query.response(seed);
+      });
+
+      return service.findPaymentOptionById(4).then(res => {
+        expect(res).toEqual(seed);
+        done();
+      });
+    });
   });
+
+  describe('Test savePaymentOption', () => {
+    it('Should save a paymentOption', done => {
+      const paymentOption = {
+        id: 5,
+        credit_card: 64544424242,
+        billing_address: '933 whambam st',
+        exp: '05/20',
+        security_number: 444,
+        active: false,
+        user_id: 3,
+        type_id: 1,
+      };
+
+      tracker.on('query', query => {
+        console.log('query', query);
+        const regex = /["payment_option"\s("active", "billing_address",\s'\+\s'"credit_card")]/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.method).toBe('insert');
+        expect(query.bindings.length).toBe(7);
+        query.response(paymentOption);
+      });
+
+      return service.savePaymentOption(paymentOption).then(res => {
+        expect(res).toEqual(paymentOption);
+        done();
+      });
+    });
+  });
+
 });
