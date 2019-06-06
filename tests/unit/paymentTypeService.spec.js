@@ -43,16 +43,30 @@ describe('Testing the paymentTypeService', () => {
     });
   });
   describe('Test findPaymentTypeById', () => {
-    it('Should return a payment type by id', () => {
+    it('Should return "debit" with an id of 1', () => {
       const debit = { debit: 1 };
       tracker.on('query', query => {
         const regex = /from\s"payment_type"\swhere\s"id"\s\=\s\$1/;
         expect(regex.test(query.sql)).toEqual(true);
         expect(query.method).toEqual('select');
+        expect(query.bindings[0]).toEqual(1);
         query.response(debit);
       });
       return service.findPaymentTypeById(1).then(res => {
         expect(res).toEqual(debit);
+      });
+    });
+    it('Should return "credit" with an id of 2', () => {
+      const credit = { credit: 2 };
+      tracker.on('query', query => {
+        const regex = /from\s"payment_type"\swhere\s"id"\s\=\s\$1/;
+        expect(regex.test(query.sql)).toEqual(true);
+        expect(query.method).toEqual('select');
+        expect(query.bindings[0]).toEqual(2);
+        query.response(credit);
+      });
+      return service.findPaymentTypeById(2).then(res => {
+        expect(res).toEqual(credit);
       });
     });
   });
