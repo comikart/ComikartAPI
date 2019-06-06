@@ -2,7 +2,7 @@ const router = require('express').Router();
 const { authenticate, authorization } = require('../utils/security');
 const userService = require('../services/userService');
 const { MOVETOWISHLIST, MOVETOCART } = userService;
-
+const { validateForm } = require('../utils/validation');
 /**
  * @api {post} /api/user/login Request Login
  * @apiVersion 1.0.0
@@ -53,9 +53,10 @@ router.route('/login').post(authenticate, (req, res) => {
  *          "error"; "email already exists"
  *     }
  */
-router.route('/register').post((req, res) => {
+router.route('/register').post(validateForm, (req, res) => {
   const { user } = req.body;
   user.role_id = 2;
+  delete user.passwordTwo;
   return userService
     .saveUser(user)
     .then(() => res.status(201).json({}))
