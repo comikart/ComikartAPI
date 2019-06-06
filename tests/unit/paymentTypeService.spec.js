@@ -1,10 +1,10 @@
 const mockDb = require('mock-knex');
-const knex = require('../../db/knex');
 
+const knex = require('../../db/knex');
 const service = require('../../api/services/paymentTypeService');
 const development = require('../../knexfile').development;
-const tracker = mockDb.getTracker();
 
+const tracker = mockDb.getTracker();
 const db = knex(development);
 
 beforeAll(() => {
