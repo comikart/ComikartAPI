@@ -3,6 +3,11 @@ const authenticate = (req, res, next) => {
   next();
 };
 
+const authorization = (req, res, next) => {
+  next();
+};
+
 module.exports = {
-  authenticate
+  authenticate,
+  authorization
 };

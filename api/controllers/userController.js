@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { authenticate } = require('../utils/security');
+const { authenticate, authorization } = require('../utils/security');
 const userService = require('../services/userService');
 const { MOVETOWISHLIST, MOVETOCART } = userService;
 
@@ -62,7 +62,7 @@ router.route('/register').post((req, res) => {
     .catch(err => res.status(400).json({ error: err.message }));
 });
 
-router.route('/:id').get((req, res) => {
+router.use('/:id', authorization, (req, res) => {
   const { id } = req.params;
 
   return userService
@@ -79,7 +79,7 @@ router.route('/:id/cart').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.route('/:id/cart/:product_id').get((req, res) => {
+router.route('/:id/cart/:product_id').post((req, res) => {
   const { id } = req.params;
   const { product } = req.body;
 
