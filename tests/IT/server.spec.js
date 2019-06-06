@@ -18,7 +18,7 @@ describe('/api/user', () => {
       .post('/api/user/login')
       .send({
         email: 'john@email.com',
-        password: 'Hello'
+        password: 'Hello',
       })
       .expect(200, done);
   });
@@ -29,8 +29,8 @@ describe('/api/user', () => {
       .send({
         user: {
           email: 'doe@email.com',
-          password: 'password'
-        }
+          password: 'password',
+        },
       })
       .expect(201, {}, done);
   });
