@@ -73,23 +73,24 @@ router.route('/:id').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.route('/:id/cart').get((req, res) => {
-  const { id } = req.params;
-  return userService
-    .findCartAndProductByUserId(id)
-    .then(cart => res.json(cart))
-    .catch(err => res.status(400).json(err));
-});
+router
+  .route('/:id/cart')
+  .get((req, res) => {
+    const { id } = req.params;
+    return userService
+      .findCartAndProductByUserId(id)
+      .then(cart => res.json(cart))
+      .catch(err => res.status(400).json(err));
+  })
+  .post((req, res) => {
+    const { id } = req.params;
+    const { product } = req.body;
 
-router.route('/:id/cart/:product_id').post((req, res) => {
-  const { id } = req.params;
-  const { product } = req.body;
-
-  return userService
-    .saveCartItem(id, product)
-    .then(() => res.status(201).json())
-    .catch(err => res.status(400).json(err));
-});
+    return userService
+      .saveCartItem(id, product)
+      .then(() => res.status(201).json())
+      .catch(err => res.status(400).json(err));
+  });
 
 router.route('/:id/cart/:product_id').get((req, res) => {
   const { id, product_id } = req.params;
@@ -99,23 +100,24 @@ router.route('/:id/cart/:product_id').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.route('/:id/wishlist').get((req, res) => {
-  const { id } = req.params;
-  return userService
-    .findWishListAndProductByUserId(id)
-    .then(cart => res.json(cart))
-    .catch(err => res.status(400).json(err));
-});
+router
+  .route('/:id/wishlist')
+  .get((req, res) => {
+    const { id } = req.params;
+    return userService
+      .findWishListAndProductByUserId(id)
+      .then(cart => res.json(cart))
+      .catch(err => res.status(400).json(err));
+  })
+  .post((req, res) => {
+    const { id } = req.params;
+    const { product } = req.body;
 
-router.route('/:id/wishlist/:product_id').get((req, res) => {
-  const { id } = req.params;
-  const { product } = req.body;
-
-  return userService
-    .saveWishListItem(id, product)
-    .then(() => res.status(201).json())
-    .catch(err => res.status(400).json(err));
-});
+    return userService
+      .saveWishListItem(id, product)
+      .then(() => res.status(201).json())
+      .catch(err => res.status(400).json(err));
+  });
 
 router.route('/:id/wishlist/:product_id').get((req, res) => {
   const { id, product_id } = req.params;
