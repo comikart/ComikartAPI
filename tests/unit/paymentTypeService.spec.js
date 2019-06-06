@@ -26,10 +26,7 @@ afterAll(() => {
 describe('Testing the paymentTypeService', () => {
   describe('Test findAllPaymentType', () => {
     it('Should return all seed data', () => {
-      const seed = {
-        debit: 1,
-        credit: 2,
-      };
+      const seed = [{ debit: 1 }, { credit: 2 }];
       tracker.on('query', query => {
         const regex = /select\s\*\sfrom\s"payment_type"/;
         expect(regex.test(query.sql)).toBe(true);
