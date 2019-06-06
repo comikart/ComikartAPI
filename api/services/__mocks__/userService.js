@@ -40,11 +40,15 @@ const findCartAndProductByUserId = id =>
       { user_id: USERID, product_id: 3, quantity: 1 }
     ];
 
-    id === 1
+    Number(id) === 1
       ? resolve(cart)
       : typeof id === 'number'
       ? resolve([])
       : reject('Invalid ID was passed');
+  });
+const saveCartItem = (id, product_id) =>
+  new Promise((resolve, reject) => {
+    resolve();
   });
 
 const moveItem = (enumerator, id, product_id) =>
@@ -73,6 +77,7 @@ module.exports = {
   findUserById,
   saveUser,
   findCartAndProductByUserId,
+  saveCartItem,
   moveItem,
   findWishListAndProductByUserId,
   USERID,

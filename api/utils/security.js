@@ -42,11 +42,17 @@ const authorization = (req, res, next) => {
     ? verifyToken(token)
         .then(decoded => {
           req.decoded = decoded;
-          next();
+          const regex = /\/api\/admin/;
+          if (
+            (regex.test(req.baseUrl) && decoded.role === 1) ||
+            !regex.test(req.baseUrl)
+          ) {
+            next();
+          } else {
+            return Promise.reject('user is not an admin');
+          }
         })
-        .catch(err =>
-          res.status(403).json({ error: 'expired or invalid token.' })
-        )
+        .catch(err => res.status(403).json({ err }))
     : res.status(403).json({
         error: 'No token provided, must be set on the Authorization Header.'
       });
