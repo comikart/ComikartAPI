@@ -28,7 +28,7 @@ const { MOVETOWISHLIST, MOVETOCART } = userService;
  *          "error"; "incorrect email or password"
  *     }
  */
-router.use('/login', authenticate, (req, res) => {
+router.route('/login').post(authenticate, (req, res) => {
   const { token, email } = req.body;
   return userService
     .findUserByEmail(email)
@@ -62,7 +62,9 @@ router.route('/register').post((req, res) => {
     .catch(err => res.status(400).json({ error: err.message }));
 });
 
-router.use('/:id', authorization, (req, res) => {
+router.use('/:id', authorization);
+
+router.route('/:id').get((req, res) => {
   const { id } = req.params;
 
   return userService

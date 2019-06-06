@@ -13,7 +13,6 @@ const verifyToken = token =>
 
 const authenticate = (req, res, next) => {
   const { email, password } = req.body;
-
   findUserByEmail(email)
     .then(user => {
       verifyPwd(password, user.password)
@@ -31,7 +30,7 @@ const authenticate = (req, res, next) => {
     .catch(err =>
       res
         .status(400)
-        .json({ error: 'no user found by the email. ' + err.message })
+        .json({ error: 'no user found by the email. ' + err.message }),
     );
 };
 
@@ -42,10 +41,10 @@ const authorization = (req, res, next) => {
     ? verifyToken(token)
         .then(decoded => {
           req.decoded = decoded;
-          const regex = /\/api\/admin/;
+          const isAdminRoute = /\/api\/admin/;
           if (
-            (regex.test(req.baseUrl) && decoded.role === 1) ||
-            !regex.test(req.baseUrl)
+            (isAdminRoute.test(req.baseUrl) && decoded.role === 1) ||
+            !isAdminRoute.test(req.baseUrl)
           ) {
             next();
           } else {
@@ -54,11 +53,11 @@ const authorization = (req, res, next) => {
         })
         .catch(err => res.status(403).json({ err }))
     : res.status(403).json({
-        error: 'No token provided, must be set on the Authorization Header.'
+        error: 'No token provided, must be set on the Authorization Header.',
       });
 };
 
 module.exports = {
   authenticate,
-  authorization
+  authorization,
 };
