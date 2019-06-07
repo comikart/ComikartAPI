@@ -81,5 +81,23 @@ describe('Test couponService', () => {
     });
   });
 
- 
+  describe('Test findCouponByCode', () => {
+    it('Should return a coupon by its code', done => {
+      const coupon = { code: 'MAY_2019', discount: 49.5, is_percent: false };
+      const code = 'MAY_2019';
+
+      tracker.on('query', query => {
+        const regex = /select\s\*\sfrom\s"coupon"\swhere\s"code"\s\=\s\$1/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.method).toBe('select');
+        expect(query.bindings[0]).toBe(code);
+        query.response(coupon);
+      });
+
+      return service.findCouponByCode(code).then(res => {
+        expect(res).toEqual(coupon);
+        done();
+      });
+    });
+  });
 });
