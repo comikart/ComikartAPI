@@ -66,4 +66,25 @@ describe('Test statusService', () => {
       });
     });
   });
+
+  describe('Test findStatusByTitle', () => {
+    it('Should return an status by title', done => {
+      const status = { title: 'open' };
+      const title = 'open';
+
+      tracker.on('query', query => {
+        const regex = /select\s\*\sfrom\s"status"\swhere\s"title"\s\=\s\$1\slimit\s\$2/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.bindings.length).toBe(2);
+        expect(query.bindings).toEqual(['open', 1]);
+        expect(query.method).toBe('first');
+        query.response(status);
+      });
+
+      return service.findStatusByTitle(title).then(res => {
+        expect(res).toEqual(status);
+        done();
+      });
+    });
+  });
 });
