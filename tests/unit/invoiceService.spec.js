@@ -89,4 +89,29 @@ describe('Test invoiceService', () => {
       });
     });
   });
+
+  describe('Test saveInvoice', () => {
+    it('Should return the saved invoice', done => {
+      const invoice = {
+        sub_total: 43.23,
+        tax: 0.32,
+        shipping: 5.0,
+        total: 43.55,
+        payment_id: 1,
+      };
+
+      tracker.on('query', query => {
+        const regex = /[(\$1,\s\$2,\s\$3,\s\$4\s\$5)]/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.bindings.length).toBe(5);
+        expect(query.method).toBe('insert');
+        query.response(invoice);
+      });
+
+      service.saveInvoice(invoice).then(res => {
+        expect(res).toEqual(invoice);
+        done();
+      });
+    });
+  });
 });
