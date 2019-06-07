@@ -7,7 +7,12 @@ const key = 'blacklist';
 client.on('connect', () => console.log('Redis connected successfully'));
 client.on('error', () => console.log('Redis client didnt connect properly.'));
 
-const blackList = token => client.RPUSH(key, token);
+const blackList = token =>
+  new Promise((resolve, reject) => {
+    client.RPUSH(key, token, (err, res) => {
+      err ? reject(err) : resolve(res);
+    });
+  });
 
 const isBlacklisted = token =>
   new Promise((resolve, reject) => {

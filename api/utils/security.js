@@ -20,7 +20,7 @@ const authenticate = (req, res, next) => {
         .then(result => {
           if (result) {
             const payload = { id: user.id, role: user.role_id };
-            req.body.token = jwt.sign(payload, SECRET, { expiresIn: '1d' });
+            req.body.token = jwt.sign(payload, SECRET, { expiresIn: '24h' });
             next();
           } else {
             res.status(400).json({ error: 'incorrect email or password' });
