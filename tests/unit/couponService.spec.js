@@ -100,4 +100,24 @@ describe('Test couponService', () => {
       });
     });
   });
+
+  describe('Test findCouponByProductId', () => {
+    it('Should return coupons given a product ID', done => {
+      const coupon = { code: 'MAY_2019', discount: 49.5, is_percent: false };
+      const product_id = 1;
+
+      tracker.on('query', query => {
+        const regex = /select\s\*\sfrom\s"coupon"\swhere\s"product_id"\s\=\s\$1/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.method).toBe('select');
+        expect(query.bindings[0]).toBe(1);
+        query.response(coupon);
+      });
+
+      return service.findCouponByProductId(product_id).then(res => {
+        expect(res).toEqual(coupon);
+        done();
+      });
+    });
+  });
 });
