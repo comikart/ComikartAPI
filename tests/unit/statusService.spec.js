@@ -46,4 +46,24 @@ describe('Test statusService', () => {
       });
     });
   });
+
+  describe('Test findStatusById', () => {
+    it('Should return an invoice by ID', done => {
+      const status = { title: 'open' };
+
+      tracker.on('query', query => {
+        const regex = /select\s\*\sfrom\s"status"\swhere\s"id"\s\=\s\$1\slimit\s\$2/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.bindings.length).toBe(2);
+        expect(query.bindings).toEqual([1, 1]);
+        expect(query.method).toBe('first');
+        query.response(status);
+      });
+
+      return service.findStatusById(1).then(res => {
+        expect(res).toEqual(status);
+        done();
+      });
+    });
+  });
 });
