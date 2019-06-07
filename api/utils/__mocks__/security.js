@@ -9,5 +9,5 @@ const authorization = (req, res, next) => {
 
 module.exports = {
   authenticate,
-  authorization
+  authorization,
 };

@@ -28,8 +28,9 @@ describe('/api/user', () => {
       .post('/api/user/register')
       .send({
         user: {
-          email: 'doe@email.com',
-          password: 'password',
+          email: 'johndoe@email.com',
+          password: 'Password1',
+          passwordTwo: 'Password1',
         },
       })
       .expect(201, {}, done);
@@ -39,25 +40,25 @@ describe('/api/user', () => {
     mockMvc.get('/api/user/1').expect(200, done);
   });
 
-  // it("/:id/cart {GET} should return the client's cart", done => {
-  //   mockMvc
-  //     .get('/api/user/1/cart')
-  //     .set('Accept', 'application/json')
-  //     .expect(200)
-  //     .then(res => {
-  //       expect(res.body.length).toBe(3);
-  //       done();
-  //     });
-  // });
+  it("/:id/cart {GET} should return the client's cart", done => {
+    mockMvc
+      .get('/api/user/1/cart')
+      .set('Accept', 'application/json')
+      .expect(200)
+      .then(res => {
+        expect(res.body.length).toBe(3);
+        done();
+      });
+  });
 
-  // it('/:id/cart/:product_id {POST} should save a product to cart', done => {
-  //   mockMvc
-  //     .post('/api/user/1/cart/1')
-  //     .send({})
-  //     .expect(201, done);
-  // });
+  it('/:id/cart {POST} should save a product to cart', done => {
+    mockMvc
+      .post('/api/user/1/cart')
+      .send({ product: 1 })
+      .expect(201, done);
+  });
 
-  // it('/:id/cart/:product_id {GET} should move item from cart to wish list', done => {
-  //   mockMvc.get('/api/user/1/cart/1').expect(200, done);
-  // });
+  it('/:id/cart/:product_id {GET} should move item from cart to wish list', done => {
+    mockMvc.get('/api/user/1/cart/1').expect(200, done);
+  });
 });
