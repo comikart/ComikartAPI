@@ -51,7 +51,6 @@ describe('Test invoiceService', () => {
       ];
 
       tracker.on('query', query => {
-        console.log('query', query);
         const regex = /select\s\*\sfrom\s"invoice"/;
         expect(regex.test(query.sql)).toBe(true);
         expect(query.method).toBe('select');
@@ -59,6 +58,32 @@ describe('Test invoiceService', () => {
       });
 
       return service.findAllInvoices().then(res => {
+        expect(res).toEqual(seed);
+        done();
+      });
+    });
+  });
+
+  describe('Test findInvoiceById', () => {
+    it('Should return an invoice by id', done => {
+      const seed = {
+        sub_total: 43.23,
+        tax: 0.32,
+        shipping: 5.0,
+        total: 43.55,
+        payment_id: 1,
+      };
+
+      tracker.on('query', query => {
+        const regex = /["invoice"\swhere\s"id"\s\$1\slimit\s$2]/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.method).toBe('first');
+        expect(query.bindings.length).toBe(2);
+        expect(query.bindings).toEqual([1, 1]);
+        query.response(seed);
+      });
+
+      return service.findInvoiceById(1).then(res => {
         expect(res).toEqual(seed);
         done();
       });
