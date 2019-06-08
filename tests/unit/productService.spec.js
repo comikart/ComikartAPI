@@ -218,8 +218,7 @@ describe('Test productService', () => {
       const count = 20;
 
       tracker.on('query', query => {
-        console.log('query', query);
-        const regex = /select\s/
+        const regex = /"product"."category_id"\s\=\s"category"/g;
         expect(regex.test(query.sql)).toBe(true);
         expect(query.bindings.length).toBe(3);
         expect(query.method).toBe('select');
@@ -228,6 +227,35 @@ describe('Test productService', () => {
 
       return service.findProductByCategory(category, page, count).then(res => {
         expect(res).toEqual(products);
+        done();
+      });
+    });
+  });
+
+  describe('Test saveProduct', () => {
+    it('Should save a product to the table', done => {
+      const product = {
+        publisher: 'Cheese',
+        isbn: 431,
+        description: 'Lemuel',
+        author: 'Irma',
+        series: 'Brannon',
+        title: 'enim in expedita',
+        unit_price: 832,
+        product_tax_code: '81100',
+        category_id: 2,
+      };
+
+      tracker.on('query', query => {
+        const regex = /"description",\s"isbn",\s"product_tax_code"/g;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.method).toBe('insert');
+        expect(query.bindings.length).toBe(9);
+        query.response(product);
+      });
+
+      return service.saveProduct(product).then(res => {
+        expect(res).toEqual(product);
         done();
       });
     });
