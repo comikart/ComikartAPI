@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const server = express();
+const cron = require('node-cron');
+const task = require('./api/utils/task');
 
 const userController = require('./api/controllers/userController');
 const paymentOptionController = require('./api/controllers/paymentOptionController');
@@ -41,5 +43,7 @@ server.use('/api/user', purchaseController);
 server.use('/api/product', productController);
 server.use('/api/product', couponController);
 server.use('/api/product', reviewController);
+
+cron.schedule('59 10,23 * * *', task.deleteInvalidTokens);
 
 module.exports = server;

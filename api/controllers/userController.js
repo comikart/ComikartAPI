@@ -3,6 +3,7 @@ const { authenticate, authorization } = require('../utils/security');
 const userService = require('../services/userService');
 const { MOVETOWISHLIST, MOVETOCART } = userService;
 const { validateForm } = require('../utils/validation');
+const redis = require('../services/blackListService');
 /**
  * @api {post} /api/user/login Request Login
  * @apiVersion 1.0.0
@@ -33,6 +34,36 @@ router.route('/login').post(authenticate, (req, res) => {
   return userService
     .findUserByEmail(email)
     .then(user => token && res.json({ token, user }));
+});
+
+/**
+ * @api {post} /api/user/logout Request Logout
+ * @apiVersion 1.0.0
+ * @apiName POSTLogout
+ * @apiGroup User
+ *
+ * @apiSuccess {object} User User profile information
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "Token stored"
+ *     }
+ *
+ * @apiError IncorrectCredentials email or password is incorrect
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Client Error
+ *     {
+ *          "error"; "unable to logout"
+ *     }
+ */
+router.route('/logout').get(authorization, (req, res) => {
+  const token = req.get('Authorization');
+  redis
+    .blackList(token)
+    .then(() => res.status(200).json({ message: 'Logged out' }))
+    .catch(err => res.status(400).json({ err: err }));
 });
 
 /**
