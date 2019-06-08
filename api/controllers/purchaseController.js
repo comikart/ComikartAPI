@@ -19,8 +19,6 @@ router
     const { id } = req.params;
     const { status } = req.query;
 
-    console.log(id);
-
     return service
       .findPurchaseByUserId(id, status)
       .then(purchases => res.json(purchases))
