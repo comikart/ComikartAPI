@@ -2,7 +2,8 @@ const router = require('express').Router();
 const { authenticate, authorization } = require('../utils/security');
 const userService = require('../services/userService');
 const { MOVETOWISHLIST, MOVETOCART } = userService;
-
+const { validateForm } = require('../utils/validation');
+const redis = require('../services/blackListService');
 /**
  * @api {post} /api/user/login Request Login
  * @apiVersion 1.0.0
@@ -28,11 +29,41 @@ const { MOVETOWISHLIST, MOVETOCART } = userService;
  *          "error"; "incorrect email or password"
  *     }
  */
-router.use('/login', authenticate, (req, res) => {
+router.route('/login').post(authenticate, (req, res) => {
   const { token, email } = req.body;
   return userService
     .findUserByEmail(email)
     .then(user => token && res.json({ token, user }));
+});
+
+/**
+ * @api {post} /api/user/logout Request Logout
+ * @apiVersion 1.0.0
+ * @apiName POSTLogout
+ * @apiGroup User
+ *
+ * @apiSuccess {object} User User profile information
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "Token stored"
+ *     }
+ *
+ * @apiError IncorrectCredentials email or password is incorrect
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Client Error
+ *     {
+ *          "error"; "unable to logout"
+ *     }
+ */
+router.route('/logout').get(authorization, (req, res) => {
+  const token = req.get('Authorization');
+  redis
+    .blackList(token)
+    .then(() => res.status(200).json({ message: 'Logged out' }))
+    .catch(err => res.status(400).json({ err: err }));
 });
 
 /**
@@ -53,16 +84,19 @@ router.use('/login', authenticate, (req, res) => {
  *          "error"; "email already exists"
  *     }
  */
-router.route('/register').post((req, res) => {
+router.route('/register').post(validateForm, (req, res) => {
   const { user } = req.body;
   user.role_id = 2;
+  delete user.passwordTwo;
   return userService
     .saveUser(user)
     .then(() => res.status(201).json({}))
     .catch(err => res.status(400).json({ error: err.message }));
 });
 
-router.use('/:id', authorization, (req, res) => {
+router.use('/:id', authorization);
+
+router.route('/:id').get((req, res) => {
   const { id } = req.params;
 
   return userService
@@ -71,23 +105,24 @@ router.use('/:id', authorization, (req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.route('/:id/cart').get((req, res) => {
-  const { id } = req.params;
-  return userService
-    .findCartAndProductByUserId(id)
-    .then(cart => res.json(cart))
-    .catch(err => res.status(400).json(err));
-});
+router
+  .route('/:id/cart')
+  .get((req, res) => {
+    const { id } = req.params;
+    return userService
+      .findCartAndProductByUserId(id)
+      .then(cart => res.json(cart))
+      .catch(err => res.status(400).json(err));
+  })
+  .post((req, res) => {
+    const { id } = req.params;
+    const { product } = req.body;
 
-router.route('/:id/cart/:product_id').post((req, res) => {
-  const { id } = req.params;
-  const { product } = req.body;
-
-  return userService
-    .saveCartItem(id, product)
-    .then(() => res.status(201).json())
-    .catch(err => res.status(400).json(err));
-});
+    return userService
+      .saveCartItem(id, product)
+      .then(() => res.status(201).json())
+      .catch(err => res.status(400).json(err));
+  });
 
 router.route('/:id/cart/:product_id').get((req, res) => {
   const { id, product_id } = req.params;
@@ -97,23 +132,24 @@ router.route('/:id/cart/:product_id').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.route('/:id/wishlist').get((req, res) => {
-  const { id } = req.params;
-  return userService
-    .findWishListAndProductByUserId(id)
-    .then(cart => res.json(cart))
-    .catch(err => res.status(400).json(err));
-});
+router
+  .route('/:id/wishlist')
+  .get((req, res) => {
+    const { id } = req.params;
+    return userService
+      .findWishListAndProductByUserId(id)
+      .then(cart => res.json(cart))
+      .catch(err => res.status(400).json(err));
+  })
+  .post((req, res) => {
+    const { id } = req.params;
+    const { product } = req.body;
 
-router.route('/:id/wishlist/:product_id').get((req, res) => {
-  const { id } = req.params;
-  const { product } = req.body;
-
-  return userService
-    .saveWishListItem(id, product)
-    .then(() => res.status(201).json())
-    .catch(err => res.status(400).json(err));
-});
+    return userService
+      .saveWishListItem(id, product)
+      .then(() => res.status(201).json())
+      .catch(err => res.status(400).json(err));
+  });
 
 router.route('/:id/wishlist/:product_id').get((req, res) => {
   const { id, product_id } = req.params;
