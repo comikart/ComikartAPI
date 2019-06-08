@@ -156,5 +156,80 @@ describe('Test productService', () => {
     });
   });
 
-  
+  describe('Test findProductById', () => {
+    it('Should return a product by ID', done => {
+      const product = {
+        publisher: 'Jaclyn',
+        isbn: 634,
+        description: 'Cortez',
+        author: 'Sallie',
+        series: 'Nia',
+        title: 'aspernatur sunt ut',
+        unit_price: 191,
+        product_tax_code: '81100',
+        category_id: 3,
+      };
+
+      const id = 4;
+
+      tracker.on('query', query => {
+        const regex = /select\s\*\sfrom\s"product"\swhere\s"id"\s\=\s\$1/;
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.bindings[0]).toBe(4);
+        expect(query.method).toBe('select');
+        query.response(product);
+      });
+
+      return service.findProductById(id).then(res => {
+        expect(res).toEqual(product);
+        done();
+      });
+    });
+  });
+
+  describe('Test findProductByCategory', () => {
+    it('Should return products by category', done => {
+      const products = [
+        {
+          publisher: 'Sylvester',
+          isbn: 490,
+          description: 'Tomas',
+          author: 'Gust',
+          series: 'Isabelle',
+          title: 'distinctio quia fugit',
+          unit_price: 928,
+          product_tax_code: '81100',
+          category_id: 3,
+        },
+        {
+          publisher: 'Jaclyn',
+          isbn: 634,
+          description: 'Cortez',
+          author: 'Sallie',
+          series: 'Nia',
+          title: 'aspernatur sunt ut',
+          unit_price: 191,
+          product_tax_code: '81100',
+          category_id: 3,
+        },
+      ];
+      const category = 'dolar';
+      const page = 10;
+      const count = 20;
+
+      tracker.on('query', query => {
+        console.log('query', query);
+        const regex = /select\s/
+        expect(regex.test(query.sql)).toBe(true);
+        expect(query.bindings.length).toBe(3);
+        expect(query.method).toBe('select');
+        query.response(products);
+      });
+
+      return service.findProductByCategory(category, page, count).then(res => {
+        expect(res).toEqual(products);
+        done();
+      });
+    });
+  });
 });
