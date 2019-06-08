@@ -30,6 +30,16 @@ const getBlackListed = () =>
     });
   });
 
+const clearAndAssignTokens = tokens =>
+  new Promise((resolve, reject) => {
+    client.DEL(key, (err, res) => {
+      err && reject(err);
+      client.RPUSH(key, tokens, (err, res) => {
+        err ? reject(err) : resolve(res);
+      });
+    });
+  });
+
 const deleteBlacklisted = items =>
   new Promise((resolve, reject) => {
     resolve(
@@ -44,4 +54,5 @@ module.exports = {
   isBlacklisted,
   deleteBlacklisted,
   getBlackListed,
+  clearAndAssignTokens,
 };
