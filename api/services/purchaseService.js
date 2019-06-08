@@ -15,13 +15,13 @@ const findPurchaseById = id => {
     .then(purchase =>
       Promise.all([
         invoiceService.findInvoiceById(purchase.invoice_id),
-        findPurchaseProductByPurchaseId(purchase.id)
+        findPurchaseProductByPurchaseId(purchase.id),
       ]).then(arr =>
         Object.assign({}, purchase, {
           invoice: arr[0],
-          products: arr[1]
-        })
-      )
+          products: arr[1],
+        }),
+      ),
     );
 };
 
@@ -59,7 +59,7 @@ const savePurchase = (id, purchase) => {
         to_state: purchase.state,
         to_street: purchase.street_one,
         amount: subTotal,
-        shipping: 5.0
+        shipping: 5.0,
       };
       return client.taxForOrder(payload);
     })
@@ -70,7 +70,7 @@ const savePurchase = (id, purchase) => {
         tax: res.tax.amount_to_collect,
         shipping: res.tax.shipping,
         total: res.tax.order_total_amount,
-        payment_id: purchase.payment_id
+        payment_id: purchase.payment_id,
       };
 
       return invoiceService.saveInvoice(invoice);
@@ -79,12 +79,12 @@ const savePurchase = (id, purchase) => {
       // creating the purchase
       const newPurchase = {
         user_id: id,
-        invoice_id: result[0]
+        invoice_id: result[0],
       };
 
       return Promise.all([
         knex('purchase').insert(newPurchase, 'id'),
-        userService.findCartByUserId(id)
+        userService.findCartByUserId(id),
       ]);
     })
     .then(arr => {
@@ -97,7 +97,7 @@ const savePurchase = (id, purchase) => {
 
       return Promise.all([
         savePurchaseProduct(newCart),
-        userService.deleteCartByUserId(id)
+        userService.deleteCartByUserId(id),
       ]);
     });
 };
@@ -114,5 +114,5 @@ module.exports = {
   findPurchaseByUserId,
   savePurchase,
   updatePurchase,
-  deletePurchaseById
+  deletePurchaseById,
 };
