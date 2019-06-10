@@ -1,4 +1,4 @@
-process.env.NODE_ENV !== 'production' && require('dotenv').config(); // loading some modules only in development
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
