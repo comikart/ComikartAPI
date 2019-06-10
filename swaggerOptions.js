@@ -1,5 +1,5 @@
 const host = process.env.HOST || 'localhost:5000';
-const schemes = process.NODE_ENV === 'production' ? ['https'] : ['http'];
+const schemes = process.env.NODE_ENV === 'production' ? ['https'] : ['http'];
 module.exports = {
   preSpec: {
     host: host,
