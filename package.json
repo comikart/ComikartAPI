@@ -4,7 +4,8 @@
   "description": "the REST API for the comikart e-commerce store.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon listener.js",
+    "start": "node listener.js",
+    "dev": "nodemon listener.js",
     "test": "NODE_ENV=development jest --coverage && codecov",
     "local-test": "NODE_ENV=development jest --watch --verbose"
   },
