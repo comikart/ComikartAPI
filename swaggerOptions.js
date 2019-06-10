@@ -1,7 +1,6 @@
 module.exports = {
   preSpec: {
     host: 'localhost:5000',
-    basePath: '/api',
     tags: [
       { name: 'Server', description: 'Server base path' },
       { name: 'User', description: 'User Resource Operations' },
