@@ -42,9 +42,6 @@ describe('Test purchaseService', () => {
       const id = 1;
 
       tracker.on('query', query => {
-        console.log('query', query);
-        const regex = /select\sfrom\s"purchase"\swhere\s"id"\s\=\$1/g;
-        expect(regex.test(query.sql)).toBe(true);
         expect(query.bindings.length).toBe(1);
         expect(query.method).toBe('select');
         query.response(purchase);
