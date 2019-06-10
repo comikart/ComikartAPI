@@ -150,7 +150,6 @@ describe('Testing the paymentOptionService', () => {
       };
 
       tracker.on('query', query => {
-        console.log('query', query);
         const regex = /["payment_option"\s("active", "billing_address",\s'\+\s'"credit_card")]/;
         expect(regex.test(query.sql)).toBe(true);
         expect(query.method).toBe('insert');
