@@ -32,9 +32,9 @@ const findCartAndProductByUserId = id =>
       cart.map(item =>
         productService
           .findProductById(item.product_id)
-          .then(product => Object.assign({}, item, { product: product[0] }))
-      )
-    )
+          .then(product => Object.assign({}, item, { product: product[0] })),
+      ),
+    ),
   );
 
 const findCartSubTotalByUserId = user_id =>
@@ -45,8 +45,8 @@ const findCartSubTotalByUserId = user_id =>
     .then(cart =>
       cart.reduce(
         (accu, curr) => accu + curr.quantity * parseFloat(curr.unit_price),
-        0
-      )
+        0,
+      ),
     );
 
 const findCartItemByUserIdAndProductId = (user_id, product_id) =>
@@ -81,9 +81,9 @@ const findWishListAndProductByUserId = id =>
       list.map(item =>
         productService
           .findProductById(item.product_id)
-          .then(product => Object.assign({}, item, { product: product[0] }))
-      )
-    )
+          .then(product => Object.assign({}, item, { product: product[0] })),
+      ),
+    ),
   );
 
 const findWishListItemByUserIdAndProductId = (user_id, product_id) =>
@@ -105,12 +105,12 @@ const deleteWishListItemByUserIdAndProductId = (user_id, product_id) =>
 const moveItem = (enumerator, user_id, product_id) => {
   if (enumerator === MOVETOWISHLIST) {
     return findCartItemByUserIdAndProductId(user_id, product_id)
-      .then(cartItem => saveWishListItem(cartItem))
+      .then(cartItem => saveWishListItem(user_id, cartItem))
       .then(() => deleteCartItemByUserIdAndProductId(user_id, product_id))
       .then(() => findCartByUserId(user_id));
   } else if (enumerator === MOVETOCART) {
     return findWishListItemByUserIdAndProductId(user_id, product_id)
-      .then(listItem => saveCartItem(listItem))
+      .then(listItem => saveCartItem(user_id, listItem))
       .then(() => deleteWishListItemByUserIdAndProductId(user_id, product_id))
       .then(() => findWishListByUserId(user_id));
   } else {
@@ -137,5 +137,5 @@ module.exports = {
   findWishListItemByUserIdAndProductId,
   saveWishListItem,
   deleteWishListItemByUserIdAndProductId,
-  moveItem
+  moveItem,
 };

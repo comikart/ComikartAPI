@@ -4,31 +4,7 @@ const userService = require('../services/userService');
 const { MOVETOWISHLIST, MOVETOCART } = userService;
 const { validateForm } = require('../utils/validation');
 const redis = require('../services/blackListService');
-/**
- * @api {post} /api/user/login Request Login
- * @apiVersion 1.0.0
- * @apiName POSTLogin
- * @apiGroup User
- *
- * @apiSuccess {object} User User profile information
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "id": 1,
- *       "first_name": "john",
- *       "last_name": "doe",
- *       "role_id": 2
- *     }
- *
- * @apiError IncorrectCredentials email or password is incorrect
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Client Error
- *     {
- *          "error"; "incorrect email or password"
- *     }
- */
+
 router.route('/login').post(authenticate, (req, res) => {
   const { token, email } = req.body;
   return userService
@@ -36,28 +12,6 @@ router.route('/login').post(authenticate, (req, res) => {
     .then(user => token && res.json({ token, user }));
 });
 
-/**
- * @api {post} /api/user/logout Request Logout
- * @apiVersion 1.0.0
- * @apiName POSTLogout
- * @apiGroup User
- *
- * @apiSuccess {object} User User profile information
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 200 OK
- *     {
- *       "Token stored"
- *     }
- *
- * @apiError IncorrectCredentials email or password is incorrect
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Client Error
- *     {
- *          "error"; "unable to logout"
- *     }
- */
 router.route('/logout').get(authorization, (req, res) => {
   const token = req.get('Authorization');
   redis
@@ -66,24 +20,6 @@ router.route('/logout').get(authorization, (req, res) => {
     .catch(err => res.status(400).json({ err: err }));
 });
 
-/**
- * @api {post} /api/user/register Request Register
- * @apiVersion 1.0.0
- * @apiName POSTRegister
- * @apiGroup User
- *
- * @apiSuccessExample Success-Response:
- *     HTTP/1.1 201 CREATED
- *     {}
- *
- * @apiError IncorrectCredentials Email already exists.
- *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 400 Client-Error
- *     {
- *          "error"; "email already exists"
- *     }
- */
 router.route('/register').post(validateForm, (req, res) => {
   const { user } = req.body;
   user.role_id = 2;

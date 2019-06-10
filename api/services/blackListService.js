@@ -34,9 +34,10 @@ const clearAndAssignTokens = tokens =>
   new Promise((resolve, reject) => {
     client.DEL(key, (err, res) => {
       err && reject(err);
-      client.RPUSH(key, tokens, (err, res) => {
-        err ? reject(err) : resolve(res);
-      });
+      tokens.length > 0 &&
+        client.RPUSH(key, tokens, (err, res) => {
+          err ? reject(err) : resolve(res);
+        });
     });
   });
 

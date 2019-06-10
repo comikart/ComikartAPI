@@ -1,18 +1,12 @@
 {
-  "name": "ComikartAPI",
+  "name": "Comikart",
   "version": "1.0.0",
-  "description": "",
+  "description": "the REST API for the comikart e-commerce store.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon listener.js",
     "test": "NODE_ENV=development jest --coverage && codecov",
     "local-test": "NODE_ENV=development jest --watch --verbose"
-  },
-  "apidoc": {
-    "name": "Comikart",
-    "version": "1.0.0",
-    "description": "Comikart API Documentation.",
-    "title": "Comikart API"
   },
   "repository": {
     "type": "git",
@@ -20,7 +14,7 @@
   },
   "keywords": [],
   "author": "Eric Gomez",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/comikart/ComikartAPI/issues"
   },
@@ -30,6 +24,7 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
+    "express-oas-generator": "^1.0.7",
     "helmet": "^3.18.0",
     "jsonwebtoken": "^8.5.1",
     "knex": "^0.16.5",
@@ -39,7 +34,6 @@
     "taxjar": "^2.2.2"
   },
   "devDependencies": {
-    "apidoc": "^0.17.7",
     "codecov": "^3.4.0",
     "jest": "^24.8.0",
     "mock-knex": "^0.4.5",
