@@ -1,6 +1,7 @@
+const host = process.env.HOST || 'localhost:5000';
 module.exports = {
   preSpec: {
-    host: 'localhost:5000',
+    host: host,
     tags: [
       { name: 'Server', description: 'Server base path' },
       { name: 'User', description: 'User Resource Operations' },
