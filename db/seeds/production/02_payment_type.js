@@ -1,12 +1,12 @@
 exports.seed = function(knex, Promise) {
   // Deletes ALL existing entries
-  return knex('role')
+  return knex('payment_type')
     .del()
     .then(function() {
       // Inserts seed entries
-      return knex('role').insert([
-        { description: 'admin' },
-        { description: 'client' },
+      return knex('payment_type').insert([
+        { title: 'debit' },
+        { title: 'credit' },
       ]);
     });
 };
