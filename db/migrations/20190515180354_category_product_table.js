@@ -18,6 +18,7 @@ exports.up = function(knex, Promise) {
       table.string('author', 30);
       table.text('description').notNullable();
       table.string('series');
+      table.string('issue');
       table.string('paperback');
       table.string('publisher');
       table.string('isbn', 13);

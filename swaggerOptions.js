@@ -405,10 +405,10 @@ module.exports = {
             type: 'string',
           },
           user_id: {
-            $ref: '#/descriptions/User',
+            $ref: '#/definitions/User',
           },
           review_id: {
-            $ref: '#/descriptions/Review',
+            $ref: '#/definitions/Review',
           },
         },
       },
