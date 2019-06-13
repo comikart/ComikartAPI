@@ -26,7 +26,7 @@ const deleteReviewById = (id) => knex('review').where({id}).del();
 
 const deleteCommentById = (id) => knex('comment').where({id}).del();
 
-const deleteHelpful = (id) => knex('helpful').where({id}).del();
+const deleteHelpful = (helpful) => knex('helpful').where({helpful}).del();
 
 module.exports = {
     findAllReviews,

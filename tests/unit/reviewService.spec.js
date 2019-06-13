@@ -350,8 +350,8 @@ describe("Test reviewService", () => {
         const helpful = { review_id: 1, user_id: 2 };
 
         tracker.on("query", (query) => {
-            const regex = /delete\sfrom\s"helpful"\swhere\s"id"\s\=\s\$1/;
-            console.log(query.sql);
+            const regex = /delete\sfrom\s"helpful"\swhere\s"helpful"\s\=\s\$1/;
+
             expect(regex.test(query.sql)).toBe(true);
             expect(query.method).toBe("del");
             expect(query.bindings).toEqual([helpful]);
