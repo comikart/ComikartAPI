@@ -7,13 +7,13 @@ const user = {
   first_name: 'John',
   last_name: 'Doe',
   email: 'john@email.com',
-  role_id: 2
+  role_id: 2,
 };
 
 const wish_list = [
   { user_id: 1, product_id: 1, quantity: 1 },
   { user_id: 1, product_id: 2, quantity: 2 },
-  { user_id: 1, product_id: 3, quantity: 1 }
+  { user_id: 1, product_id: 3, quantity: 1 },
 ];
 
 const findUserByEmail = () =>
@@ -37,7 +37,7 @@ const findCartAndProductByUserId = id =>
     const cart = [
       { user_id: USERID, product_id: 1, quantity: 2 },
       { user_id: USERID, product_id: 2, quantity: 2 },
-      { user_id: USERID, product_id: 3, quantity: 1 }
+      { user_id: USERID, product_id: 3, quantity: 1 },
     ];
 
     Number(id) === 1
@@ -46,6 +46,8 @@ const findCartAndProductByUserId = id =>
       ? resolve([])
       : reject('Invalid ID was passed');
   });
+const findUserAndCartAndPaymentOptionByEmail = email =>
+  new Promise((resolve, reject) => resolve(user));
 const saveCartItem = (id, product_id) =>
   new Promise((resolve, reject) => {
     resolve();
@@ -58,7 +60,7 @@ const moveItem = (enumerator, id, product_id) =>
     product_id
       ? resolve([
           { user_id: 1, product_id: 1, quantity: 1 },
-          { user_id: 1, product_id: 2, quantity: 2 }
+          { user_id: 1, product_id: 2, quantity: 2 },
         ])
       : reject('incorrect user id or product id');
   });
@@ -77,10 +79,11 @@ module.exports = {
   findUserById,
   saveUser,
   findCartAndProductByUserId,
+  findUserAndCartAndPaymentOptionByEmail,
   saveCartItem,
   moveItem,
   findWishListAndProductByUserId,
   USERID,
   MOVETOWISHLIST,
-  MOVETOCART
+  MOVETOCART,
 };
