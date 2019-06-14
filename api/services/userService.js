@@ -1,7 +1,9 @@
 const knex = require('../../db/knex');
 const { encryptPwd } = require('../utils/encryption');
 const productService = require('./productService');
-
+const {
+  findAllPaymentOptionByUser,
+} = require('../services/paymentOptionService');
 //enums
 const MOVETOCART = 'MOVETOCART';
 const MOVETOWISHLIST = 'MOVETOWISHLIST';
@@ -36,6 +38,15 @@ const findCartAndProductByUserId = id =>
       ),
     ),
   );
+const findUserAndCartAndPaymentOptionByEmail = email =>
+  findUserByEmail(email).then(user => {
+    return Promise.all([
+      findCartAndProductByUserId(user.id),
+      findAllPaymentOptionByUser(user.id),
+    ]).then(arr =>
+      Object.assign({}, user, { cart: arr[0], paymentOptions: arr[1] }),
+    );
+  });
 
 const findCartSubTotalByUserId = user_id =>
   knex('cart')
@@ -125,6 +136,7 @@ module.exports = {
   findUserById,
   findUserByEmail,
   findAllUsers,
+  findUserAndCartAndPaymentOptionByEmail,
   findCartByUserId,
   findCartAndProductByUserId,
   findCartSubTotalByUserId,
