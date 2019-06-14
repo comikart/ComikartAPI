@@ -2,14 +2,26 @@ const router = require('express').Router();
 const { authenticate, authorization } = require('../utils/security');
 const userService = require('../services/userService');
 const { MOVETOWISHLIST, MOVETOCART } = userService;
+const {
+  findAllPaymentOptionByUser,
+} = require('../services/paymentOptionService');
 const { validateForm } = require('../utils/validation');
 const redis = require('../services/blackListService');
 
 router.route('/login').post(authenticate, (req, res) => {
   const { token, email } = req.body;
-  return userService
-    .findUserByEmail(email)
-    .then(user => token && res.json({ token, user }));
+  return userService.findUserByEmail(email).then(user =>
+    Promise.all([
+      userService.findCartAndProductByUserId(user.id),
+      findAllPaymentOptionByUser(user.id),
+    ]).then(arr => {
+      const userDetails = Object.assign({}, user, {
+        cart: arr[0],
+        paymentOptions: arr[1],
+      });
+      token && res.json({ token, userDetails });
+    }),
+  );
 });
 
 router.route('/logout').get(authorization, (req, res) => {
