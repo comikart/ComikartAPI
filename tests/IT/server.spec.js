@@ -1,4 +1,6 @@
 jest.mock('../../api/services/userService.js');
+jest.mock('../../api/services/blackListService.js');
+jest.mock('../../api/services/paymentOptionService.js');
 jest.mock('../../api/utils/security.js');
 const server = require('../../server');
 const mockMvc = require('supertest')(server);
