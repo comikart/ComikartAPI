@@ -2,13 +2,12 @@ const next = require('next');
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
-let server;
+let config = require('./server');
 
 app
   .prepare()
   .then(() => {
-    server = require('./server');
-
+    const { server } = config;
     // next js routes
     server.get('/admin/', (req, res, next) => {
       req.url = '/admin/dashboard';
@@ -26,4 +25,4 @@ app
     process, exit(1);
   });
 
-module.exports = server;
+module.exports = config;
