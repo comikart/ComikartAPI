@@ -14,7 +14,7 @@ app
       next('route'); // re-routing to dashboard from the base admin endpoint
     });
 
-    server.get('*', (req, res) => {
+    server.get(/(\/admin|\/_next)(\/*)?/, (req, res) => {
       return handle(req, res);
     });
 

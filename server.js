@@ -29,7 +29,7 @@ server.use(cors());
 server.use(helmet());
 server.use(express.json());
 
-server.get('/api/', (req, res) => {
+server.get('/', (req, res) => {
   res.json({ status: 'connected' });
 });
 
