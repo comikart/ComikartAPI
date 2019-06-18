@@ -1,5 +1,5 @@
 const port = process.env.PORT || 5000;
-const config = require('./nextPrepare');
+const config = require('./admin/nextPrepare');
 
 const isPrepared = () => {
   if (config.isPrepared) {
