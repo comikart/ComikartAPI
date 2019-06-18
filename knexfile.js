@@ -1,27 +1,27 @@
 module.exports = {
-    development: {
-        client: 'pg',
-        connection: {
-            host: 'localhost',
-            user: 'postgres',
-            password: 'password',
-            database: 'comikart',
-        },
-        migrations: {
-            directory: __dirname + '/db/migrations',
-        },
-        seeds: {
-            directory: __dirname + '/db/seeds',
-        },
+  development: {
+    client: 'pg',
+    connection: {
+      host: 'localhost',
+      user: 'postgres',
+      password: 'password',
+      database: 'comikart',
     },
-    production: {
-        client: 'pg',
-        connection: process.env.DATABASE_URL,
-        migrations: {
-            directory: __dirname + '/db/migrations',
-        },
-        seeds: {
-            directory: __dirname + '/db/seeds/production',
-        },
-    }
-} 
+    migrations: {
+      directory: __dirname + '/db/migrations',
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds',
+    },
+  },
+  production: {
+    client: 'pg',
+    connection: process.env.DATABASE_URL,
+    migrations: {
+      directory: __dirname + '/db/migrations',
+    },
+    seeds: {
+      directory: __dirname + '/db/seeds/production',
+    },
+  },
+};
