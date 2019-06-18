@@ -8,9 +8,9 @@ import PerfectScrollbar from 'perfect-scrollbar';
 import '../../static/scss/black-dashboard-react.scss';
 
 // core components
-import AdminNavbar from '../Navbars/AdminNavbar.jsx';
-import Footer from '../Footer/Footer.jsx';
-import Sidebar from '../Sidebar/Sidebar.jsx';
+import AdminNavbar from '../Navbars/AdminNavbar.jsx.js';
+import Footer from '../Footer/Footer.jsx.js';
+import Sidebar from '../Sidebar/Sidebar.jsx.js';
 import logo from '../../static/img/react-logo.png';
 
 // importing routes from an external file.
