@@ -1,7 +1,16 @@
-let port = process.env.PORT || 5000;
-const server = require('./server');
+const port = process.env.PORT || 5000;
+const config = require('./nextPrepare');
 
-//port listener
-server.listen(port , () => {
-    console.log(`server listening on port ${port}`);
-  })
+const isPrepared = () => {
+  if (config.isPrepared) {
+    const { server } = config;
+    server.listen(port, () => {
+      console.log(`server listening on port ${port}`);
+    });
+  } else {
+    setTimeout(isPrepared, 1000);
+  }
+};
+
+// port listener
+isPrepared();

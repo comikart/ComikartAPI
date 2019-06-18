@@ -2,13 +2,13 @@ jest.mock('../../api/services/userService.js');
 jest.mock('../../api/services/blackListService.js');
 jest.mock('../../api/services/paymentOptionService.js');
 jest.mock('../../api/utils/security.js');
-const server = require('../../server');
+const { server } = require('../../server');
 const mockMvc = require('supertest')(server);
 
 describe('Server', () => {
   it('should return a string on a successful response', done => {
     mockMvc
-      .get('/')
+      .get('/api/')
       .expect(200)
       .expect('{"status":"connected"}', done);
   });
