@@ -4,6 +4,7 @@
   "description": "the REST API for the comikart e-commerce store.",
   "main": "listener.js",
   "scripts": {
+    "prestart": "next build",
     "start": "NODE_ENV=production node listener.js",
     "build": "next build",
     "dev": "node listener.js",
