@@ -4,7 +4,7 @@
   "description": "the REST API for the comikart e-commerce store.",
   "main": "listener.js",
   "engines": {
-    "node": "12.*.*",
+    "node": "12",
     "npm": "6.9.0"
   },
   "scripts": {
