@@ -20,4 +20,7 @@ const validateForm = (req, res, next) => {
 
 module.exports = {
   validateForm,
+  isEmail,
+  isPassword,
+  isMatch,
 };
