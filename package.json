@@ -4,11 +4,16 @@
   "description": "the REST API for the comikart e-commerce store.",
   "main": "listener.js",
   "scripts": {
+    "prestart": "next build",
     "start": "NODE_ENV=production node listener.js",
     "build": "next build",
     "dev": "node listener.js",
     "test": "NODE_ENV=development jest --coverage && codecov",
     "local-test": "NODE_ENV=development jest --watch --verbose"
+  },
+  "engines": {
+    "node": "12.2.0",
+    "npm": "6.9.0"
   },
   "repository": {
     "type": "git",
