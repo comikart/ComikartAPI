@@ -1,1 +1,1 @@
-web: rm -rf node_modules && npm cache clean --force && npm start
+web: npm start
