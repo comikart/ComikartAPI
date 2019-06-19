@@ -71,6 +71,14 @@ const saveCartItem = (user_id, product) => {
   return knex('cart').insert(cartItem);
 };
 
+const updateCartItem = (user_id, product_id, quantity) => {
+  const updatedCart = Object.assign({}, { user_id, product_id, quantity });
+  return knex('cart')
+    .where({ user_id, product_id })
+    .update({ quantity })
+    .then(() => findCartAndProductByUserId(user_id));
+};
+
 const deleteCartItemByUserIdAndProductId = (user_id, product_id) =>
   knex('cart')
     .where({ user_id, product_id })
@@ -142,6 +150,7 @@ module.exports = {
   findCartSubTotalByUserId,
   findCartItemByUserIdAndProductId,
   saveCartItem,
+  updateCartItem,
   deleteCartItemByUserIdAndProductId,
   deleteCartByUserId,
   findWishListByUserId,

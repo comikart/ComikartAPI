@@ -71,10 +71,17 @@ router
       .then(list => res.json(list))
       .catch(err => res.status(400).json(err));
   })
-  .delete((req, res) => {
-    const { user_id, product_id } = req.params;
+  .put((req, res) => {
+    const { id, product_id } = req.params;
+    const { quantity } = req.body;
     return userService
-      .deleteCartItemByUserIdAndProductId(user_id, product_id)
+      .updateCartItem(id, product_id, quantity)
+      .then(cart => res.json(cart));
+  })
+  .delete((req, res) => {
+    const { id, product_id } = req.params;
+    return userService
+      .deleteCartItemByUserIdAndProductId(id, product_id)
       .then(() => res.status(204).json({}));
   });
 
