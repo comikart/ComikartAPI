@@ -11,10 +11,6 @@
     "test": "NODE_ENV=development jest --coverage && codecov",
     "local-test": "NODE_ENV=development jest --watch --verbose"
   },
-  "engines": {
-    "node": "12.2.0",
-    "npm": "6.9.0"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/comikart/ComikartAPI.git"
