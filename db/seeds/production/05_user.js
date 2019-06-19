@@ -11,7 +11,7 @@ exports.seed = function(knex, Promise) {
           first_name: 'Admin',
           last_name: '',
           email: 'admin@email.com',
-          password: encryptPwd('password'),
+          password: encryptPwd({ password: 'password' }).then(pwd => pwd),
           role_id: 1,
         },
       ]);
