@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "the REST API for the comikart e-commerce store.",
   "main": "listener.js",
-  "engines": {
-    "node": "12",
-    "npm": "6.9.0"
-  },
   "scripts": {
     "prestart": "next build",
     "start": "NODE_ENV=production node listener.js",
