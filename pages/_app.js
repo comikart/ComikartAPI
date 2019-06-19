@@ -5,9 +5,7 @@ import App, { Container } from 'next/app';
 import withRedux from 'next-redux-wrapper';
 
 const makeStore = (initialState, options) => {
-  return createStore(() => {
-    return {};
-  }, initialState);
+  return createStore(() => {}, initialState);
 };
 
 class MyApp extends App {
