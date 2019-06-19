@@ -62,13 +62,21 @@ router
       .catch(err => res.status(400).json(err));
   });
 
-router.route('/:id/cart/:product_id').get((req, res) => {
-  const { id, product_id } = req.params;
-  return userService
-    .moveItem(MOVETOWISHLIST, id, product_id)
-    .then(list => res.json(list))
-    .catch(err => res.status(400).json(err));
-});
+router
+  .route('/:id/cart/:product_id')
+  .get((req, res) => {
+    const { id, product_id } = req.params;
+    return userService
+      .moveItem(MOVETOWISHLIST, id, product_id)
+      .then(list => res.json(list))
+      .catch(err => res.status(400).json(err));
+  })
+  .delete((req, res) => {
+    const { user_id, product_id } = req.params;
+    return userService
+      .deleteCartItemByUserIdAndProductId(user_id, product_id)
+      .then(() => res.status(204).json({}));
+  });
 
 router
   .route('/:id/wishlist')
