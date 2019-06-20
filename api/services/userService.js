@@ -115,6 +115,12 @@ const saveWishListItem = (user_id, product) => {
   return knex('wish_list').insert(wishList);
 };
 
+const updateWishListItem = (user_id, product_id, quantity) => {
+  return knex('wish_list')
+    .update(quantity)
+    .where({ user_id, product_id });
+};
+
 const deleteWishListItemByUserIdAndProductId = (user_id, product_id) =>
   knex('wish_list')
     .where({ user_id, product_id })
@@ -156,6 +162,7 @@ module.exports = {
   findWishListAndProductByUserId,
   findWishListItemByUserIdAndProductId,
   saveWishListItem,
+  updateWishListItem,
   deleteWishListItemByUserIdAndProductId,
   moveItem,
 };

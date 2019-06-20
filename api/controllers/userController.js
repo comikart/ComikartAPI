@@ -104,12 +104,31 @@ router
       .catch(err => res.status(400).json(err));
   });
 
-router.route('/:id/wishlist/:product_id').get((req, res) => {
-  const { id, product_id } = req.params;
-  return userService
-    .moveItem(MOVETOCART, id, product_id)
-    .then(list => res.json(list))
-    .catch(err => res.status(400).json(err));
-});
+router
+  .route('/:id/wishlist/:product_id')
+  .get((req, res) => {
+    const { id, product_id } = req.params;
+    return userService
+      .moveItem(MOVETOCART, id, product_id)
+      .then(list => res.json(list))
+      .catch(err => res.status(400).json(err));
+  })
+  .put((req, res) => {
+    const { id, product_id } = req.params;
+    const { quantity } = req.body;
+    userService
+      .updateWishListItem(is, product_id, quantity)
+      .then(() =>
+        userService.findWishListItemByUserIdAndProductId(id, product_id),
+      )
+      .then(item => res.json(item));
+  })
+  .delete((req, res) => {
+    const { id, product_id } = req.params;
+    userService
+      .deleteWishListItemByUserIdAndProductId(id, product_id)
+      .then(() => userService.findWishListByUserId(id))
+      .then(list => res.status(204).json(list));
+  });
 
 module.exports = router;
