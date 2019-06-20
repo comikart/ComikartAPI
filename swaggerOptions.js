@@ -8,6 +8,7 @@ module.exports = {
       { name: 'Server', description: 'Server base path' },
       { name: 'User', description: 'User Resource Operations' },
       { name: 'Product', description: 'Product Resource Operations' },
+      { name: 'Admin', description: 'Admin Resource Operations' },
     ],
     paths: {
       '/': {
@@ -34,6 +35,8 @@ module.exports = {
       },
       '/api/user/{id}/cart/{product_id}': {
         get: { tags: ['User'] },
+        put: { tags: ['User'] },
+        delete: { tags: ['User'] },
       },
       '/api/user/{id}/wishlist': {
         get: { tags: ['User'] },
@@ -95,6 +98,46 @@ module.exports = {
       },
       '/api/product/{product_id}/review/{review_id}/helpful': {
         post: { tags: ['Product'] },
+      },
+      '/api/admin/clients': {
+        get: { tags: ['Admin'] },
+      },
+      '/api/admin/purchases': {
+        get: { tags: ['Admin'] },
+      },
+      '/api/admin/purchases/{id}': {
+        get: { tags: ['Admin'] },
+        put: { tags: ['Admin'] },
+      },
+      '/api/admin/total-purchases': {
+        get: { tags: ['Admin'] },
+      },
+      '/api/admin/sales': {
+        get: { tags: ['Admin'] },
+      },
+      '/api/admin/products': {
+        get: { tags: ['Admin'] },
+        post: { tags: ['Admin'] },
+      },
+      '/api/admin/products/{product_id}': {
+        get: { tags: ['Admin'] },
+        put: { tags: ['Admin'] },
+        delete: { tags: ['Admin'] },
+      },
+      '/api/admin/products/{product_id}/reviews': {
+        get: { tags: ['Admin'] },
+      },
+      '/api/admin/products/{product_id}/reviews/{review_id}': {
+        get: { tags: ['Admin'] },
+      },
+      '/api/admin/products/{product_id}/reviews/{review_id}/comments': {
+        get: { tags: ['Admin'] },
+      },
+      '/api/admin/products/{product_id}/reviews/{review_id}/comments/{comment_id}': {
+        get: { tags: ['Admin'] },
+      },
+      '/api/admin/products/{product_id}/reviews/{review_id}/helpful': {
+        get: { tags: ['Admin'] },
       },
     },
     definitions: {

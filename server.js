@@ -14,6 +14,7 @@ const purchaseController = require('./api/controllers/purchaseController');
 const productController = require('./api/controllers/productController');
 const reviewController = require('./api/controllers/reviewController');
 const couponController = require('./api/controllers/couponController');
+const adminController = require('./api/controllers/adminController');
 
 const config = {
   server: express(),
@@ -40,6 +41,7 @@ server.use('/api/user', purchaseController);
 server.use('/api/product', productController);
 server.use('/api/product', couponController);
 server.use('/api/product', reviewController);
+server.use('/api/admin', adminController);
 
 cron.schedule('59 10,23 * * *', task.deleteInvalidTokens);
 

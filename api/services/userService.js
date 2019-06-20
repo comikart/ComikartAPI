@@ -72,7 +72,6 @@ const saveCartItem = (user_id, product) => {
 };
 
 const updateCartItem = (user_id, product_id, quantity) => {
-  const updatedCart = Object.assign({}, { user_id, product_id, quantity });
   return knex('cart')
     .where({ user_id, product_id })
     .update({ quantity })
