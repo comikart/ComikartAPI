@@ -1,6 +1,6 @@
 const knex = require('../../db/knex');
 
-const findAllClients = () => knex('user').where({ role_id: 2 });
+const findAllClients = () => knex('user').where({ role_id: 2 }); // todo remove the hard coded id
 
 const findAllProducts = () => knex('product').select();
 
@@ -28,6 +28,12 @@ const findPurchases = status => {
     .innerJoin('status', 'purchase.status_id', 'status.id')
     .where(knex.raw(`status.title like '%${status ? status : ''}%'`))
     .orderBy('date_created', 'desc');
+};
+
+const findPurchaseById = id => {
+  return knex('purchase')
+    .where({ id })
+    .first();
 };
 
 const updatePurchaseStatus = (id, status_id) => {
@@ -83,8 +89,12 @@ const findReviewAndHelpfulByReviewId = id => {
     .where({ id });
 };
 
-const findAllCommentsByReviewId = review_id => {
-  return knex('comment').where({ review_id });
+const findAllCommentsByReviewId = (review_id, user_id) => {
+  return knex('comment').where(
+    knex.raw(
+      `review_id = ${review_id} ${user_id ? `and user_id = ${user_id}` : ''}`,
+    ),
+  );
 };
 
 const findAllHelpfulByReviewId = review_id => {
@@ -100,6 +110,10 @@ const findReviewAndCommentAndHelpfulByReviewId = id => {
   });
 };
 
+const findCommentById = id => {
+  return knex('comment').where({ id });
+};
+
 module.exports = {
   findAllClients,
   findAllProducts,
@@ -108,9 +122,13 @@ module.exports = {
   saveProduct,
   deleteProduct,
   findPurchases,
+  findPurchaseById,
   updatePurchaseStatus,
   findTotalPurchasesByMonthAndYear,
   findTotalSalesByMonthAndYear,
   findAllReviewByProductId,
   findReviewAndCommentAndHelpfulByReviewId,
+  findAllHelpfulByReviewId,
+  findAllCommentsByReviewId,
+  findCommentById,
 };
