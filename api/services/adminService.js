@@ -69,6 +69,37 @@ const findTotalSalesByMonthAndYear = (date_start, date_end) => {
     );
 };
 
+const findAllReviewByProductId = product_id => {
+  return knex('review').where({ product_id });
+};
+const findReviewAndHelpfulByReviewId = id => {
+  return knex
+    .select(
+      knex.raw(
+        `review.*, (select count(*) from helpful where helpful.review_id = ${id}) as helpful`,
+      ),
+    )
+    .from('review')
+    .where({ id });
+};
+
+const findAllCommentsByReviewId = review_id => {
+  return knex('comment').where({ review_id });
+};
+
+const findAllHelpfulByReviewId = review_id => {
+  return knex('helpful').where({ review_id });
+};
+
+const findReviewAndCommentAndHelpfulByReviewId = id => {
+  return Promise.all([
+    findReviewAndHelpfulByReviewId(id),
+    findAllCommentsByReviewId(id),
+  ]).then(arr => {
+    return Object.assign({}, ...arr[0], { comments: arr[1] });
+  });
+};
+
 module.exports = {
   findAllClients,
   findAllProducts,
@@ -80,4 +111,6 @@ module.exports = {
   updatePurchaseStatus,
   findTotalPurchasesByMonthAndYear,
   findTotalSalesByMonthAndYear,
+  findAllReviewByProductId,
+  findReviewAndCommentAndHelpfulByReviewId,
 };

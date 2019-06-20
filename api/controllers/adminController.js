@@ -71,7 +71,24 @@ router
     const { product_id } = req.params;
     return adminService
       .deleteProduct(product_id)
-      .then(() => res.status(204).json({}));
+      .then(() => res.status(204).json({}))
+      .catch(err => res.status(400).json(err));
   });
+
+router.route('/products/:product_id/reviews').get((req, res) => {
+  const { product_id } = req.params;
+  return adminService
+    .findAllReviewByProductId(product_id)
+    .then(reviews => res.json(reviews))
+    .catch(err => res.status(400).json(err));
+});
+
+router.route('/products/:product_id/reviews/:review_id').get((req, res) => {
+  const { review_id } = req.params;
+  return adminService
+    .findReviewAndCommentAndHelpfulByReviewId(review_id)
+    .then(review => res.json(review))
+    .catch(err => res.status(400).json(err));
+});
 
 module.exports = router;
