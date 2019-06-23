@@ -1,16 +1,22 @@
 const router = require('express').Router();
-const { authorization } = require('../utils/security');
+const { authorization, authenticate } = require('../utils/security');
 const adminService = require('../services/adminService.js');
+const redis = require('../services/blackListService');
 
-router.use('/', authorization);
+router.route('/login').post(authenticate, (req, res) => {
+  const { token, email } = req.body;
+  return adminService.findAdminByEmail(email).then(user => {
+    res.json({ token, user });
+  });
+});
 
-// purchase history filter by date, and status.
-// shipping history filter by date.
-// clients list filter by id
-// products list
-// product
-// reviews by product
-// comments by review
+router.route('/logout').get(authorization, (req, res) => {
+  const token = req.get('Authorization');
+  redis
+    .blackList(token)
+    .then(() => res.status(200).json({ message: 'Logged out' }))
+    .catch(err => res.status(400).json({ err: err }));
+});
 
 router.route('/clients').get((req, res) => {
   return adminService.findAllClients().then(clients => res.json(clients));
