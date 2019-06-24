@@ -187,7 +187,7 @@ class AdminNavbar extends React.Component {
                     <Link href='/admin/account'>
                       <li className='nav-link'>
                         <DropdownItem className='nav-item'>
-                          Profile
+                          Account
                         </DropdownItem>
                       </li>
                     </Link>

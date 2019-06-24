@@ -2,6 +2,10 @@ import React from 'react';
 
 import Layout from '../../components/Layout';
 
+import { connect } from 'react-redux';
+
+import { withRouter } from 'next/router';
+
 // reactstrap components
 import {
   Button,
@@ -18,7 +22,25 @@ import {
 } from 'reactstrap';
 
 class UserProfile extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  componentDidMount() {
+    if (!this.props.user) {
+      this.props.router.push('/admin/login');
+    }
+  }
   render() {
+    let email = '';
+    let first_name = '';
+    let last_name = '';
+
+    if (this.props.user) {
+      email = this.props.user.email;
+      first_name = this.props.user.first_name;
+      last_name = this.props.user.last_name;
+    }
     return (
       <Layout>
         <div className='content'>
@@ -31,33 +53,16 @@ class UserProfile extends React.Component {
                 <CardBody>
                   <Form>
                     <Row>
-                      <Col className='pr-md-1' md='5'>
-                        <FormGroup>
-                          <label>Company (disabled)</label>
-                          <Input
-                            defaultValue='Creative Code Inc.'
-                            disabled
-                            placeholder='Company'
-                            type='text'
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className='px-md-1' md='3'>
-                        <FormGroup>
-                          <label>Username</label>
-                          <Input
-                            defaultValue='michael23'
-                            placeholder='Username'
-                            type='text'
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className='pl-md-1' md='4'>
+                      <Col className='pr-md-1' md='6'>
                         <FormGroup>
                           <label htmlFor='exampleInputEmail1'>
                             Email address
                           </label>
-                          <Input placeholder='mike@email.com' type='email' />
+                          <Input
+                            defaultValue={email}
+                            placeholder='email address'
+                            type='email'
+                          />
                         </FormGroup>
                       </Col>
                     </Row>
@@ -66,7 +71,7 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>First Name</label>
                           <Input
-                            defaultValue='Mike'
+                            defaultValue={first_name}
                             placeholder='Company'
                             type='text'
                           />
@@ -76,7 +81,7 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>Last Name</label>
                           <Input
-                            defaultValue='Andrew'
+                            defaultValue={last_name}
                             placeholder='Last Name'
                             type='text'
                           />
@@ -84,56 +89,18 @@ class UserProfile extends React.Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col md='12'>
+                      <Col className='pr-md-1' md='6'>
                         <FormGroup>
-                          <label>Address</label>
+                          <label>Password</label>
+                          <Input placeholder='Enter new password' type='text' />
+                        </FormGroup>
+                      </Col>
+                      <Col className='pl-md-1' md='6'>
+                        <FormGroup>
+                          <label> Confirm Password</label>
                           <Input
-                            defaultValue='Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09'
-                            placeholder='Home Address'
+                            placeholder='type new password again'
                             type='text'
-                          />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col className='pr-md-1' md='4'>
-                        <FormGroup>
-                          <label>City</label>
-                          <Input
-                            defaultValue='Mike'
-                            placeholder='City'
-                            type='text'
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className='px-md-1' md='4'>
-                        <FormGroup>
-                          <label>Country</label>
-                          <Input
-                            defaultValue='Andrew'
-                            placeholder='Country'
-                            type='text'
-                          />
-                        </FormGroup>
-                      </Col>
-                      <Col className='pl-md-1' md='4'>
-                        <FormGroup>
-                          <label>Postal Code</label>
-                          <Input placeholder='ZIP Code' type='number' />
-                        </FormGroup>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col md='8'>
-                        <FormGroup>
-                          <label>About Me</label>
-                          <Input
-                            cols='80'
-                            defaultValue="Lamborghini Mercy, Your chick she so thirsty, I'm in
-                            that two seat Lambo."
-                            placeholder='Here can be your description'
-                            rows='4'
-                            type='textarea'
                           />
                         </FormGroup>
                       </Col>
@@ -160,31 +127,16 @@ class UserProfile extends React.Component {
                       <img
                         alt='...'
                         className='avatar'
-                        src={require('../../static/img/emilyz.jpg')}
+                        src={require('../../static/img/anime3.png')}
                       />
-                      <h5 className='title'>Mike Andrew</h5>
+                      <h5 className='title'>
+                        {first_name} {last_name}
+                      </h5>
                     </a>
-                    <p className='description'>Ceo/Co-Founder</p>
+                    <p className='description'>Admin</p>
                   </div>
-                  <div className='card-description'>
-                    Do not be scared of the truth because we need to restart the
-                    human foundation in truth And I love you like Kanye loves
-                    Kanye I love Rick Owens’ bed design but the back is...
-                  </div>
+                  <div className='card-description' />
                 </CardBody>
-                <CardFooter>
-                  <div className='button-container'>
-                    <Button className='btn-icon btn-round' color='facebook'>
-                      <i className='fab fa-facebook' />
-                    </Button>
-                    <Button className='btn-icon btn-round' color='twitter'>
-                      <i className='fab fa-twitter' />
-                    </Button>
-                    <Button className='btn-icon btn-round' color='google'>
-                      <i className='fab fa-google-plus' />
-                    </Button>
-                  </div>
-                </CardFooter>
               </Card>
             </Col>
           </Row>
@@ -194,4 +146,7 @@ class UserProfile extends React.Component {
   }
 }
 
-export default UserProfile;
+export default connect(
+  state => state,
+  {},
+)(withRouter(UserProfile));
