@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 
 import { withRouter } from 'next/router';
 
+import { updateUser } from '../../actions/userActions';
+
 // reactstrap components
 import {
   Button,
@@ -24,23 +26,56 @@ import {
 class UserProfile extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = this.props.user
+      ? {
+          isChanged: false,
+          email: this.props.user.email,
+          first_name: this.props.user.first_name,
+          last_name: this.props.user.last_name,
+          password: '',
+          passwordTwo: '',
+        }
+      : {
+          isChange: false,
+          email: '',
+          first_name: '',
+          last_name: '',
+          password: '',
+          passwordTwo: '',
+        };
   }
   componentDidMount() {
     if (!this.props.user) {
       this.props.router.push('/admin/login');
     }
   }
-  render() {
-    let email = '';
-    let first_name = '';
-    let last_name = '';
-
-    if (this.props.user) {
-      email = this.props.user.email;
-      first_name = this.props.user.first_name;
-      last_name = this.props.user.last_name;
+  handleInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value,
+      isChanged: true,
+    });
+  };
+  handleUpdate = () => {
+    const { first_name, last_name, email, password, passwordTwo } = this.state;
+    const update = {};
+    if (email && email !== this.props.user.email) {
+      update.email = email;
     }
+    if (first_name && first_name !== this.props.user.first_name) {
+      update.first_name = first_name;
+    }
+    if (last_name && last_name !== this.props.user.last_name) {
+      update.last_name = last_name;
+    }
+    if (password) {
+      if (password === passwordTwo) {
+        update.password = password;
+      }
+    }
+
+    this.setState({ isChanged: false }, this.props.updateUser(update));
+  };
+  render() {
     return (
       <Layout>
         <div className='content'>
@@ -59,9 +94,11 @@ class UserProfile extends React.Component {
                             Email address
                           </label>
                           <Input
-                            defaultValue={email}
+                            defaultValue={this.state.email}
                             placeholder='email address'
                             type='email'
+                            name='email'
+                            onChange={this.handleInput}
                           />
                         </FormGroup>
                       </Col>
@@ -71,9 +108,11 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>First Name</label>
                           <Input
-                            defaultValue={first_name}
+                            defaultValue={this.state.first_name}
                             placeholder='Company'
                             type='text'
+                            name='first_name'
+                            onChange={this.handleInput}
                           />
                         </FormGroup>
                       </Col>
@@ -81,9 +120,11 @@ class UserProfile extends React.Component {
                         <FormGroup>
                           <label>Last Name</label>
                           <Input
-                            defaultValue={last_name}
+                            defaultValue={this.state.last_name}
                             placeholder='Last Name'
                             type='text'
+                            name='last_name'
+                            onChange={this.handleInput}
                           />
                         </FormGroup>
                       </Col>
@@ -91,8 +132,13 @@ class UserProfile extends React.Component {
                     <Row>
                       <Col className='pr-md-1' md='6'>
                         <FormGroup>
-                          <label>Password</label>
-                          <Input placeholder='Enter new password' type='text' />
+                          <label>New Password</label>
+                          <Input
+                            placeholder='Enter new password'
+                            type='text'
+                            name='password'
+                            onChange={this.handleInput}
+                          />
                         </FormGroup>
                       </Col>
                       <Col className='pl-md-1' md='6'>
@@ -101,6 +147,8 @@ class UserProfile extends React.Component {
                           <Input
                             placeholder='type new password again'
                             type='text'
+                            name='passwordTwo'
+                            onChange={this.handleInput}
                           />
                         </FormGroup>
                       </Col>
@@ -108,9 +156,16 @@ class UserProfile extends React.Component {
                   </Form>
                 </CardBody>
                 <CardFooter>
-                  <Button className='btn-fill' color='primary' type='submit'>
-                    Save
-                  </Button>
+                  {this.state.isChanged ? (
+                    <Button
+                      onClick={this.handleUpdate}
+                      className='btn-fill'
+                      color='primary'
+                      type='submit'
+                    >
+                      Save
+                    </Button>
+                  ) : null}
                 </CardFooter>
               </Card>
             </Col>
@@ -130,7 +185,7 @@ class UserProfile extends React.Component {
                         src={require('../../static/img/anime3.png')}
                       />
                       <h5 className='title'>
-                        {first_name} {last_name}
+                        {this.state.first_name} {this.state.last_name}
                       </h5>
                     </a>
                     <p className='description'>Admin</p>
@@ -148,5 +203,5 @@ class UserProfile extends React.Component {
 
 export default connect(
   state => state,
-  {},
+  { updateUser },
 )(withRouter(UserProfile));
