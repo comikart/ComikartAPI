@@ -2,6 +2,7 @@ import * as userActions from '../actions/userActions';
 
 const init = {
   products: [],
+  clients: [],
   user: null,
   fetchingUser: false,
   addingUser: false,

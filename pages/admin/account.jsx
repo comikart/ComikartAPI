@@ -73,7 +73,10 @@ class UserProfile extends React.Component {
       }
     }
 
-    this.setState({ isChanged: false }, this.props.updateUser(update));
+    this.setState(
+      { isChanged: false, password: '', passwordTwo: '' },
+      this.props.updateUser(update),
+    );
   };
   render() {
     return (
@@ -135,7 +138,7 @@ class UserProfile extends React.Component {
                           <label>New Password</label>
                           <Input
                             placeholder='Enter new password'
-                            type='text'
+                            type='password'
                             name='password'
                             onChange={this.handleInput}
                           />
@@ -146,7 +149,7 @@ class UserProfile extends React.Component {
                           <label> Confirm Password</label>
                           <Input
                             placeholder='type new password again'
-                            type='text'
+                            type='password'
                             name='passwordTwo'
                             onChange={this.handleInput}
                           />

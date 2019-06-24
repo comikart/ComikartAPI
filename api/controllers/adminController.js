@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { authorization, authenticate } = require('../utils/security');
 const bcrypt = require('bcrypt');
-const SALT_ROUNDS = process.env.SALT_ROUNDS;
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS);
 const adminService = require('../services/adminService.js');
 const redis = require('../services/blackListService');
 
