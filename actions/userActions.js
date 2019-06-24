@@ -33,3 +33,15 @@ export const logout = token => {
       .catch(err => dispatch({ type: ERROR, payload: err }));
   };
 };
+
+export const updateUser = update => {
+  const token = localStorage.getItem('jwt');
+  const options = { headers: { Authorization: token } };
+  const promise = axios.put(`${API_URL}/api/admin/user`, update, options);
+  return dispatch => {
+    dispatch({ type: UPDATINGUSER });
+    promise
+      .then(res => dispatch({ type: COMPLETE, payload: res.data }))
+      .catch(err => dispatch({ type: ERROR, payload: err }));
+  };
+};

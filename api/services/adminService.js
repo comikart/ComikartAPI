@@ -6,6 +6,20 @@ const findAdminByEmail = email => {
     .first();
 };
 
+const findAdminById = id => {
+  return knex('user')
+    .where({ id })
+    .first();
+};
+
+const updateAdmin = (id, update) => {
+  return knex('user')
+    .where({ id })
+    .update(update)
+    .then(() => findAdminById(id))
+    .then(user => user);
+};
+
 const findAllClients = () => knex('user').where({ role_id: 2 }); // todo remove the hard coded id
 
 const findAllProducts = () => knex('product').select();
@@ -122,6 +136,7 @@ const findCommentById = id => {
 
 module.exports = {
   findAdminByEmail,
+  updateAdmin,
   findAllClients,
   findAllProducts,
   findProductById,

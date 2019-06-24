@@ -1,13 +1,18 @@
 const router = require('express').Router();
 const { authorization, authenticate } = require('../utils/security');
+const bcrypt = require('bcrypt');
+const SALT_ROUNDS = Number(process.env.SALT_ROUNDS);
 const adminService = require('../services/adminService.js');
 const redis = require('../services/blackListService');
 
 router.route('/login').post(authenticate, (req, res) => {
   const { token, email } = req.body;
-  return adminService.findAdminByEmail(email).then(user => {
-    res.json({ token, user });
-  });
+  return adminService
+    .findAdminByEmail(email)
+    .then(user => {
+      res.json({ token, user });
+    })
+    .catch(err => res.status(400).json(err));
 });
 
 router.route('/logout').get(authorization, (req, res) => {
@@ -16,6 +21,15 @@ router.route('/logout').get(authorization, (req, res) => {
     .blackList(token)
     .then(() => res.status(200).json({ message: 'Logged out' }))
     .catch(err => res.status(400).json({ err: err }));
+});
+
+router.route('/user').put(authorization, (req, res) => {
+  const { id } = req.decoded;
+  const update = req.body;
+  update.password
+    ? (update.password = bcrypt.hashSync(update.password, SALT_ROUNDS))
+    : null;
+  return adminService.updateAdmin(id, update).then(user => res.json(user));
 });
 
 router.route('/clients').get(authorization, (req, res) => {
