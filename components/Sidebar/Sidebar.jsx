@@ -116,7 +116,6 @@ class Sidebar extends React.Component {
                     <a
                       href='#'
                       className='nav-link'
-                      activeClassName='active'
                       onClick={this.props.toggleSidebar}
                     >
                       <i className={prop.icon} />

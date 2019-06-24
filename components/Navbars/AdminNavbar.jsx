@@ -4,7 +4,6 @@ import Link from 'next/link';
 import classNames from 'classnames';
 
 import '../../static/css/nucleo-icons.css';
-import '../../static/demo/demo.css';
 
 // reactstrap components
 import {
@@ -196,9 +195,11 @@ class AdminNavbar extends React.Component {
                       <DropdownItem className='nav-item'>Settings</DropdownItem>
                     </NavLink>
                     <DropdownItem divider tag='li' />
-                    <NavLink tag='li'>
-                      <DropdownItem className='nav-item'>Log out</DropdownItem>
-                    </NavLink>
+                    <Link href='/admin/login'>
+                      <li className='nav-link'>
+                        <DropdownItem className='nav-item'>Logout</DropdownItem>
+                      </li>
+                    </Link>
                   </DropdownMenu>
                 </UncontrolledDropdown>
                 <li className='separator d-lg-none' />

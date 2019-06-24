@@ -1,22 +1,28 @@
 const router = require('express').Router();
-const { authorization } = require('../utils/security');
+const { authorization, authenticate } = require('../utils/security');
 const adminService = require('../services/adminService.js');
+const redis = require('../services/blackListService');
 
-router.use('/', authorization);
+router.route('/login').post(authenticate, (req, res) => {
+  const { token, email } = req.body;
+  return adminService.findAdminByEmail(email).then(user => {
+    res.json({ token, user });
+  });
+});
 
-// purchase history filter by date, and status.
-// shipping history filter by date.
-// clients list filter by id
-// products list
-// product
-// reviews by product
-// comments by review
+router.route('/logout').get(authorization, (req, res) => {
+  const token = req.get('Authorization');
+  redis
+    .blackList(token)
+    .then(() => res.status(200).json({ message: 'Logged out' }))
+    .catch(err => res.status(400).json({ err: err }));
+});
 
-router.route('/clients').get((req, res) => {
+router.route('/clients').get(authorization, (req, res) => {
   return adminService.findAllClients().then(clients => res.json(clients));
 });
 
-router.route('/purchases').get((req, res) => {
+router.route('/purchases').get(authorization, (req, res) => {
   const { status } = req.query;
   return adminService
     .findPurchases(status)
@@ -25,13 +31,13 @@ router.route('/purchases').get((req, res) => {
 
 router
   .route('/purchases/:id')
-  .get((req, res) => {
+  .get(authorization, (req, res) => {
     const { id } = req.params;
     return adminService
       .findPurchaseById(id)
       .then(purchase => res.json(purchase));
   })
-  .put((req, res) => {
+  .put(authorization, (req, res) => {
     const { id } = req.params;
     const { status_id } = req.body;
     adminService
@@ -40,14 +46,14 @@ router
       .then(purchase => res.json(purchase));
   });
 
-router.route('/total-purchases').get((req, res) => {
+router.route('/total-purchases').get(authorization, (req, res) => {
   return adminService
     .findTotalPurchasesByMonthAndYear()
     .then(history => res.json(history))
     .catch(err => res.status(400).json(err));
 });
 
-router.route('/sales').get((req, res) => {
+router.route('/sales').get(authorization, (req, res) => {
   const { start, end } = req.query;
   return adminService
     .findTotalSalesByMonthAndYear(start, end)
@@ -57,13 +63,13 @@ router.route('/sales').get((req, res) => {
 
 router
   .route('/products')
-  .get((req, res) => {
+  .get(authorization, (req, res) => {
     return adminService
       .findAllProducts()
       .then(products => res.json(products))
       .catch(err => res.status(500).json(err));
   })
-  .post((req, res) => {
+  .post(authorization, (req, res) => {
     const product = req.body;
     adminService
       .saveProduct(product)
@@ -74,14 +80,14 @@ router
 
 router
   .route('/products/:product_id')
-  .get((req, res) => {
+  .get(authorization, (req, res) => {
     const { product_id } = req.params;
     return adminService
       .findProductById(product_id)
       .then(product => res.json(product))
       .catch(err => res.status(400).json(err));
   })
-  .put((req, res) => {
+  .put(authorization, (req, res) => {
     const { product_id } = req.params;
     const update = req.body;
     return adminService
@@ -90,7 +96,7 @@ router
       .then(product => res.json(product))
       .catch(err => res.status(400).json(err));
   })
-  .delete((req, res) => {
+  .delete(authorization, (req, res) => {
     const { product_id } = req.params;
     return adminService
       .deleteProduct(product_id)
@@ -98,7 +104,7 @@ router
       .catch(err => res.status(400).json(err));
   });
 
-router.route('/products/:product_id/reviews').get((req, res) => {
+router.route('/products/:product_id/reviews').get(authorization, (req, res) => {
   const { product_id } = req.params;
   return adminService
     .findAllReviewByProductId(product_id)
@@ -106,17 +112,19 @@ router.route('/products/:product_id/reviews').get((req, res) => {
     .catch(err => res.status(400).json(err));
 });
 
-router.route('/products/:product_id/reviews/:review_id').get((req, res) => {
-  const { review_id } = req.params;
-  return adminService
-    .findReviewAndCommentAndHelpfulByReviewId(review_id)
-    .then(review => res.json(review))
-    .catch(err => res.status(400).json(err));
-});
+router
+  .route('/products/:product_id/reviews/:review_id')
+  .get(authorization, (req, res) => {
+    const { review_id } = req.params;
+    return adminService
+      .findReviewAndCommentAndHelpfulByReviewId(review_id)
+      .then(review => res.json(review))
+      .catch(err => res.status(400).json(err));
+  });
 
 router
   .route('/products/:product_id/reviews/:review_id/comments')
-  .get((req, res) => {
+  .get(authorization, (req, res) => {
     const { review_id } = req.params;
     const { user_id } = req.query;
     return adminService
@@ -126,7 +134,7 @@ router
   });
 router
   .route('/products/:product_id/reviews/:review_id/helpful')
-  .get((req, res) => {
+  .get(authorization, (req, res) => {
     const { review_id } = req.params;
     adminService
       .findAllHelpfulByReviewId(review_id)
@@ -136,7 +144,7 @@ router
 
 router
   .route('/products/:product_id/reviews/:review_id/comments/:comment_id')
-  .get((req, res) => {
+  .get(authorization, (req, res) => {
     const { comment_id } = req.params;
     adminService
       .findCommentById(comment_id)

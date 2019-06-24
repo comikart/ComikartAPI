@@ -1,5 +1,11 @@
 const knex = require('../../db/knex');
 
+const findAdminByEmail = email => {
+  return knex('user')
+    .where({ email })
+    .first();
+};
+
 const findAllClients = () => knex('user').where({ role_id: 2 }); // todo remove the hard coded id
 
 const findAllProducts = () => knex('product').select();
@@ -115,6 +121,7 @@ const findCommentById = id => {
 };
 
 module.exports = {
+  findAdminByEmail,
   findAllClients,
   findAllProducts,
   findProductById,

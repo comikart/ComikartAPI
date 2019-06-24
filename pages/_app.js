@@ -1,11 +1,14 @@
 import React from 'react';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import App, { Container } from 'next/app';
 import withRedux from 'next-redux-wrapper';
+import thunk from 'redux-thunk';
+
+import reducer from '../reducers/userReducer';
 
 const makeStore = (initialState, options) => {
-  return createStore(() => {}, initialState);
+  return createStore(reducer, applyMiddleware(thunk));
 };
 
 class MyApp extends App {
