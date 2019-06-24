@@ -14,5 +14,10 @@ var routes = [
     name: 'Table List',
     icon: 'tim-icons icon-puzzle-10',
   },
+  {
+    path: '/admin/products',
+    name: 'Products',
+    icon: 'tim-icons icon-puzzle-10',
+  },
 ];
 export default routes;

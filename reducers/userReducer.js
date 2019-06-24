@@ -1,8 +1,9 @@
 import * as userActions from '../actions/userActions';
+import * as productActions from '../actions/productActions';
 
 const init = {
-  products: [],
-  clients: [],
+  products: null,
+  clients: null,
   user: null,
   fetchingUser: false,
   addingUser: false,
@@ -25,6 +26,8 @@ const userReducer = (state = init, action) => {
         updatingUser: false,
         deletingUser: false,
       });
+    case productActions.COMPLETEPRODUCTACTION:
+      return Object.assign({}, state, { products: action.payload });
     case userActions.ERROR:
       return Object.assign({}, state, { error: action.payload });
     default:
