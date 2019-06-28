@@ -9,10 +9,14 @@ const init = {
   addingUser: false,
   updatingUser: false,
   deletingUser: false,
+  fetchingProduct: false,
+  addingProduct: false,
+  updatingProduct: false,
+  deletingProduct: false,
   error: null,
 };
 
-const userReducer = (state = init, action) => {
+const rootReducer = (state = init, action) => {
   switch (action.type) {
     case userActions.FETCHINGUSER:
       return Object.assign({}, state, { fetchingUser: true });
@@ -25,9 +29,19 @@ const userReducer = (state = init, action) => {
         addingUser: false,
         updatingUser: false,
         deletingUser: false,
+        error: null,
       });
+    case productActions.FETCHINGPRODUCT:
+      return Object.assign({}, state, { fetchingProduct: true });
     case productActions.COMPLETEPRODUCTACTION:
-      return Object.assign({}, state, { products: action.payload });
+      return Object.assign({}, state, {
+        products: action.payload,
+        fetchingProduct: false,
+        addingProduct: false,
+        updatingProduct: false,
+        deletingProduct: false,
+        error: null,
+      });
     case userActions.ERROR:
       return Object.assign({}, state, { error: action.payload });
     default:
@@ -35,4 +49,4 @@ const userReducer = (state = init, action) => {
   }
 };
 
-export default userReducer;
+export default rootReducer;
