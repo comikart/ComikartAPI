@@ -2,9 +2,13 @@ import React, { Component, Fragment } from 'react';
 import Layout from '../../components/Layout';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
-import { getProducts } from '../../actions/productActions';
+import {
+  getProducts,
+  createProduct,
+  deleteProduct,
+} from '../../actions/productActions';
 
-import Modal from '../../components/Modal';
+import ProductModal from '../../components/ProductModal';
 
 // reactstrap components
 import {
@@ -23,9 +27,12 @@ class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      renderModal: true,
+      modal: false,
     };
   }
+  toggle = () => {
+    this.setState(prevState => ({ modal: !prevState.modal }));
+  };
   componentDidMount() {
     if (!this.props.user) this.props.router.push('/admin/login');
     if (!this.props.products) {
@@ -60,7 +67,12 @@ class Products extends Component {
                 <td className='text-center'>
                   <ButtonGroup>
                     <Button className='btn btn-link mr-2'>Edit</Button>
-                    <Button className='btn btn-link'>Delete</Button>
+                    <Button
+                      onClick={() => this.props.deleteProduct(product.id)}
+                      className='btn btn-link'
+                    >
+                      Delete
+                    </Button>
                   </ButtonGroup>
                 </td>
               </tr>
@@ -72,7 +84,12 @@ class Products extends Component {
     return (
       <Layout>
         <div className='content'>
-          {/* {this.state.renderModal ? <Modal /> : null} */}
+          <ProductModal
+            title='New Product'
+            modal={this.state.modal}
+            toggle={this.toggle}
+            submit={this.props.createProduct}
+          />
           <Row>
             <Col md='12'>
               <Card>
@@ -81,8 +98,7 @@ class Products extends Component {
                   <button
                     type='button'
                     className='btn btn-primary'
-                    data-toggle='modal'
-                    data-target='#exampleModal3'
+                    onClick={this.toggle}
                   >
                     Add Product
                   </button>
@@ -99,5 +115,5 @@ class Products extends Component {
 
 export default connect(
   state => state,
-  { getProducts },
+  { getProducts, createProduct, deleteProduct },
 )(withRouter(Products));

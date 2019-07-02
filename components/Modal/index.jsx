@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import {
+  Modal as BootModal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+} from 'reactstrap';
 
 class Modal extends Component {
   constructor(props) {
@@ -7,19 +14,26 @@ class Modal extends Component {
   }
   render() {
     return (
-      <div className='modal modal-default'>
-        <div className='modal-dialog'>
-          <div className='modal-content'>
-            <div className='modal-header'>
-              <h2 className='modal-title'>New Product</h2>
-            </div>
-            <div className='modal-body'>
-              <input placeholder='title' />
-            </div>
-            <div className='modal-footer' />
-          </div>
-        </div>
-      </div>
+      <BootModal
+        isOpen={this.props.modal}
+        toggle={this.props.toggle}
+        className=''
+      >
+        <ModalHeader toggle={this.props.toggle}>
+          <h2 className='modal-title'>{this.props.title}</h2>
+        </ModalHeader>
+        <ModalBody>{this.props.children}</ModalBody>
+        <ModalFooter>
+          <Button color='secondary' onClick={this.props.toggle}>
+            Close
+          </Button>
+          {this.props.submit ? (
+            <Button color='primary' onClick={this.props.submit}>
+              Submit
+            </Button>
+          ) : null}
+        </ModalFooter>
+      </BootModal>
     );
   }
 }

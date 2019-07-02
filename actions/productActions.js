@@ -22,3 +22,32 @@ export const getProducts = () => {
       .catch(err => dispatch({ type: ERROR, payload: err }));
   };
 };
+
+export const createProduct = product => {
+  const token = localStorage.getItem('jwt');
+  const options = { headers: { Authorization: token } };
+  const promise = axios.post(`${API_URL}/api/admin/products`, product, options);
+  return dispatch => {
+    dispatch({ type: CREATINGPRODUCT });
+    promise
+      .then(res => dispatch({ type: COMPLETEPRODUCTACTION, payload: res.data }))
+      .catch(err => dispatch({ type: ERROR, payload: err }));
+  };
+};
+
+export const deleteProduct = product_id => {
+  const token = localStorage.getItem('jwt');
+  const options = { headers: { Authorization: token } };
+  const promise = axios.delete(
+    `${API_URL}/api/admin/products/${product_id}`,
+    options,
+  );
+  return dispatch => {
+    dispatch({ type: DELETEPRODUCT });
+    promise
+      .then(res => {
+        return dispatch({ type: COMPLETEPRODUCTACTION, payload: res.data });
+      })
+      .catch(err => dispatch({ type: ERROR, payload: err }));
+  };
+};
