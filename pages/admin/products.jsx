@@ -2,11 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Layout from '../../components/Layout';
 import { connect } from 'react-redux';
 import { withRouter } from 'next/router';
-import {
-  getProducts,
-  createProduct,
-  deleteProduct,
-} from '../../actions/productActions';
+import { getProducts, deleteProduct } from '../../actions/productActions';
 
 import ProductModal from '../../components/ProductModal';
 
@@ -88,7 +84,6 @@ class Products extends Component {
             title='New Product'
             modal={this.state.modal}
             toggle={this.toggle}
-            submit={this.props.createProduct}
           />
           <Row>
             <Col md='12'>
@@ -115,5 +110,5 @@ class Products extends Component {
 
 export default connect(
   state => state,
-  { getProducts, createProduct, deleteProduct },
+  { getProducts, deleteProduct },
 )(withRouter(Products));

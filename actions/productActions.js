@@ -16,9 +16,7 @@ export const getProducts = () => {
   return dispatch => {
     dispatch({ type: FETCHINGPRODUCT });
     promise
-      .then(res => {
-        return dispatch({ type: COMPLETEPRODUCTACTION, payload: res.data });
-      })
+      .then(res => dispatch({ type: COMPLETEPRODUCTACTION, payload: res.data }))
       .catch(err => dispatch({ type: ERROR, payload: err }));
   };
 };
@@ -45,9 +43,7 @@ export const deleteProduct = product_id => {
   return dispatch => {
     dispatch({ type: DELETEPRODUCT });
     promise
-      .then(res => {
-        return dispatch({ type: COMPLETEPRODUCTACTION, payload: res.data });
-      })
+      .then(res => dispatch({ type: COMPLETEPRODUCTACTION, payload: res.data }))
       .catch(err => dispatch({ type: ERROR, payload: err }));
   };
 };
