@@ -33,6 +33,12 @@ const rootReducer = (state = init, action) => {
       });
     case productActions.FETCHINGPRODUCT:
       return Object.assign({}, state, { fetchingProduct: true });
+    case productActions.UPDATEDPRODUCT:
+      return Object.assign({}, state, {
+        products: state.products.map((e, i) =>
+          e.id === action.payload.id ? { ...action.payload } : e,
+        ),
+      });
     case productActions.COMPLETEPRODUCTACTION:
       return Object.assign({}, state, {
         products: action.payload,

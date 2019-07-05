@@ -19,15 +19,34 @@ import {
   ButtonGroup,
 } from 'reactstrap';
 
+const init = {
+  title: '',
+  unit_price: '',
+  author: '',
+  publisher: '',
+  series: '',
+  paperback: '',
+  description: '',
+};
+
 class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: false,
+      edit: false,
+      product: { ...init },
     };
   }
   toggle = () => {
-    this.setState(prevState => ({ modal: !prevState.modal }));
+    this.setState(prevState => ({
+      modal: !prevState.modal,
+      edit: false,
+      product: { ...init },
+    }));
+  };
+  handleUpdate = product => {
+    this.setState({ modal: true, edit: true, product });
   };
   componentDidMount() {
     if (!this.props.user) this.props.router.push('/admin/login');
@@ -47,7 +66,7 @@ class Products extends Component {
               <th>Author</th>
               <th>Publisher</th>
               <th>Unit Price</th>
-              <th>discontinued</th>
+              <th>Discontinued</th>
               <th className='text-center'>Update</th>
             </tr>
           </thead>
@@ -62,7 +81,12 @@ class Products extends Component {
                 <td>{`${this.props.products[0].is_discontinued}`}</td>
                 <td className='text-center'>
                   <ButtonGroup>
-                    <Button className='btn btn-link mr-2'>Edit</Button>
+                    <Button
+                      onClick={() => this.handleUpdate(product)}
+                      className='btn btn-link mr-2'
+                    >
+                      Edit
+                    </Button>
                     <Button
                       onClick={() => this.props.deleteProduct(product.id)}
                       className='btn btn-link'
@@ -80,11 +104,14 @@ class Products extends Component {
     return (
       <Layout>
         <div className='content'>
-          <ProductModal
-            title='New Product'
-            modal={this.state.modal}
-            toggle={this.toggle}
-          />
+          {this.state.modal ? (
+            <ProductModal
+              modal={this.state.modal}
+              toggle={this.toggle}
+              edit={this.state.edit}
+              product={this.state.product}
+            />
+          ) : null}
           <Row>
             <Col md='12'>
               <Card>

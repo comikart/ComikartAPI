@@ -106,8 +106,7 @@ router
     const update = req.body;
     return adminService
       .updateProduct(product_id, update)
-      .then(() => findProductById(product_id))
-      .then(product => res.json(product))
+      .then(product => res.json(product[0]))
       .catch(err => res.status(400).json(err));
   })
   .delete(authorization, (req, res) => {

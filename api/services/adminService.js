@@ -29,7 +29,7 @@ const findProductById = id => knex('product').where({ id });
 const updateProduct = (id, product) =>
   knex('product')
     .where({ id })
-    .update(product);
+    .update(product, '*');
 
 const deleteProduct = id =>
   knex('product')
