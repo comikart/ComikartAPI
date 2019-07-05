@@ -105,16 +105,16 @@ router
     const { product_id } = req.params;
     const update = req.body;
     return adminService
-      .updateProduct(product_id)
-      .then(() => findProductById(product_id))
-      .then(product => res.json(product))
+      .updateProduct(product_id, update)
+      .then(product => res.json(product[0]))
       .catch(err => res.status(400).json(err));
   })
   .delete(authorization, (req, res) => {
     const { product_id } = req.params;
     return adminService
       .deleteProduct(product_id)
-      .then(() => res.status(204).json({}))
+      .then(() => adminService.findAllProducts())
+      .then(products => res.status(200).json(products))
       .catch(err => res.status(400).json(err));
   });
 

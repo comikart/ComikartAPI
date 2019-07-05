@@ -5,7 +5,7 @@ import App, { Container } from 'next/app';
 import withRedux from 'next-redux-wrapper';
 import thunk from 'redux-thunk';
 
-import reducer from '../reducers/userReducer';
+import reducer from '../reducers/rootReducer';
 
 const makeStore = (initialState, options) => {
   return createStore(reducer, applyMiddleware(thunk));
