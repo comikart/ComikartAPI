@@ -80,20 +80,23 @@ class Products extends Component {
                 <td>$ {product.unit_price}</td>
                 <td>{`${this.props.products[0].is_discontinued}`}</td>
                 <td className='text-center'>
-                  <ButtonGroup>
-                    <Button
-                      onClick={() => this.handleUpdate(product)}
-                      className='btn btn-link mr-2'
-                    >
-                      Edit
-                    </Button>
-                    <Button
-                      onClick={() => this.props.deleteProduct(product.id)}
-                      className='btn btn-link'
-                    >
-                      Delete
-                    </Button>
-                  </ButtonGroup>
+                  <Button
+                    className='btn-icon btn-round'
+                    color='success'
+                    size='sm'
+                    onClick={() => this.handleUpdate(product)}
+                  >
+                    <i className='tim-icons icon-pencil' />
+                  </Button>
+                  {` `}
+                  <Button
+                    className='btn-icon btn-round'
+                    color='danger'
+                    size='sm'
+                    onClick={() => this.props.deleteProduct(product.id)}
+                  >
+                    <i className='tim-icons icon-simple-remove' />
+                  </Button>
                 </td>
               </tr>
             ))}
