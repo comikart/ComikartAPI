@@ -67,7 +67,7 @@ class Products extends Component {
               <th>Publisher</th>
               <th>Unit Price</th>
               <th>Discontinued</th>
-              <th className='text-center'>Update</th>
+              <th className='text-center'>Actions</th>
             </tr>
           </thead>
           <tbody>

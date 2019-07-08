@@ -10,14 +10,14 @@ var routes = [
     icon: 'tim-icons icon-single-02',
   },
   {
-    path: '/admin/tables',
-    name: 'Table List',
-    icon: 'tim-icons icon-puzzle-10',
-  },
-  {
     path: '/admin/products',
     name: 'Products',
-    icon: 'tim-icons icon-puzzle-10',
+    icon: 'tim-icons icon-bullet-list-67',
+  },
+  {
+    path: '/admin/orders',
+    name: 'Orders',
+    icon: 'tim-icons icon-bullet-list-67',
   },
 ];
 export default routes;

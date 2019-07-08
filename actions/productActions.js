@@ -1,5 +1,4 @@
 import axios from 'axios';
-import AdminNavbar from '../components/Navbars/AdminNavbar';
 
 const API_URL = process.env.API_URL || 'http://localhost:5000';
 
