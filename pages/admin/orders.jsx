@@ -11,8 +11,6 @@ import {
 import { getOrders } from '../../actions/orderActions';
 import { connect } from 'react-redux';
 
-import '../../static/css/nucleo-icons.css';
-
 class Orders extends Component {
   constructor(props) {
     super(props);
@@ -28,11 +26,11 @@ class Orders extends Component {
         <Table className='table table-hover' responsive>
           <thead className='text-primary'>
             <tr>
-              <th>email</th>
-              <th>address</th>
+              <th>Email</th>
+              <th>Address</th>
               <th>City</th>
               <th>State</th>
-              <th>status</th>
+              <th>Status</th>
               <th className='text-center'>Actions</th>
             </tr>
           </thead>
