@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
 import Layout from '../../components/Layout';
-import { Card, CardHeader, CardBody, CardTitle, Table } from 'reactstrap';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardTitle,
+  Table,
+  Button,
+} from 'reactstrap';
 import { getOrders } from '../../actions/orderActions';
 import { connect } from 'react-redux';
+
+import '../../static/css/nucleo-icons.css';
 
 class Orders extends Component {
   constructor(props) {
@@ -23,7 +32,8 @@ class Orders extends Component {
               <th>address</th>
               <th>City</th>
               <th>State</th>
-              <th className='text-center'>status</th>
+              <th>status</th>
+              <th className='text-center'>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -33,7 +43,12 @@ class Orders extends Component {
                 <td>{e.address_one}</td>
                 <td>{e.city}</td>
                 <td>{e.state}</td>
-                <td className='text-center'>{e.status}</td>
+                <td>{e.status}</td>
+                <td className='text-center'>
+                  <Button className='btn-icon btn-round' color='info' size='sm'>
+                    <i className='tim-icons icon-paper' />
+                  </Button>
+                </td>
               </tr>
             ))}
           </tbody>
