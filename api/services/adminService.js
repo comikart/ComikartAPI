@@ -1,4 +1,5 @@
 const knex = require('../../db/knex');
+const purchaseService = require('./purchaseService');
 
 const findAdminByEmail = email => {
   return knex('user')
@@ -51,9 +52,7 @@ const findPurchases = status => {
 };
 
 const findPurchaseById = id => {
-  return knex('purchase')
-    .where({ id })
-    .first();
+  return purchaseService.findPurchaseById(id);
 };
 
 const updatePurchaseStatus = (id, status_id) => {

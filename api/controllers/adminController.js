@@ -49,7 +49,8 @@ router
     const { id } = req.params;
     return adminService
       .findPurchaseById(id)
-      .then(purchase => res.json(purchase));
+      .then(purchase => res.json(purchase))
+      .catch(err => res.status(400).json(err));
   })
   .put(authorization, (req, res) => {
     const { id } = req.params;

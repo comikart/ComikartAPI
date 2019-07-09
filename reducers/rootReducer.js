@@ -1,10 +1,12 @@
 import * as userActions from '../actions/userActions';
 import * as productActions from '../actions/productActions';
+import * as orderActions from '../actions/orderActions';
 
 const init = {
   products: null,
   clients: null,
   user: null,
+  orders: null,
   fetchingUser: false,
   addingUser: false,
   updatingUser: false,
@@ -13,6 +15,8 @@ const init = {
   addingProduct: false,
   updatingProduct: false,
   deletingProduct: false,
+  fetchingOrders: false,
+  updatingOrder: false,
   error: null,
 };
 
@@ -47,6 +51,13 @@ const rootReducer = (state = init, action) => {
         updatingProduct: false,
         deletingProduct: false,
         error: null,
+      });
+    case orderActions.FETCHINGORDERS:
+      return Object.assign({}, state, { fetchingOrders: true });
+    case orderActions.COMPLETEORDERACTION:
+      return Object.assign({}, state, {
+        orders: action.payload,
+        fetchingOrders: false,
       });
     case userActions.ERROR:
       return Object.assign({}, state, { error: action.payload });
