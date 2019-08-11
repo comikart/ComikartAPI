@@ -82,7 +82,7 @@ router
     const { id, product_id } = req.params;
     return userService
       .deleteCartItemByUserIdAndProductId(id, product_id)
-      .then(cart => res.status(204).json(cart));
+      .then(cart => res.status(200).json(cart));
   });
 
 router
