@@ -83,7 +83,8 @@ const updateCartItem = (user_id, product_id, quantity) => {
 const deleteCartItemByUserIdAndProductId = (user_id, product_id) =>
   knex('cart')
     .where({ user_id, product_id })
-    .del();
+    .del()
+    .then(() => findCartAndProductByUserId(user_id));
 
 const deleteCartByUserId = user_id =>
   knex('cart')
