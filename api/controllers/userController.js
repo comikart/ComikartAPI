@@ -58,7 +58,7 @@ router
 
     return userService
       .saveCartItem(id, product)
-      .then(() => res.status(201).json())
+      .then(cart => res.status(201).json(cart))
       .catch(err => res.status(400).json(err));
   });
 
