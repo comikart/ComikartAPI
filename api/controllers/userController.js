@@ -58,7 +58,7 @@ router
 
     return userService
       .saveCartItem(id, product)
-      .then(() => res.status(201).json())
+      .then(cart => res.status(201).json(cart))
       .catch(err => res.status(400).json(err));
   });
 
@@ -82,7 +82,7 @@ router
     const { id, product_id } = req.params;
     return userService
       .deleteCartItemByUserIdAndProductId(id, product_id)
-      .then(() => res.status(204).json({}));
+      .then(cart => res.status(200).json(cart));
   });
 
 router

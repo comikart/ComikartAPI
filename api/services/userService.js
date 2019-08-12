@@ -68,7 +68,9 @@ const findCartItemByUserIdAndProductId = (user_id, product_id) =>
 
 const saveCartItem = (user_id, product) => {
   const cartItem = Object.assign({}, product, { user_id });
-  return knex('cart').insert(cartItem);
+  return knex('cart')
+    .insert(cartItem)
+    .then(() => findCartAndProductByUserId(user_id));
 };
 
 const updateCartItem = (user_id, product_id, quantity) => {
@@ -81,7 +83,8 @@ const updateCartItem = (user_id, product_id, quantity) => {
 const deleteCartItemByUserIdAndProductId = (user_id, product_id) =>
   knex('cart')
     .where({ user_id, product_id })
-    .del();
+    .del()
+    .then(() => findCartAndProductByUserId(user_id));
 
 const deleteCartByUserId = user_id =>
   knex('cart')
