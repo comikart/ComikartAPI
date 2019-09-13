@@ -2,6 +2,7 @@ const knex = require('../../db/knex');
 const statusService = require('./statusService');
 const invoiceService = require('./invoiceService');
 const userService = require('./userService');
+const paymentOptionService = require('./paymentOptionService');
 const Taxjar = require('taxjar');
 const client = new Taxjar({ apiKey: process.env.TAXJAR_API_KEY });
 
@@ -46,21 +47,43 @@ const findPurchaseByUserId = (user_id, status) => {
 const savePurchase = (id, purchase) => {
   return userService
     .findCartSubTotalByUserId(id)
-    .then(subTotal => {
+    .then(async subTotal => {
       // creating the tax info and submitting to taxjar
       const payload = {
         from_country: 'US', // TODO convert hardcoded data to variable data.
         from_city: 'Las Vegas',
         from_state: 'NV',
         from_street: 'Lake Mead Blvd',
-        to_country: purchase.country,
-        to_city: purchase.city,
-        to_zip: purchase.zip,
-        to_state: purchase.state,
-        to_street: purchase.street_one,
         amount: subTotal,
         shipping: 5.0,
       };
+      let street, city, state, country, zip_code;
+      if (purchase.same_address) {
+        const paymentOptions = await paymentOptionService.findAllPaymentOptionByUser(
+          id,
+        );
+        const paymentOption = paymentOptions.filter(
+          option => option.id === purchase.payment_id,
+        );
+        const { street, city, state, country, zip_code } = paymentOption;
+        street = street;
+        city = city;
+        state = state;
+        country = country;
+        zip_code = zip_code;
+      } else {
+        const { street, city, state, country, zip_code } = purchase.address;
+        street = street;
+        city = city;
+        state = state;
+        country = country;
+        zip_code = zip_code;
+      }
+      payload.to_country = country;
+      payload.to_city = city;
+      payload.to_street = street;
+      payload.to_state = state;
+      payload.to_zip = zip_code;
       return client.taxForOrder(payload);
     })
     .then(res => {
