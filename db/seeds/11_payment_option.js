@@ -8,7 +8,9 @@ exports.seed = function(knex, Promise) {
         {
           credit_card: 424242424242,
           security_number: 444,
-          address_one: '123 whambam st',
+          street: '123 whambam st',
+          state: 'Nevada',
+          city: 'Las Vegas',
           full_name: 'lorem ipsum',
           country: 'US', //iso2 country code
           postal_code: '55555',
@@ -20,7 +22,9 @@ exports.seed = function(knex, Promise) {
         },
         {
           credit_card: 4242424242423,
-          address_one: '424 whambam st',
+          street: '424 whambam st',
+          state: 'Nevada',
+          city: 'Las Vegas',
           exp_month: '05',
           exp_year: '2020',
           postal_code: '55555',
@@ -33,7 +37,9 @@ exports.seed = function(knex, Promise) {
         },
         {
           credit_card: 324242424242,
-          address_one: '324 whambam st',
+          street: '324 whambam st',
+          state: 'Nevada',
+          city: 'Las Vegas',
           exp_month: '05',
           exp_year: '2020',
           country: 'US',
